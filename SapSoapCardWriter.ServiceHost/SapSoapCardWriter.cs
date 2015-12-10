@@ -8,9 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SapSoapCardWriter.Common;
+using System.ServiceModel;
 
 namespace SapSoapCardWriter.ServiceHost
 {
+    [ServiceBehavior(Namespace = "http://sapsoapcardwriter.com", InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple, AddressFilterMode = AddressFilterMode.Any)]
     public class SapSoapCardWriter : ISapSoapCardWriter
     {
         private readonly ILogger logger;

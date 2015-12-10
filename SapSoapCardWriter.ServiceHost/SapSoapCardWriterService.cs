@@ -40,5 +40,13 @@ namespace SapSoapCardWriter.ServiceHost
         {
             serviceHost.Close();
         }
+
+        internal void TestStartupAndStop()
+        {
+            this.OnStart(null);
+            Console.WriteLine("Started!");
+            Console.ReadLine();
+            this.OnStop();
+        }
     }
 }

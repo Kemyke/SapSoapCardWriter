@@ -14,12 +14,21 @@ namespace SapSoapCardWriter.ServiceHost
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
-            { 
-                new SapSoapCardWriterService() 
-            };
-            ServiceBase.Run(ServicesToRun);
+            if (Environment.UserInteractive)
+            {
+                SapSoapCardWriterService service1 = new SapSoapCardWriterService();
+                service1.TestStartupAndStop();
+            }
+            else
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[] 
+                                { 
+                                    new SapSoapCardWriterService() 
+                                };
+                ServiceBase.Run(ServicesToRun);
+
+            }
         }
     }
 }
