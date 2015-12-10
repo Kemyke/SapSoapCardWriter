@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SapSoapCardWriter.ServiceContracts
 {
     [ServiceContract]
-    public interface IStepMapService
+    public interface ISapSoapCardWriter
     {
         [OperationContract]
         Response WriteCard(User user);
