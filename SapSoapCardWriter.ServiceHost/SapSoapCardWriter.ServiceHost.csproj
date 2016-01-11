@@ -98,6 +98,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="Tools\install.bat" />
+    <None Include="Tools\uninstall.bat" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SapSoapCardWriter.BusinessLogic\SapSoapCardWriter.BusinessLogic.csproj">
