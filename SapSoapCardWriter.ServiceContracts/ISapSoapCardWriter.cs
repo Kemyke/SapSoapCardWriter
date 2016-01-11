@@ -1,5 +1,4 @@
-﻿using SapSoapCardWriter.ServiceContracts.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -12,7 +11,7 @@ namespace SapSoapCardWriter.ServiceContracts
     public interface ISapSoapCardWriter
     {
         [OperationContract]
-        Response WriteCard(User user);
+        Response WriteCard(string data);
 
         [OperationContract]
         Response<string> Encrypt(string payload, string key);

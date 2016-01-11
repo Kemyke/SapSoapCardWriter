@@ -16,9 +16,9 @@ namespace SapSoapCardWriter.BusinessLogic
             this.logger = logger;
         }
 
-        public ResultCode WriteCard(User user)
+        public ResultCode WriteCard(string data)
         {
-            logger.Debug("Name: {0}. Address: {1}", user.Name, user.Address);
+            logger.Debug("Data: {0}", data);
             return ResultCode.OK;
         }
     }

@@ -1,7 +1,6 @@
 ﻿using SapSoapCardWriter.BusinessLogic;
 using SapSoapCardWriter.Logger.Logging;
 using SapSoapCardWriter.ServiceContracts;
-using DTO = SapSoapCardWriter.ServiceContracts.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,14 +28,13 @@ namespace SapSoapCardWriter.ServiceHost
             this.encryptor = encryptor;
         }
 
-        public Response WriteCard(DTO.User user)
+        public Response WriteCard(string data)
         {
             try
             {
                 logger.Debug("WriteCard called!");
 
-                User blUser = new User() { Name = user.Name, Address = user.Address };
-                ResultCode rc = cardWriter.WriteCard(blUser);
+                ResultCode rc = cardWriter.WriteCard(data);
                 return new Response(rc);
             }
             catch(Exception ex)
