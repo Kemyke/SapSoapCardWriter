@@ -41,6 +41,15 @@
   <ItemGroup>
     <Compile Include="ICardWriter.cs" />
     <Compile Include="MockCardWriter.cs" />
+    <Compile Include="NFC\CAPDU.cs" />
+    <Compile Include="NFC\CardBuffer.cs" />
+    <Compile Include="NFC\INfcWriter.cs" />
+    <Compile Include="NFC\NfcWriter.cs" />
+    <Compile Include="NFC\RAPDU.cs" />
+    <Compile Include="NFC\SmartCardChannel.cs" />
+    <Compile Include="NFC\SmartCardReader.cs" />
+    <Compile Include="NFC\SmartCard.cs" />
+    <Compile Include="NFC\SmartCardDesfire.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
