@@ -38,7 +38,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             int p_key_type = 0;
             string p_set_key = null;
             int p_set_key_type = 0;
-            string p_reader = null;
 
             byte[] blank_buffer = new byte[32];
 
@@ -162,36 +161,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 }
             }
 
-            if (p_reader == null)
-            {
-                logger.Error("No Reader selected!");
-                throw new InvalidOperationException("No Reader selected!");
-            }
 
 
-            string ReaderName;
+            string readerName = GetReaderName();
 
-            /* Verify the reader */
-            try
-            {
-                ReaderName = SmartCard.Readers[Int32.Parse(p_reader)];
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Reader not found! Exception: {0}.", ex.ToString());
-                throw new InvalidOperationException("Reader not found!");
-            }
-            if (p_reader == null)
-            {
-                logger.Error("Reader not found!");
-                throw new InvalidOperationException("Reader not found!");
-            }
-
-
-            logger.Debug("Looking for Desfire EV1 card on reader " + ReaderName);
+            logger.Debug("Looking for Desfire EV1 card on reader " + readerName);
 
             /* Connect to the card */
-            SmartCardChannel scard = new SmartCardChannel(ReaderName);
+            SmartCardChannel scard = new SmartCardChannel(readerName);
 
             if (scard == null)
             {
@@ -379,11 +356,56 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             throw new NotImplementedException();
         }
 
-        public void WriteNfcTag(string data)
+        private string GetReaderName()
         {
-            throw new NotImplementedException();
+            string reader_list = "";
+            for (int i = 0; i < SmartCard.Readers.Length - 1; i++)
+            {
+                reader_list += "Reader " + i + "=" + SmartCard.Readers[i] + "  -  ";
+            }
+            reader_list += "Reader " + (SmartCard.Readers.Length - 1) + "=" + SmartCard.Readers[SmartCard.Readers.Length - 1];
+            logger.Debug(reader_list);
+
+            if (SmartCard.Readers.Length == 0)
+            {
+                throw new InvalidOperationException("WriteNfcTag! No reader found!");
+            }
+            else if (SmartCard.Readers.Length == 1)
+            {
+                return SmartCard.Readers.First();
+            }
+            else
+            {
+                //TODO: végig kell iternálni és rápróbálni az összes kártyaolvasóra
+                throw new NotSupportedException("Multiple reader found!");
+            }
         }
 
+        public void WriteNfcTag(string data)
+        {
+            string readerName = GetReaderName();
+            NfcTag tag;
+            string msg = null;
+            bool isFormattable = false;
+
+
+            SmartCardReader reader = new SmartCardReader(readerName);
+            SmartCardChannel cardchannel = new SmartCardChannel(reader);
+
+            if (!NfcTag.Recognize(cardchannel, out tag, out msg, out isFormattable))
+            {
+
+            }
+
+            RtdText t = new RtdText(data);
+            tag.Format();
+            Prepare();
+            tag.Content.Add(t);
+            if (!tag.Write())
+            {
+                throw new InvalidOperationException("Unable to write onto the tag");
+            }
+        }
 
         public void Prepare()
         {
@@ -391,7 +413,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             int p_key_type = 0;
             string p_set_key = null;
             int p_set_key_type = 0;
-            string p_reader = null;
 
             byte[] blank_buffer = new byte[32];
 
@@ -515,36 +536,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 }
             }
 
-            if (p_reader == null)
-            {
-                logger.Error("No Reader selected!");
-                throw new InvalidOperationException("No Reader selected!");
-            }
+            string readerName = GetReaderName();;
 
+            logger.Debug("Looking for Desfire EV1 card on reader " + readerName);
 
-            string ReaderName;
-
-            /* Verify the reader */
-            try
-            {
-                ReaderName = SmartCard.Readers[Int32.Parse(p_reader)];
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Reader not found! Exception: {0}.", ex.ToString());
-                throw new InvalidOperationException("Reader not found!");
-            }
-            if (p_reader == null)
-            {
-                logger.Error("Reader not found!");
-                throw new InvalidOperationException("Reader not found!");
-            }
-
-
-            logger.Debug("Looking for Desfire EV1 card on reader " + ReaderName);
-
-            /* Connect to the card */
-            SmartCardChannel scard = new SmartCardChannel(ReaderName);
+            SmartCardChannel scard = new SmartCardChannel(readerName);
 
             if (scard == null)
             {

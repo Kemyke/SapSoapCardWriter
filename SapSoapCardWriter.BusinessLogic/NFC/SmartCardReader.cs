@@ -42,19 +42,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        /**v* SCardReader/Name
-		 *
-		 * NAME
-		 *   SCardReader.Name
-		 *
-		 * SYNOPSIS
-		 *   string Name
-		 *
-		 * OUTPUT
-		 *   Return the name of the reader specified when instanciating the object.
-		 *
-		 **/
-
         public string Name
         {
             get
@@ -63,43 +50,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        /**t* SCardReader/StatusChangeCallback
-		 *
-		 * NAME
-		 *   SCardReader.StatusChangeCallback
-		 *
-		 * SYNOPSIS
-		 *   delegate void StatusChangeCallback(uint ReaderState, CardBuffer CardAtr);
-		 *
-		 * DESCRIPTION
-		 *   Typedef for the callback that will be called by the background thread launched
-		 *   by SCardReader.StartMonitor(), everytime the status of the reader is changed.
-		 *
-		 * NOTES
-		 *   The callback is invoked in the context of a background thread. This implies that
-		 *   it is not allowed to access the GUI's components directly.
-		 *
-		 **/
-        public delegate void StatusChangeCallback(uint ReaderState,
-                                                  CardBuffer CardAtr);
-
-        /**m* SCardReader/StartMonitor
-		 *
-		 * NAME
-		 *   SCardReader.StartMonitor()
-		 *
-		 * SYNOPSIS
-		 *   SCardReader.StartMonitor(SCardReader.StatusChangeCallback callback);
-		 *
-		 * DESCRIPTION
-		 *   Create a background thread to monitor the reader associated to the object.
-		 *   Everytime the status of the reader is changed, the callback is invoked.
-		 *
-		 * SEE ALSO
-		 *   SCardReader.StatusChangeCallback
-		 *   SCardReader.StopMonitor()
-		 *
-		 **/
+        public delegate void StatusChangeCallback(uint ReaderState, CardBuffer CardAtr);
 
         public void StartMonitor(StatusChangeCallback callback)
         {
@@ -113,16 +64,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 _status_change_thread.Start();
             }
         }
-
-        /**m* SCardReader/StopMonitor
-		 *
-		 * NAME
-		 *   SCardReader.StopMonitor()
-		 *
-		 * DESCRIPTION
-		 *   Stop the background thread previously launched by SCardReader.StartMonitor().
-		 *
-		 **/
 
         public void StopMonitor()
         {
@@ -246,23 +187,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        /**v* SCardReader/Status
-		 *
-		 * NAME
-		 *   SCardReader.Status
-		 * 
-		 * SYNOPSIS
-		 *   uint Status
-		 *
-		 * OUTPUT
-		 *   Returns the current status of the reader.
-		 *
-		 * SEE ALSO
-		 *   SCardReader.CardPresent
-		 *   SCardReader.StatusAsString
-		 *
-		 **/
-
         public uint Status
         {
             get
@@ -272,22 +196,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        /**v* SCardReader/StatusAsString
-		 *
-		 * NAME
-		 *   SCardReader.StatusAsString
-		 * 
-		 * SYNOPSIS
-		 *   string StatusAsString
-		 *
-		 * OUTPUT
-		 *   Returns the current status of the reader, using SCARD.ReaderStatusToString as formatter.
-		 *
-		 * SEE ALSO
-		 *   SCardReader.Status
-		 *
-		 **/
-
         public string StatusAsString
         {
             get
@@ -296,25 +204,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 return SmartCard.ReaderStatusToString(_reader_state);
             }
         }
-
-        /**v* SCardReader/CardPresent
-		 *
-		 * NAME
-		 *   SCardReader.CardPresent
-		 * 
-		 * SYNOPSIS
-		 *   bool CardPresent
-		 *
-		 * OUTPUT
-		 *   Returns true if a card is present in the reader.
-		 *   Returns false if there's no smartcard in the reader.
-		 *
-		 * SEE ALSO
-		 *   SCardReader.CardAtr
-		 *   SCardReader.CardAvailable
-		 *   SCardReader.Status
-		 *
-		 **/
 
         public bool CardPresent
         {
@@ -326,25 +215,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 return false;
             }
         }
-
-        /**v* SCardReader/CardAvailable
-		 *
-		 * NAME
-		 *   SCardReader.CardAvailable
-		 *
-		 * SYNOPSIS
-		 *   bool CardAvailable
-		 *
-		 * OUTPUT
-		 *   Returns true if a card is available in the reader.
-		 *   Returns false if there's no smartcard in the reader, or if it is already used by another process/thread.
-		 * 
-		 * SEE ALSO
-		 *   SCardReader.CardAtr
-		 *   SCardReader.CardPresent
-		 *   SCardReader.Status
-		 *
-		 **/
 
         public bool CardAvailable
         {
@@ -359,24 +229,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        /**v* SCardReader/CardAtr
-		 *
-		 * NAME
-		 *   SCardReader.CardAtr
-		 *
-		 * SYNOPSIS
-		 *   CardBuffer CardAtr
-		 *
-		 * OUTPUT
-		 *   If a smartcard is present in the reader (SCardReader.CardPresent == true), returns the ATR of the card.
-		 *   Returns null overwise.
-		 * 
-		 * SEE ALSO
-		 *   SCardReader.CardPresent
-		 *   SCardReader.Status
-		 *
-		 **/
-
         public CardBuffer CardAtr
         {
             get
@@ -386,18 +238,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        /**v* SCardReader/LastError
-		 *
-		 * NAME
-		 *   uint SCardReader.LastError
-		 * 
-		 * OUTPUT
-		 *   Returns the last error encountered by the object when working with SCARD functions.
-		 *
-		 * SEE ALSO
-		 *   SCardReader.LastErrorAsString
-		 *
-		 **/
         public uint LastError
         {
             get
@@ -406,18 +246,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        /**v* SCardReader/LastErrorAsString
-		 *
-		 * NAME
-		 *   string SCardReader.LastErrorAsString
-		 * 
-		 * OUTPUT
-		 *   Returns the last error encountered by the object when working with SCARD functions.
-		 *
-		 * SEE ALSO
-		 *   SCardReader.LastError
-		 *
-		 **/
         public string LastErrorAsString
         {
             get

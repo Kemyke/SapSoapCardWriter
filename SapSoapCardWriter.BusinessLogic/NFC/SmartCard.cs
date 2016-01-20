@@ -9,15 +9,6 @@ using System.Threading.Tasks;
 
 namespace SapSoapCardWriter.BusinessLogic.NFC
 {
-    /**c* SpringCardPCSC/SCARD
-         *
-         * NAME
-         *   SCARD
-         * 
-         * DESCRIPTION
-         *   Static class that gives access to PC/SC functions (SCard... provided by winscard.dll)
-         *
-         **/
     public abstract partial class SmartCard
     {
         public static SmartCardReader DefaultReader = null;
@@ -462,19 +453,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             return GetReaderList(SmartCard.SCOPE_SYSTEM, null);
         }
 
-
-        /**f* SCARD/Readers
-		 *
-		 * NAME
-		 *   SCARD.Readers
-		 *
-		 * DESCRIPTION
-		 *   Provides the list of the connected PC/SC readers
-		 *
-		 * SYNOPSIS
-		 *   string[] SCARD.Readers
-		 *
-		 **/
         public static string[] Readers
         {
             get
@@ -486,18 +464,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         #region Static methods - helpers to format status and errors
 
-        /**f* SCARD/ErrorToString
-		 *
-		 * NAME
-		 *   SCARD.ErrorToString
-		 *
-		 * DESCRIPTION
-		 *   Translate a PC/SC error code into a user-readable string
-		 *
-		 * SYNOPSIS
-		 *   string SCARD.ErrorToString( uint code );
-		 *
-		 **/
         public static string ErrorToString(uint code)
         {
             string r = "";
@@ -641,18 +607,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        /**f* SCARD/ReaderStatusToString
-		 *
-		 * NAME
-		 *   SCARD.ReaderStatusToString
-		 *
-		 * DESCRIPTION
-		 *   Translate the Status of the reader into a user-readable string
-		 *
-		 * SYNOPSIS
-		 *   string SCARD.ReaderStatusToString( uint state );
-		 *
-		 **/
         public static string ReaderStatusToString(uint state)
         {
             string r = "";
@@ -691,18 +645,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             return r;
         }
 
-        /**f* SCARD/CardProtocolToString
-		 *
-		 * NAME
-		 *   SCARD.CardProtocolToString
-		 *
-		 * DESCRIPTION
-		 *   Translate the Protocol of the card into a user-readable string
-		 *
-		 * SYNOPSIS
-		 *   string SCARD.CardProtocolToString( uint protocol );
-		 *
-		 **/
         public static string CardProtocolToString(uint protocol)
         {
             if (protocol == SmartCard.PROTOCOL_NONE)
@@ -717,18 +659,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             return "Unknown";
         }
 
-        /**f* SCARD/CardShareModeToString
-		 *
-		 * NAME
-		 *   SCARD.CardShareModeToString
-		 *
-		 * DESCRIPTION
-		 *   Translate the Share Mode of the card into a user-readable string
-		 *
-		 * SYNOPSIS
-		 *   string SCARD.CardShareModeToString( uint share_mode );
-		 *
-		 **/
         public static string CardShareModeToString(uint share_mode)
         {
             if (share_mode == SmartCard.SHARE_SHARED)
@@ -741,19 +671,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             return "Unknown";
         }
 
-        /**f* SCARD/CardStatusWordsToString
-		 *
-		 * NAME
-		 *   SCARD.CardStatusWordsToString
-		 *
-		 * DESCRIPTION
-		 *   Translate the Status Word of the card into a user-readable string
-		 *
-		 * SYNOPSIS
-		 *   string SCARD.CardStatusWordsToString( byte SW1, byte SW2 );
-		 *   string SCARD.CardStatusWordsToString( ushort SW );
-		 *
-		 **/
         public static string CardStatusWordsToString(ushort SW)
         {
             byte SW1 = (byte)(SW / 0x0100);

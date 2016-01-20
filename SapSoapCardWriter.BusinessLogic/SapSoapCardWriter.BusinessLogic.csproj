@@ -47,12 +47,27 @@
     <Compile Include="NFC\Capdu.cs" />
     <Compile Include="NFC\CardBuffer.cs" />
     <Compile Include="NFC\INfcWriter.cs" />
+    <Compile Include="NFC\NDEF\AbsoluteUri.cs" />
+    <Compile Include="NFC\NDEF\Ndef.cs" />
+    <Compile Include="NFC\NDEF\Rtd.cs" />
+    <Compile Include="NFC\NDEF\RtdAlternativeCarrier.cs" />
+    <Compile Include="NFC\NDEF\RtdHandoverSelector.cs" />
+    <Compile Include="NFC\NDEF\RtdMedia.cs" />
+    <Compile Include="NFC\NDEF\RtdSmartPoster.cs" />
+    <Compile Include="NFC\NDEF\RtdText.cs" />
+    <Compile Include="NFC\NDEF\RtdUri.cs" />
+    <Compile Include="NFC\NDEF\RtdVCard.cs" />
+    <Compile Include="NFC\NDEF\Tlv.cs" />
     <Compile Include="NFC\NfcWriter.cs" />
     <Compile Include="NFC\Rapdu.cs" />
     <Compile Include="NFC\SmartCardChannel.cs" />
     <Compile Include="NFC\SmartCardReader.cs" />
     <Compile Include="NFC\SmartCard.cs" />
     <Compile Include="NFC\SmartCardDesfire.cs" />
+    <Compile Include="NFC\Tags\NfcTag.cs" />
+    <Compile Include="NFC\Tags\NfcTagType2.cs" />
+    <Compile Include="NFC\Tags\NfcTagType4.cs" />
+    <Compile Include="NFC\Tags\NfcTagType4_Desfire.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
