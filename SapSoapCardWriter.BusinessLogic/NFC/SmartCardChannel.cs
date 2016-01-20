@@ -13,8 +13,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         private string _reader_name;
         private uint _reader_state;
         private uint _active_protocol;
-        private uint _want_protocols = SCARD.PROTOCOL_T0 | SCARD.PROTOCOL_T1;
-        private uint _share_mode = SCARD.SHARE_SHARED;
+        private uint _want_protocols = SmartCard.PROTOCOL_T0 | SmartCard.PROTOCOL_T1;
+        private uint _share_mode = SmartCard.SHARE_SHARED;
         private uint _last_error;
         private Capdu _capdu;
         private Rapdu _rapdu;
@@ -32,8 +32,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             uint rc;
 
-            rc = SCARD.EstablishContext(Scope, IntPtr.Zero, IntPtr.Zero, ref _hContext);
-            if (rc != SCARD.S_SUCCESS)
+            rc = SmartCard.EstablishContext(Scope, IntPtr.Zero, IntPtr.Zero, ref _hContext);
+            if (rc != SmartCard.S_SUCCESS)
             {
                 _hContext = IntPtr.Zero;
                 _last_error = rc;
@@ -49,7 +49,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         public SmartCardChannel(string ReaderName)
         {
-            Instanciate(SCARD.SCOPE_SYSTEM, ReaderName);
+            Instanciate(SmartCard.SCOPE_SYSTEM, ReaderName);
         }
 
         public SmartCardChannel(SmartCardReader Reader)
@@ -63,7 +63,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 DisconnectReset();
 
             if (_hContext != IntPtr.Zero)
-                SCARD.ReleaseContext(_hContext);
+                SmartCard.ReleaseContext(_hContext);
         }
 
         public IntPtr hContext
@@ -94,7 +94,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             uint rc;
 
-            _reader_state = SCARD.STATE_UNAWARE;
+            _reader_state = SmartCard.STATE_UNAWARE;
             _card_atr = null;
 
             if (Connected)
@@ -105,10 +105,10 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 uint dummy = 0;
 
                 rc =
-                    SCARD.Status(_hCard, IntPtr.Zero, ref dummy,
+                    SmartCard.Status(_hCard, IntPtr.Zero, ref dummy,
                                  ref _reader_state, ref _active_protocol, atr_buffer,
                                  ref atr_length);
-                if (rc != SCARD.S_SUCCESS)
+                if (rc != SmartCard.S_SUCCESS)
                 {
                     _last_error = rc;
                     return;
@@ -120,9 +120,9 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
             else
             {
-                SCARD.READERSTATE[] states = new SCARD.READERSTATE[1];
+                SmartCard.READERSTATE[] states = new SmartCard.READERSTATE[1];
 
-                states[0] = new SCARD.READERSTATE();
+                states[0] = new SmartCard.READERSTATE();
                 states[0].szReader = _reader_name;
                 states[0].pvUserData = IntPtr.Zero;
                 states[0].dwCurrentState = 0;
@@ -130,8 +130,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 states[0].cbAtr = 0;
                 states[0].rgbAtr = null;
 
-                rc = SCARD.GetStatusChange(_hContext, 0, states, 1);
-                if (rc != SCARD.S_SUCCESS)
+                rc = SmartCard.GetStatusChange(_hContext, 0, states, 1);
+                if (rc != SmartCard.S_SUCCESS)
                 {
                     _last_error = rc;
                     return;
@@ -139,7 +139,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
                 _reader_state = states[0].dwEventState;
 
-                if ((_reader_state & SCARD.STATE_PRESENT) != 0)
+                if ((_reader_state & SmartCard.STATE_PRESENT) != 0)
                 {
                     _card_atr = new CardBuffer(states[0].rgbAtr, (int)states[0].cbAtr);
                 }
@@ -170,7 +170,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             {
                 UpdateState();
 
-                if ((_reader_state & SCARD.STATE_PRESENT) != 0)
+                if ((_reader_state & SmartCard.STATE_PRESENT) != 0)
                     return true;
 
                 return false;
@@ -201,9 +201,9 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             {
                 UpdateState();
 
-                if (((_reader_state & SCARD.STATE_PRESENT) != 0)
-                    && ((_reader_state & SCARD.STATE_MUTE) == 0)
-                    && ((_reader_state & SCARD.STATE_INUSE) == 0))
+                if (((_reader_state & SmartCard.STATE_PRESENT) != 0)
+                    && ((_reader_state & SmartCard.STATE_MUTE) == 0)
+                    && ((_reader_state & SmartCard.STATE_INUSE) == 0))
                     return true;
 
                 return false;
@@ -320,7 +320,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             get
             {
-                return SCARD.CardProtocolToString(_active_protocol);
+                return SmartCard.CardProtocolToString(_active_protocol);
             }
             set
             {
@@ -328,28 +328,28 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
                 if (value.Equals("T=0"))
                 {
-                    _want_protocols = SCARD.PROTOCOL_T0;
+                    _want_protocols = SmartCard.PROTOCOL_T0;
                 }
                 else
                     if (value.Equals("T=1"))
                 {
-                    _want_protocols = SCARD.PROTOCOL_T1;
+                    _want_protocols = SmartCard.PROTOCOL_T1;
                 }
                 else
                     if (value.Equals("*") || value.Equals("AUTO") || value.Equals("T=0|T=1"))
                 {
-                    _want_protocols = SCARD.PROTOCOL_T0 | SCARD.PROTOCOL_T1;
+                    _want_protocols = SmartCard.PROTOCOL_T0 | SmartCard.PROTOCOL_T1;
                 }
                 else
                     if (value.Equals("RAW"))
                 {
-                    _want_protocols = SCARD.PROTOCOL_RAW;
+                    _want_protocols = SmartCard.PROTOCOL_RAW;
                 }
                 else
                     if (value.Equals("") || value.Equals("NONE") || value.Equals("DIRECT"))
                 {
-                    _want_protocols = SCARD.PROTOCOL_NONE;
-                    _share_mode = SCARD.SHARE_DIRECT;
+                    _want_protocols = SmartCard.PROTOCOL_NONE;
+                    _share_mode = SmartCard.SHARE_DIRECT;
                 }
             }
         }
@@ -402,7 +402,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             get
             {
-                return SCARD.CardShareModeToString(_share_mode);
+                return SmartCard.CardShareModeToString(_share_mode);
             }
             set
             {
@@ -410,18 +410,18 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
                 if (value.Equals("EXCLUSIVE"))
                 {
-                    _share_mode = SCARD.SHARE_EXCLUSIVE;
+                    _share_mode = SmartCard.SHARE_EXCLUSIVE;
                 }
                 else
                     if (value.Equals("SHARED"))
                 {
-                    _share_mode = SCARD.SHARE_SHARED;
+                    _share_mode = SmartCard.SHARE_SHARED;
                 }
                 else
                     if (value.Equals("DIRECT"))
                 {
-                    _want_protocols = SCARD.PROTOCOL_NONE;
-                    _share_mode = SCARD.SHARE_DIRECT;
+                    _want_protocols = SmartCard.PROTOCOL_NONE;
+                    _share_mode = SmartCard.SHARE_DIRECT;
                 }
             }
         }
@@ -458,8 +458,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             Trace.WriteLine("Connect to '" + _reader_name + "', share=" + _share_mode + ", protocol=" + _want_protocols);
 
-            rc = SCARD.Connect(_hContext, _reader_name, _share_mode, _want_protocols, ref _hCard, ref _active_protocol);
-            if (rc != SCARD.S_SUCCESS)
+            rc = SmartCard.Connect(_hContext, _reader_name, _share_mode, _want_protocols, ref _hCard, ref _active_protocol);
+            if (rc != SmartCard.S_SUCCESS)
             {
                 Trace.WriteLine("Connect error: " + rc);
                 _hCard = IntPtr.Zero;
@@ -502,13 +502,13 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             Trace.WriteLine("Disconnect, disposition=" + disposition);
 
-            rc = SCARD.Disconnect(_hCard, disposition);
-            if (rc != SCARD.S_SUCCESS)
+            rc = SmartCard.Disconnect(_hCard, disposition);
+            if (rc != SmartCard.S_SUCCESS)
                 _last_error = rc;
 
             _hCard = IntPtr.Zero;
 
-            if (rc != SCARD.S_SUCCESS)
+            if (rc != SmartCard.S_SUCCESS)
                 return false;
 
             return true;
@@ -534,7 +534,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         public bool DisconnectEject()
         {
-            return Disconnect(SCARD.EJECT_CARD);
+            return Disconnect(SmartCard.EJECT_CARD);
         }
 
         /**m* SCardChannel/DisconnectUnpower
@@ -552,7 +552,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         public bool DisconnectUnpower()
         {
-            return Disconnect(SCARD.UNPOWER_CARD);
+            return Disconnect(SmartCard.UNPOWER_CARD);
         }
 
         /**m* SCardChannel/DisconnectReset
@@ -570,7 +570,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         public bool DisconnectReset()
         {
-            return Disconnect(SCARD.RESET_CARD);
+            return Disconnect(SmartCard.RESET_CARD);
         }
 
         /**m* SCardChannel/DisconnectLeave
@@ -588,7 +588,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         public bool DisconnectLeave()
         {
-            return Disconnect(SCARD.LEAVE_CARD);
+            return Disconnect(SmartCard.LEAVE_CARD);
         }
 
         /**m* SCardChannel/Reconnect
@@ -629,8 +629,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 return false;
 
             rc =
-                SCARD.Reconnect(_hCard, _share_mode, _want_protocols, disposition, ref _active_protocol);
-            if (rc != SCARD.S_SUCCESS)
+                SmartCard.Reconnect(_hCard, _share_mode, _want_protocols, disposition, ref _active_protocol);
+            if (rc != SmartCard.S_SUCCESS)
             {
                 _hCard = IntPtr.Zero;
                 _last_error = rc;
@@ -661,7 +661,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         public void ReconnectEject()
         {
-            Reconnect(SCARD.EJECT_CARD);
+            Reconnect(SmartCard.EJECT_CARD);
         }
 
         /**m* SCardChannel/ReconnectUnpower
@@ -679,7 +679,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         public void ReconnectUnpower()
         {
-            Reconnect(SCARD.UNPOWER_CARD);
+            Reconnect(SmartCard.UNPOWER_CARD);
         }
 
         /**m* SCardChannel/ReconnectReset
@@ -697,7 +697,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         public void ReconnectReset()
         {
-            Reconnect(SCARD.RESET_CARD);
+            Reconnect(SmartCard.RESET_CARD);
         }
 
         /**m* SCardChannel/ReconnectLeave
@@ -715,7 +715,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         public void ReconnectLeave()
         {
-            Reconnect(SCARD.LEAVE_CARD);
+            Reconnect(SmartCard.LEAVE_CARD);
         }
 
         /**m* SCardChannel/Transmit
@@ -821,14 +821,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             switch (_active_protocol)
             {
-                case SCARD.PROTOCOL_T0:
-                    SendPci = SCARD.PCI_T0();
+                case SmartCard.PROTOCOL_T0:
+                    SendPci = SmartCard.PCI_T0();
                     break;
-                case SCARD.PROTOCOL_T1:
-                    SendPci = SCARD.PCI_T1();
+                case SmartCard.PROTOCOL_T1:
+                    SendPci = SmartCard.PCI_T1();
                     break;
-                case SCARD.PROTOCOL_RAW:
-                    SendPci = SCARD.PCI_RAW();
+                case SmartCard.PROTOCOL_RAW:
+                    SendPci = SmartCard.PCI_RAW();
                     break;
                 default:
                     break;
@@ -838,7 +838,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             Trace.WriteLine("Transmit << " + _capdu.AsString());
 
-            rc = SCARD.Transmit(_hCard,
+            rc = SmartCard.Transmit(_hCard,
                                 SendPci,
                                 _capdu.GetBytes(),
                                 (uint)_capdu.Length,
@@ -846,7 +846,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                                 rsp_buffer,
                                 ref rsp_length);
 
-            if (rc != SCARD.S_SUCCESS)
+            if (rc != SmartCard.S_SUCCESS)
             {
                 Trace.WriteLine("Transmit : " + rc);
                 _last_error = rc;
@@ -965,8 +965,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             Trace.WriteLine("Control << " + (new CardBuffer(cctrl)).AsString());
 
-            rc = SCARD.Control(_hCard,
-                               SCARD.IOCTL_CSB6_PCSC_ESCAPE,
+            rc = SmartCard.Control(_hCard,
+                               SmartCard.IOCTL_CSB6_PCSC_ESCAPE,
                                cctrl,
                                (uint)cctrl.Length,
                                rctrl,
@@ -975,8 +975,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             if (rc == 1)
             {
-                rc = SCARD.Control(_hCard,
-                                   SCARD.IOCTL_MS_CCID_ESCAPE,
+                rc = SmartCard.Control(_hCard,
+                                   SmartCard.IOCTL_MS_CCID_ESCAPE,
                                    cctrl,
                                    (uint)cctrl.Length,
                                    rctrl,
@@ -985,7 +985,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             }
 
-            if (rc != SCARD.S_SUCCESS)
+            if (rc != SmartCard.S_SUCCESS)
             {
                 Trace.WriteLine("Control: " + rc);
                 _last_error = rc;
@@ -1139,7 +1139,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             get
             {
-                return SCARD.ErrorToString(_last_error);
+                return SmartCard.ErrorToString(_last_error);
             }
         }
 

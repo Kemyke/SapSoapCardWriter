@@ -10,9 +10,9 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
     public class SmartCardReader
     {
         uint _last_error;
-        uint _scope = SCARD.SCOPE_SYSTEM;
+        uint _scope = SmartCard.SCOPE_SYSTEM;
         string _reader_name;
-        uint _reader_state = SCARD.STATE_UNAWARE;
+        uint _reader_state = SmartCard.STATE_UNAWARE;
         CardBuffer _card_atr = null;
         StatusChangeCallback _status_change_callback = null;
         Thread _status_change_thread = null;
@@ -143,17 +143,17 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             IntPtr hContext = IntPtr.Zero;
 
-            _reader_state = SCARD.STATE_UNAWARE;
+            _reader_state = SmartCard.STATE_UNAWARE;
             _card_atr = null;
 
             rc =
-                SCARD.EstablishContext(_scope, IntPtr.Zero, IntPtr.Zero, ref hContext);
-            if (rc != SCARD.S_SUCCESS)
+                SmartCard.EstablishContext(_scope, IntPtr.Zero, IntPtr.Zero, ref hContext);
+            if (rc != SmartCard.S_SUCCESS)
                 return;
 
-            SCARD.READERSTATE[] states = new SCARD.READERSTATE[1];
+            SmartCard.READERSTATE[] states = new SmartCard.READERSTATE[1];
 
-            states[0] = new SCARD.READERSTATE();
+            states[0] = new SmartCard.READERSTATE();
             states[0].szReader = _reader_name;
             states[0].pvUserData = IntPtr.Zero;
             states[0].dwCurrentState = 0;
@@ -163,25 +163,25 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             while (_status_change_running)
             {
-                rc = SCARD.GetStatusChange(hContext, 250, states, 1);
+                rc = SmartCard.GetStatusChange(hContext, 250, states, 1);
 
                 if (!_status_change_running)
                     break;
 
-                if (rc == SCARD.E_TIMEOUT)
+                if (rc == SmartCard.E_TIMEOUT)
                     continue;
 
-                if (rc != SCARD.S_SUCCESS)
+                if (rc != SmartCard.S_SUCCESS)
                 {
                     _last_error = rc;
 
-                    SCARD.ReleaseContext(hContext);
+                    SmartCard.ReleaseContext(hContext);
                     if (_status_change_callback != null)
                         _status_change_callback(0, null);
                     break;
                 }
 
-                if ((states[0].dwEventState & SCARD.STATE_CHANGED) != 0)
+                if ((states[0].dwEventState & SmartCard.STATE_CHANGED) != 0)
                 {
                     states[0].dwCurrentState = states[0].dwEventState;
 
@@ -189,17 +189,17 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                     {
                         CardBuffer card_atr = null;
 
-                        if ((states[0].dwEventState & SCARD.STATE_PRESENT) != 0)
+                        if ((states[0].dwEventState & SmartCard.STATE_PRESENT) != 0)
                             card_atr =
                                 new CardBuffer(states[0].rgbAtr, (int)states[0].cbAtr);
 
-                        _status_change_callback(states[0].dwEventState & ~SCARD.
+                        _status_change_callback(states[0].dwEventState & ~SmartCard.
                                                 STATE_CHANGED, card_atr);
                     }
                 }
             }
 
-            SCARD.ReleaseContext(hContext);
+            SmartCard.ReleaseContext(hContext);
         }
 
         private void UpdateState()
@@ -208,20 +208,20 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             IntPtr hContext = IntPtr.Zero;
 
-            _reader_state = SCARD.STATE_UNAWARE;
+            _reader_state = SmartCard.STATE_UNAWARE;
             _card_atr = null;
 
             rc =
-                SCARD.EstablishContext(_scope, IntPtr.Zero, IntPtr.Zero, ref hContext);
-            if (rc != SCARD.S_SUCCESS)
+                SmartCard.EstablishContext(_scope, IntPtr.Zero, IntPtr.Zero, ref hContext);
+            if (rc != SmartCard.S_SUCCESS)
             {
                 _last_error = rc;
                 return;
             }
 
-            SCARD.READERSTATE[] states = new SCARD.READERSTATE[1];
+            SmartCard.READERSTATE[] states = new SmartCard.READERSTATE[1];
 
-            states[0] = new SCARD.READERSTATE();
+            states[0] = new SmartCard.READERSTATE();
             states[0].szReader = _reader_name;
             states[0].pvUserData = IntPtr.Zero;
             states[0].dwCurrentState = 0;
@@ -229,18 +229,18 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             states[0].cbAtr = 0;
             states[0].rgbAtr = null;
 
-            rc = SCARD.GetStatusChange(hContext, 0, states, 1);
-            if (rc != SCARD.S_SUCCESS)
+            rc = SmartCard.GetStatusChange(hContext, 0, states, 1);
+            if (rc != SmartCard.S_SUCCESS)
             {
-                SCARD.ReleaseContext(hContext);
+                SmartCard.ReleaseContext(hContext);
                 return;
             }
 
-            SCARD.ReleaseContext(hContext);
+            SmartCard.ReleaseContext(hContext);
 
             _reader_state = states[0].dwEventState;
 
-            if ((_reader_state & SCARD.STATE_PRESENT) != 0)
+            if ((_reader_state & SmartCard.STATE_PRESENT) != 0)
             {
                 _card_atr = new CardBuffer(states[0].rgbAtr, (int)states[0].cbAtr);
             }
@@ -293,7 +293,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             get
             {
                 UpdateState();
-                return SCARD.ReaderStatusToString(_reader_state);
+                return SmartCard.ReaderStatusToString(_reader_state);
             }
         }
 
@@ -321,7 +321,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             get
             {
                 UpdateState();
-                if ((_reader_state & SCARD.STATE_PRESENT) != 0)
+                if ((_reader_state & SmartCard.STATE_PRESENT) != 0)
                     return true;
                 return false;
             }
@@ -351,9 +351,9 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             get
             {
                 UpdateState();
-                if (((_reader_state & SCARD.STATE_PRESENT) != 0)
-                    && ((_reader_state & SCARD.STATE_MUTE) == 0)
-                    && ((_reader_state & SCARD.STATE_INUSE) == 0))
+                if (((_reader_state & SmartCard.STATE_PRESENT) != 0)
+                    && ((_reader_state & SmartCard.STATE_MUTE) == 0)
+                    && ((_reader_state & SmartCard.STATE_INUSE) == 0))
                     return true;
                 return false;
             }
@@ -422,7 +422,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             get
             {
-                return SCARD.ErrorToString(_last_error);
+                return SmartCard.ErrorToString(_last_error);
             }
         }
 

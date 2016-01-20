@@ -138,7 +138,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             get
             {
-                return SCARD.CardStatusWordsToString(SW1, SW2);
+                return SmartCard.CardStatusWordsToString(SW1, SW2);
             }
         }
     }

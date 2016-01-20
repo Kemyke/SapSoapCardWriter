@@ -164,7 +164,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             /* Verify the reader */
             try
             {
-                ReaderName = SCARD.Readers[Int32.Parse(p_reader)];
+                ReaderName = SmartCard.Readers[Int32.Parse(p_reader)];
             }
             catch (Exception ex)
             {
@@ -197,14 +197,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             /* Open the Desfire DLL */
             rc = SmartCardDesfire.AttachLibrary(scard.hCard);
-            if (rc != SCARD.S_SUCCESS)
+            if (rc != SmartCard.S_SUCCESS)
             {
                 logger.Error("Failed to instantiate the PC/SC Desfire DLL.");
                 throw new InvalidOperationException("Failed to instantiate the PC/SC Desfire DLL.");
             }
 
             rc = SmartCardDesfire.IsoWrapping(scard.hCard, DF_ISO_WRAPPING_CARD);
-            if (rc != SCARD.S_SUCCESS)
+            if (rc != SmartCard.S_SUCCESS)
             {
                 logger.Error("Failed to select the ISO 7816 wrapping mode.");
                 throw new InvalidOperationException("Failed to select the ISO 7816 wrapping mode.");
@@ -213,7 +213,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             byte[] version_info = new byte[30];
 
             rc = SmartCardDesfire.GetVersion(scard.hCard, version_info);
-            if (rc != SCARD.S_SUCCESS)
+            if (rc != SmartCard.S_SUCCESS)
             {
                 logger.Error("Desfire 'get version' command failed.");
                 throw new InvalidOperationException("Desfire 'get version' command failed.");
@@ -259,7 +259,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 case KEY_AES_ISO: rc = SmartCardDesfire.AuthenticateAes(scard.hCard, 0, key_buffer); break;
                 default: rc = -1; break;
             }
-            if (rc != SCARD.S_SUCCESS)
+            if (rc != SmartCard.S_SUCCESS)
             {
                 string errorMsg = SmartCardDesfire.GetErrorMessage(rc);
                 logger.Error("Authentication failed! Error messag: {0}", errorMsg);
@@ -278,7 +278,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 else if ((p_key_type == KEY_DES_OR_3DES) && (p_set_key_type == KEY_DES_OR_3DES_ISO))
                 {
                     rc = SmartCardDesfire.AuthenticateIso24(scard.hCard, 0, key_buffer);
-                    if (rc == SCARD.S_SUCCESS)
+                    if (rc == SmartCard.S_SUCCESS)
                     {
                         rc = SmartCardDesfire.ChangeKey24(scard.hCard, 0, set_key_buffer, null);
                     }
@@ -290,11 +290,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 else if ((p_key_type == KEY_DES_OR_3DES_ISO) && (p_set_key_type == KEY_DES_OR_3DES))
                 {
                     rc = SmartCardDesfire.ChangeKeyAes(scard.hCard, DF_APPLSETTING2_AES | 0, 0, blank_buffer, null);
-                    if (rc == SCARD.S_SUCCESS)
+                    if (rc == SmartCard.S_SUCCESS)
                     {
                         rc = SmartCardDesfire.AuthenticateAes(scard.hCard, 0, blank_buffer);
                     }
-                    if (rc == SCARD.S_SUCCESS)
+                    if (rc == SmartCard.S_SUCCESS)
                     {
                         rc = SmartCardDesfire.ChangeKey(scard.hCard, 0, set_key_buffer, null);
                     }
@@ -320,7 +320,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                     rc = SmartCardDesfire.ChangeKeyAes(scard.hCard, DF_APPLSETTING2_AES | 0, 0, set_key_buffer, null);
                 }
 
-                if (rc != SCARD.S_SUCCESS)
+                if (rc != SmartCard.S_SUCCESS)
                 {
                     string errorMsg = SmartCardDesfire.GetErrorMessage(rc);
                     logger.Error("Change key failed! Error message: {0}", errorMsg);
@@ -335,7 +335,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                     default: rc = -1; break;
                 }
 
-                if (rc != SCARD.S_SUCCESS)
+                if (rc != SmartCard.S_SUCCESS)
                 {
                     string errorMsg = SmartCardDesfire.GetErrorMessage(rc);
                     logger.Error("Authentication with new key failed! Error message: {0}", errorMsg);
@@ -346,7 +346,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             logger.Debug("Formating the card...");
 
             rc = SmartCardDesfire.FormatPICC(scard.hCard);
-            if (rc != SCARD.S_SUCCESS)
+            if (rc != SmartCard.S_SUCCESS)
             {
                 string errorMsg = SmartCardDesfire.GetErrorMessage(rc);
                 logger.Error("Format PICC failed! Error message: {0}", errorMsg);

@@ -18,7 +18,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
          *   Static class that gives access to PC/SC functions (SCard... provided by winscard.dll)
          *
          **/
-    public abstract partial class SCARD
+    public abstract partial class SmartCard
     {
         public static SmartCardReader DefaultReader = null;
         public static SmartCardChannel DefaultCardChannel = null;
@@ -263,7 +263,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                                                                              SizeParamIndex
                                                                              =
                                                                              3)]
-                                                            SCARD.
+                                                            SmartCard.
                                                             READERSTATE
                                                             []rgReaderState,
                                                             uint cReaders);
@@ -392,14 +392,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             uint readers_size = 0;
             int readers_count = 0;
 
-            rc = SCARD.ListReaders(hContext, Groups, null, ref readers_size);
-            if (rc != SCARD.S_SUCCESS)
+            rc = SmartCard.ListReaders(hContext, Groups, null, ref readers_size);
+            if (rc != SmartCard.S_SUCCESS)
                 return null;
 
             string readers_str = new string(' ', (int)readers_size);
 
-            rc = SCARD.ListReaders(hContext, Groups, readers_str, ref readers_size);
-            if (rc != SCARD.S_SUCCESS)
+            rc = SmartCard.ListReaders(hContext, Groups, readers_str, ref readers_size);
+            if (rc != SmartCard.S_SUCCESS)
                 return null;
 
             for (i = 0; i < readers_size; i++)
@@ -446,20 +446,20 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             IntPtr hContext = IntPtr.Zero;
             uint rc;
 
-            rc = SCARD.EstablishContext(Scope, IntPtr.Zero, IntPtr.Zero, ref hContext);
-            if (rc != SCARD.S_SUCCESS)
+            rc = SmartCard.EstablishContext(Scope, IntPtr.Zero, IntPtr.Zero, ref hContext);
+            if (rc != SmartCard.S_SUCCESS)
                 return null;
 
             string[] readers = GetReaderList(hContext, Groups);
 
-            SCARD.ReleaseContext(hContext);
+            SmartCard.ReleaseContext(hContext);
 
             return readers;
         }
 
         public static string[] GetReaderList()
         {
-            return GetReaderList(SCARD.SCOPE_SYSTEM, null);
+            return GetReaderList(SmartCard.SCOPE_SYSTEM, null);
         }
 
 
@@ -515,126 +515,126 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             switch (code)
             {
-                case SCARD.S_SUCCESS:
+                case SmartCard.S_SUCCESS:
                     return "SCARD_S_SUCCESS";
-                case SCARD.F_INTERNAL_ERROR:
+                case SmartCard.F_INTERNAL_ERROR:
                     return "SCARD_F_INTERNAL_ERROR";
-                case SCARD.E_CANCELLED:
+                case SmartCard.E_CANCELLED:
                     return "SCARD_E_CANCELLED";
-                case SCARD.E_INVALID_HANDLE:
+                case SmartCard.E_INVALID_HANDLE:
                     return "SCARD_E_INVALID_HANDLE";
-                case SCARD.E_INVALID_PARAMETER:
+                case SmartCard.E_INVALID_PARAMETER:
                     return "SCARD_E_INVALID_PARAMETER";
-                case SCARD.E_INVALID_TARGET:
+                case SmartCard.E_INVALID_TARGET:
                     return "SCARD_E_INVALID_TARGET";
-                case SCARD.E_NO_MEMORY:
+                case SmartCard.E_NO_MEMORY:
                     return "SCARD_E_NO_MEMORY";
-                case SCARD.F_WAITED_TOO_LONG:
+                case SmartCard.F_WAITED_TOO_LONG:
                     return "SCARD_F_WAITED_TOO_LONG";
-                case SCARD.E_INSUFFICIENT_BUFFER:
+                case SmartCard.E_INSUFFICIENT_BUFFER:
                     return "SCARD_E_INSUFFICIENT_BUFFER";
-                case SCARD.E_UNKNOWN_READER:
+                case SmartCard.E_UNKNOWN_READER:
                     return "SCARD_E_UNKNOWN_READER";
-                case SCARD.E_TIMEOUT:
+                case SmartCard.E_TIMEOUT:
                     return "SCARD_E_TIMEOUT";
-                case SCARD.E_SHARING_VIOLATION:
+                case SmartCard.E_SHARING_VIOLATION:
                     return "SCARD_E_SHARING_VIOLATION";
-                case SCARD.E_NO_SMARTCARD:
+                case SmartCard.E_NO_SMARTCARD:
                     return "SCARD_E_NO_SMARTCARD";
-                case SCARD.E_UNKNOWN_CARD:
+                case SmartCard.E_UNKNOWN_CARD:
                     return "SCARD_E_UNKNOWN_CARD";
-                case SCARD.E_CANT_DISPOSE:
+                case SmartCard.E_CANT_DISPOSE:
                     return "SCARD_E_CANT_DISPOSE";
-                case SCARD.E_PROTO_MISMATCH:
+                case SmartCard.E_PROTO_MISMATCH:
                     return "SCARD_E_PROTO_MISMATCH";
-                case SCARD.E_NOT_READY:
+                case SmartCard.E_NOT_READY:
                     return "SCARD_E_NOT_READY";
-                case SCARD.E_INVALID_VALUE:
+                case SmartCard.E_INVALID_VALUE:
                     return "SCARD_E_INVALID_VALUE";
-                case SCARD.E_SYSTEM_CANCELLED:
+                case SmartCard.E_SYSTEM_CANCELLED:
                     return "SCARD_E_SYSTEM_CANCELLED";
-                case SCARD.F_COMM_ERROR:
+                case SmartCard.F_COMM_ERROR:
                     return "SCARD_F_COMM_ERROR";
-                case SCARD.F_UNKNOWN_ERROR:
+                case SmartCard.F_UNKNOWN_ERROR:
                     return "SCARD_F_UNKNOWN_ERROR";
-                case SCARD.E_INVALID_ATR:
+                case SmartCard.E_INVALID_ATR:
                     return "SCARD_E_INVALID_ATR";
-                case SCARD.E_NOT_TRANSACTED:
+                case SmartCard.E_NOT_TRANSACTED:
                     return "SCARD_E_NOT_TRANSACTED";
-                case SCARD.E_READER_UNAVAILABLE:
+                case SmartCard.E_READER_UNAVAILABLE:
                     return "SCARD_E_READER_UNAVAILABLE";
-                case SCARD.P_SHUTDOWN:
+                case SmartCard.P_SHUTDOWN:
                     return "SCARD_P_SHUTDOWN";
-                case SCARD.E_PCI_TOO_SMALL:
+                case SmartCard.E_PCI_TOO_SMALL:
                     return "SCARD_E_PCI_TOO_SMALL";
-                case SCARD.E_READER_UNSUPPORTED:
+                case SmartCard.E_READER_UNSUPPORTED:
                     return "SCARD_E_READER_UNSUPPORTED";
-                case SCARD.E_DUPLICATE_READER:
+                case SmartCard.E_DUPLICATE_READER:
                     return "SCARD_E_DUPLICATE_READER";
-                case SCARD.E_CARD_UNSUPPORTED:
+                case SmartCard.E_CARD_UNSUPPORTED:
                     return "SCARD_E_CARD_UNSUPPORTED";
-                case SCARD.E_NO_SERVICE:
+                case SmartCard.E_NO_SERVICE:
                     return "SCARD_E_NO_SERVICE";
-                case SCARD.E_SERVICE_STOPPED:
+                case SmartCard.E_SERVICE_STOPPED:
                     return "SCARD_E_SERVICE_STOPPED";
-                case SCARD.E_UNEXPECTED:
+                case SmartCard.E_UNEXPECTED:
                     return "SCARD_E_UNEXPECTED";
-                case SCARD.E_ICC_INSTALLATION:
+                case SmartCard.E_ICC_INSTALLATION:
                     return "SCARD_E_ICC_INSTALLATION";
-                case SCARD.E_ICC_CREATEORDER:
+                case SmartCard.E_ICC_CREATEORDER:
                     return "SCARD_E_ICC_CREATEORDER";
-                case SCARD.E_UNSUPPORTED_FEATURE:
+                case SmartCard.E_UNSUPPORTED_FEATURE:
                     return "SCARD_E_UNSUPPORTED_FEATURE";
-                case SCARD.E_DIR_NOT_FOUND:
+                case SmartCard.E_DIR_NOT_FOUND:
                     return "SCARD_E_DIR_NOT_FOUND";
-                case SCARD.E_FILE_NOT_FOUND:
+                case SmartCard.E_FILE_NOT_FOUND:
                     return "SCARD_E_FILE_NOT_FOUND";
-                case SCARD.E_NO_DIR:
+                case SmartCard.E_NO_DIR:
                     return "SCARD_E_NO_DIR";
-                case SCARD.E_NO_FILE:
+                case SmartCard.E_NO_FILE:
                     return "SCARD_E_NO_FILE";
-                case SCARD.E_NO_ACCESS:
+                case SmartCard.E_NO_ACCESS:
                     return "SCARD_E_NO_ACCESS";
-                case SCARD.E_WRITE_TOO_MANY:
+                case SmartCard.E_WRITE_TOO_MANY:
                     return "SCARD_E_WRITE_TOO_MANY";
-                case SCARD.E_BAD_SEEK:
+                case SmartCard.E_BAD_SEEK:
                     return "SCARD_E_BAD_SEEK";
-                case SCARD.E_INVALID_CHV:
+                case SmartCard.E_INVALID_CHV:
                     return "SCARD_E_INVALID_CHV";
-                case SCARD.E_UNKNOWN_RES_MNG:
+                case SmartCard.E_UNKNOWN_RES_MNG:
                     return "SCARD_E_UNKNOWN_RES_MNG";
-                case SCARD.E_NO_SUCH_CERTIFICATE:
+                case SmartCard.E_NO_SUCH_CERTIFICATE:
                     return "SCARD_E_NO_SUCH_CERTIFICATE";
-                case SCARD.E_CERTIFICATE_UNAVAILABLE:
+                case SmartCard.E_CERTIFICATE_UNAVAILABLE:
                     return "SCARD_E_CERTIFICATE_UNAVAILABLE";
-                case SCARD.E_NO_READERS_AVAILABLE:
+                case SmartCard.E_NO_READERS_AVAILABLE:
                     return "SCARD_E_NO_READERS_AVAILABLE";
-                case SCARD.E_COMM_DATA_LOST:
+                case SmartCard.E_COMM_DATA_LOST:
                     return "SCARD_E_COMM_DATA_LOST";
-                case SCARD.E_NO_KEY_CONTAINER:
+                case SmartCard.E_NO_KEY_CONTAINER:
                     return "SCARD_E_NO_KEY_CONTAINER";
                 //case SCARD.E_SERVER_TOO_BUSY : return "SCARD_E_SERVER_TOO_BUSY";
-                case SCARD.W_UNSUPPORTED_CARD:
+                case SmartCard.W_UNSUPPORTED_CARD:
                     return "SCARD_W_UNSUPPORTED_CARD";
-                case SCARD.W_UNRESPONSIVE_CARD:
+                case SmartCard.W_UNRESPONSIVE_CARD:
                     return "SCARD_W_UNRESPONSIVE_CARD";
-                case SCARD.W_UNPOWERED_CARD:
+                case SmartCard.W_UNPOWERED_CARD:
                     return "SCARD_W_UNPOWERED_CARD";
-                case SCARD.W_RESET_CARD:
+                case SmartCard.W_RESET_CARD:
                     return "SCARD_W_RESET_CARD";
-                case SCARD.W_REMOVED_CARD:
+                case SmartCard.W_REMOVED_CARD:
                     return "SCARD_W_REMOVED_CARD";
-                case SCARD.W_SECURITY_VIOLATION:
+                case SmartCard.W_SECURITY_VIOLATION:
                     return "SCARD_W_SECURITY_VIOLATION";
-                case SCARD.W_WRONG_CHV:
+                case SmartCard.W_WRONG_CHV:
                     return "SCARD_W_WRONG_CHV";
-                case SCARD.W_CHV_BLOCKED:
+                case SmartCard.W_CHV_BLOCKED:
                     return "SCARD_W_CHV_BLOCKED";
-                case SCARD.W_EOF:
+                case SmartCard.W_EOF:
                     return "SCARD_W_EOF";
-                case SCARD.W_CANCELLED_BY_USER:
+                case SmartCard.W_CANCELLED_BY_USER:
                     return "SCARD_W_CANCELLED_BY_USER";
-                case SCARD.W_CARD_NOT_AUTHENTICATED:
+                case SmartCard.W_CARD_NOT_AUTHENTICATED:
                     return "SCARD_W_CARD_NOT_AUTHENTICATED";
                 default:
                     return r;
@@ -657,32 +657,32 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             string r = "";
 
-            if (state == SCARD.STATE_UNAWARE)
+            if (state == SmartCard.STATE_UNAWARE)
                 r += ",UNAWARE";
 
-            if ((state & SCARD.STATE_EMPTY) != 0)
+            if ((state & SmartCard.STATE_EMPTY) != 0)
                 r += ",EMPTY";
-            if ((state & SCARD.STATE_PRESENT) != 0)
+            if ((state & SmartCard.STATE_PRESENT) != 0)
                 r += ",PRESENT";
-            if ((state & SCARD.STATE_MUTE) != 0)
+            if ((state & SmartCard.STATE_MUTE) != 0)
                 r += ",MUTE";
-            if ((state & SCARD.STATE_UNPOWERED) != 0)
+            if ((state & SmartCard.STATE_UNPOWERED) != 0)
                 r += ",UNPOWERED";
-            if ((state & SCARD.STATE_ATRMATCH) != 0)
+            if ((state & SmartCard.STATE_ATRMATCH) != 0)
                 r += ",ATRMATCH";
-            if ((state & SCARD.STATE_EXCLUSIVE) != 0)
+            if ((state & SmartCard.STATE_EXCLUSIVE) != 0)
                 r += ",EXCLUSIVE";
-            if ((state & SCARD.STATE_INUSE) != 0)
+            if ((state & SmartCard.STATE_INUSE) != 0)
                 r += ",INUSE";
 
-            if ((state & SCARD.STATE_IGNORE) != 0)
+            if ((state & SmartCard.STATE_IGNORE) != 0)
                 r += ",IGNORE";
-            if ((state & SCARD.STATE_UNKNOWN) != 0)
+            if ((state & SmartCard.STATE_UNKNOWN) != 0)
                 r += ",UNKNOWN";
-            if ((state & SCARD.STATE_UNAVAILABLE) != 0)
+            if ((state & SmartCard.STATE_UNAVAILABLE) != 0)
                 r += ",UNAVAILABLE";
 
-            if ((state & SCARD.STATE_CHANGED) != 0)
+            if ((state & SmartCard.STATE_CHANGED) != 0)
                 r += ",CHANGED";
 
             if (r.Length >= 1)
@@ -705,13 +705,13 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		 **/
         public static string CardProtocolToString(uint protocol)
         {
-            if (protocol == SCARD.PROTOCOL_NONE)
+            if (protocol == SmartCard.PROTOCOL_NONE)
                 return "";
-            if (protocol == SCARD.PROTOCOL_T0)
+            if (protocol == SmartCard.PROTOCOL_T0)
                 return "T=0";
-            if (protocol == SCARD.PROTOCOL_T1)
+            if (protocol == SmartCard.PROTOCOL_T1)
                 return "T=1";
-            if (protocol == SCARD.PROTOCOL_RAW)
+            if (protocol == SmartCard.PROTOCOL_RAW)
                 return "RAW";
 
             return "Unknown";
@@ -731,11 +731,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		 **/
         public static string CardShareModeToString(uint share_mode)
         {
-            if (share_mode == SCARD.SHARE_SHARED)
+            if (share_mode == SmartCard.SHARE_SHARED)
                 return "SHARED";
-            if (share_mode == SCARD.SHARE_EXCLUSIVE)
+            if (share_mode == SmartCard.SHARE_EXCLUSIVE)
                 return "EXCLUSIVE";
-            if (share_mode == SCARD.SHARE_DIRECT)
+            if (share_mode == SmartCard.SHARE_DIRECT)
                 return "DIRECT";
 
             return "Unknown";
