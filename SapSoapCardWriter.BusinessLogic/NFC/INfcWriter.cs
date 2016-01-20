@@ -9,6 +9,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
     public interface INfcWriter
     {
         void Erase();
+        void Prepare();
         void Lock();
         void WriteNfcTag(string data);
     }
