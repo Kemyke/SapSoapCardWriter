@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Solution Items\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Configuration\ConfigurationCollection.cs" />
     <Compile Include="Configuration\GenericStandaloneConfigurationManager.cs" />
     <Compile Include="Configuration\IConfigurationElement.cs" />
