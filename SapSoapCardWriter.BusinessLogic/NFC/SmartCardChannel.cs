@@ -16,8 +16,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         private uint _want_protocols = SCARD.PROTOCOL_T0 | SCARD.PROTOCOL_T1;
         private uint _share_mode = SCARD.SHARE_SHARED;
         private uint _last_error;
-        private CAPDU _capdu;
-        private RAPDU _rapdu;
+        private Capdu _capdu;
+        private Rapdu _rapdu;
         private CardBuffer _cctrl;
         private CardBuffer _rctrl;
         private CardBuffer _card_atr;
@@ -26,7 +26,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         TransmitDoneCallback _transmit_done_callback = null;
         Thread _transmit_thread = null;
 
-        public delegate void TransmitDoneCallback(RAPDU rapdu);
+        public delegate void TransmitDoneCallback(Rapdu rapdu);
 
         private void Instanciate(uint Scope, string ReaderName)
         {
@@ -853,14 +853,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 return false;
             }
 
-            _rapdu = new RAPDU(rsp_buffer, (int)rsp_length);
+            _rapdu = new Rapdu(rsp_buffer, (int)rsp_length);
 
             Trace.WriteLine("Transmit >> " + _rapdu.AsString());
 
             return true;
         }
 
-        public bool Transmit(CAPDU capdu, ref RAPDU rapdu)
+        public bool Transmit(Capdu capdu, ref Rapdu rapdu)
         {
             _capdu = capdu;
 
@@ -871,7 +871,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             return true;
         }
 
-        public RAPDU Transmit(CAPDU capdu)
+        public Rapdu Transmit(Capdu capdu)
         {
             _capdu = capdu;
 
@@ -881,7 +881,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             return _rapdu;
         }
 
-        public void Transmit(CAPDU capdu, TransmitDoneCallback callback)
+        public void Transmit(Capdu capdu, TransmitDoneCallback callback)
         {
             if (_transmit_thread != null)
                 _transmit_thread = null;
@@ -923,7 +923,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		 *   C-APDU to be sent to the card through SCardChannel.Transmit
 		 *
 		 **/
-        public CAPDU Command
+        public Capdu Command
         {
             get
             {
@@ -947,7 +947,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		 *   R-APDU returned by the card after a succesfull call to SCardChannel.Transmit
 		 *
 		 **/
-        public RAPDU Response
+        public Rapdu Response
         {
             get
             {

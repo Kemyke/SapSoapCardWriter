@@ -19,19 +19,19 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 	 *
 	 **/
 
-    public class CAPDU : CardBuffer
+    public class Capdu : CardBuffer
     {
-        public CAPDU()
+        public Capdu()
         {
 
         }
 
-        public CAPDU(byte[] bytes)
+        public Capdu(byte[] bytes)
         {
             _bytes = bytes;
         }
 
-        public CAPDU(byte CLA, byte INS, byte P1, byte P2)
+        public Capdu(byte CLA, byte INS, byte P1, byte P2)
         {
             _bytes = new byte[4];
             _bytes[0] = CLA;
@@ -40,7 +40,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             _bytes[3] = P2;
         }
 
-        public CAPDU(byte CLA, byte INS, byte P1, byte P2, byte P3)
+        public Capdu(byte CLA, byte INS, byte P1, byte P2, byte P3)
         {
             _bytes = new byte[5];
             _bytes[0] = CLA;
@@ -50,7 +50,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             _bytes[4] = P3;
         }
 
-        public CAPDU(byte CLA, byte INS, byte P1, byte P2, byte[] data)
+        public Capdu(byte CLA, byte INS, byte P1, byte P2, byte[] data)
         {
             int i;
             _bytes = new byte[5 + data.Length];
@@ -63,7 +63,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 _bytes[5 + i] = data[i];
         }
 
-        public CAPDU(byte CLA, byte INS, byte P1, byte P2, string data)
+        public Capdu(byte CLA, byte INS, byte P1, byte P2, string data)
         {
             int i;
             byte[] _data = (new CardBuffer(data)).GetBytes();
@@ -77,7 +77,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 _bytes[5 + i] = _data[i];
         }
 
-        public CAPDU(byte CLA, byte INS, byte P1, byte P2, byte[] data, byte LE)
+        public Capdu(byte CLA, byte INS, byte P1, byte P2, byte[] data, byte LE)
         {
             int i;
             _bytes = new byte[6 + data.Length];
@@ -91,7 +91,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             _bytes[5 + data.Length] = LE;
         }
 
-        public CAPDU(byte CLA, byte INS, byte P1, byte P2, string data, byte LE)
+        public Capdu(byte CLA, byte INS, byte P1, byte P2, string data, byte LE)
         {
             int i;
             byte[] _data = (new CardBuffer(data)).GetBytes();
@@ -106,7 +106,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             _bytes[5 + _data.Length] = LE;
         }
 
-        public CAPDU(string str)
+        public Capdu(string str)
         {
             SetString(str);
         }

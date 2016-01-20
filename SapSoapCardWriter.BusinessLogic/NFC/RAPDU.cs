@@ -19,7 +19,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 	 *
 	 **/
 
-    public class RAPDU : CardBuffer
+    public class Rapdu : CardBuffer
     {
         public bool isValid
         {
@@ -29,17 +29,17 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        public RAPDU(byte[] bytes, int length)
+        public Rapdu(byte[] bytes, int length)
         {
             SetBytes(bytes, length);
         }
 
-        public RAPDU(byte[] bytes)
+        public Rapdu(byte[] bytes)
         {
             SetBytes(bytes);
         }
 
-        public RAPDU(byte[] bytes, byte SW1, byte SW2)
+        public Rapdu(byte[] bytes, byte SW1, byte SW2)
         {
             byte[] t;
             if (bytes == null)
@@ -59,7 +59,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             SetBytes(t);
         }
 
-        public RAPDU(byte sw1, byte sw2)
+        public Rapdu(byte sw1, byte sw2)
         {
             byte[] t = new byte[2];
             t[0] = sw1;
@@ -67,7 +67,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             SetBytes(t);
         }
 
-        public RAPDU(ushort sw)
+        public Rapdu(ushort sw)
         {
             byte[] t = new byte[2];
             t[0] = (byte)(sw / 0x0100);
