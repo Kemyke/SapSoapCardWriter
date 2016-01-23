@@ -44,6 +44,7 @@
     </Compile>
     <Compile Include="ICardWriter.cs" />
     <Compile Include="MockCardWriter.cs" />
+    <Compile Include="NfcCardWriter.cs" />
     <Compile Include="NFC\Capdu.cs" />
     <Compile Include="NFC\CardBuffer.cs" />
     <Compile Include="NFC\INfcWriter.cs" />

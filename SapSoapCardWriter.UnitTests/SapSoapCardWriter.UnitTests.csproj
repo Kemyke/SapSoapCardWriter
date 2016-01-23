@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -50,14 +53,22 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CardWriter\NfcWriterTest.cs" />
     <Compile Include="Common\Encryption\AES128EncryptorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SapSoapCardWriter.BusinessLogic\SapSoapCardWriter.BusinessLogic.csproj">
+      <Project>{3dc4c863-81ab-46e0-b6e4-1462b13cebf9}</Project>
+      <Name>SapSoapCardWriter.BusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SapSoapCardWriter.Common\SapSoapCardWriter.Common.csproj">
       <Project>{900ca9db-2c52-4021-be94-b7507d0dd334}</Project>
       <Name>SapSoapCardWriter.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

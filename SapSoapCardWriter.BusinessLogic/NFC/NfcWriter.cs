@@ -422,6 +422,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
         private List<string> GetReaders()
         {
+            if (SmartCard.Readers == null || SmartCard.Readers.Length == 0)
+            {
+                throw new InvalidOperationException("WriteNfcTag! No reader found!");
+            }
+
             List<string> ret = new List<string>();
             string reader_list = "";
             for (int i = 0; i < SmartCard.Readers.Length - 1; i++)
@@ -431,14 +436,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             reader_list += "Reader " + (SmartCard.Readers.Length - 1) + "=" + SmartCard.Readers[SmartCard.Readers.Length - 1];
             logger.Debug(reader_list);
 
-            if (SmartCard.Readers.Length == 0)
-            {
-                throw new InvalidOperationException("WriteNfcTag! No reader found!");
-            }
-            else
-            {
-                ret.AddRange(SmartCard.Readers);
-            }
+            ret.AddRange(SmartCard.Readers);
             return ret;
         }
 

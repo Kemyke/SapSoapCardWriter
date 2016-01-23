@@ -40,7 +40,9 @@ namespace SapSoapCardWriter.ServiceHost
             catch(Exception ex)
             {
                 logger.Error(ex.ToString());
-                return new Response(ResultCode.UNKNOWN_ERROR);
+                var resp = new Response(ResultCode.UNKNOWN_ERROR);
+                resp.ErrorMessage = ex.ToString();
+                return resp;
             }
         }
 
