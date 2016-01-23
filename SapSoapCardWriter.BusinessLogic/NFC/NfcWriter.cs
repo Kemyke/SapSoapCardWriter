@@ -32,10 +32,10 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             this.logger = logger;
         }
 
-        private SmartCardChannel Init(string readerName)
+        private SmartCardChannel Init(string readerName, string key)
         {
-            string p_key = null;
-            int p_key_type = 0;
+            string p_key = key;
+            int p_key_type = 2;
             string p_set_key = null;
             int p_set_key_type = 0;
 
@@ -61,10 +61,10 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
             else
             {
-                CardBuffer key = new CardBuffer(p_key);
+                CardBuffer cardBuffer = new CardBuffer(p_key);
                 key_buffer = new byte[24];
-                Array.ConstrainedCopy(key.GetBytes(), 0, key_buffer, 0, key.GetBytes().Length);
-                key_length = key.GetBytes().Length;
+                Array.ConstrainedCopy(cardBuffer.GetBytes(), 0, key_buffer, 0, cardBuffer.GetBytes().Length);
+                key_length = cardBuffer.GetBytes().Length;
 
             }
 
@@ -192,43 +192,43 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             byte[] version_info = new byte[30];
 
-            rc = SmartCardDesfire.GetVersion(scard.hCard, version_info);
-            if (rc != SmartCard.S_SUCCESS)
-            {
-                logger.Error("Desfire 'get version' command failed.");
-                throw new InvalidOperationException("Desfire 'get version' command failed.");
-            }
+            //rc = SmartCardDesfire.GetVersion(scard.hCard, version_info);
+            //if (rc != SmartCard.S_SUCCESS)
+            //{
+            //    logger.Error("Desfire 'get version' command failed.");
+            //    throw new InvalidOperationException("Desfire 'get version' command failed.");
+            //}
 
-            logger.Debug("Found a Desfire card");
+            //logger.Debug("Found a Desfire card");
 
-            logger.Debug("Hardware: Vendor=" + version_info[0]
-                                + ", Type=" + version_info[1]
-                                + ", SubType=" + version_info[2]
-                                + ", v" + version_info[3] + "." + version_info[4]);
+            //logger.Debug("Hardware: Vendor=" + version_info[0]
+            //                    + ", Type=" + version_info[1]
+            //                    + ", SubType=" + version_info[2]
+            //                    + ", v" + version_info[3] + "." + version_info[4]);
 
-            logger.Debug("Software: Vendor=" + version_info[7]
-                                + ", Type=" + version_info[8]
-                                + ", SubType=" + version_info[9]
-                                + ", v" + version_info[10] + "." + version_info[11]);
+            //logger.Debug("Software: Vendor=" + version_info[7]
+            //                    + ", Type=" + version_info[8]
+            //                    + ", SubType=" + version_info[9]
+            //                    + ", v" + version_info[10] + "." + version_info[11]);
 
 
-            if ((version_info[0] != 0x04) || (version_info[7] != 0x04))
-            {
-                logger.Error("Manufacturer is not NXP");
-                throw new InvalidOperationException("Manufacturer is not NXP");
-            }
+            //if ((version_info[0] != 0x04) || (version_info[7] != 0x04))
+            //{
+            //    logger.Error("Manufacturer is not NXP");
+            //    throw new InvalidOperationException("Manufacturer is not NXP");
+            //}
 
-            if ((version_info[1] != 0x01) || (version_info[8] != 0x01))
-            {
-                logger.Error("Type is not Desfire");
-                throw new InvalidOperationException("Type is not Desfire");
-            }
+            //if ((version_info[1] != 0x01) || (version_info[8] != 0x01))
+            //{
+            //    logger.Error("Type is not Desfire");
+            //    throw new InvalidOperationException("Type is not Desfire");
+            //}
 
-            if (version_info[10] < 1)
-            {
-                logger.Error("Software version is below EV1");
-                throw new InvalidOperationException("Software version is below EV1");
-            }
+            //if (version_info[10] < 1)
+            //{
+            //    logger.Error("Software version is below EV1");
+            //    throw new InvalidOperationException("Software version is below EV1");
+            //}
 
             logger.Debug("Authenticating...");
 
@@ -331,7 +331,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             return scard;
         }
 
-        private void Erase(SmartCardChannel scard)
+        private void Erase(SmartCardChannel scard, string key)
         {
             logger.Debug("Formating the card...");
 
@@ -344,21 +344,19 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
 
             logger.Debug("Card erase done...");
-
-            SmartCardDesfire.DetachLibrary(scard.hCard);
-            scard.Disconnect();
         }
 
-        public void Erase()
+        public bool Erase(string key)
         {
             bool isSuccess = false;
             List<string> readerNames = GetReaders();
             foreach (string readerName in readerNames)
             {
+                SmartCardChannel scard = null;
                 try
                 {
-                    SmartCardChannel scard = Init(readerName);
-                    Erase(scard);
+                    scard = Init(readerName, key);
+                    Erase(scard, key);
                     logger.Info("Erase successful with reader: {0}.", readerName);
                     isSuccess = true;
                 }
@@ -366,12 +364,22 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 {
                     logger.Warning("Cannot erase with reader: {0}. Exception: {1}.", readerName, ex.ToString());
                 }
+                finally
+                {
+                    if (scard != null)
+                    {
+                        SmartCardDesfire.DetachLibrary(scard.hCard);
+                        scard.Disconnect();
+                    }
+                }
             }
 
             if (!isSuccess)
             {
                 logger.Error("Cannot erase with any reader!");
             }
+
+            return isSuccess;
         }
 
         private void Lock(SmartCardChannel scard)
@@ -391,19 +399,28 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        public void Lock()
+        public bool Lock(string key)
         {
             bool isSuccess = false;
             List<string> readerNames = GetReaders();
             foreach (string readerName in readerNames)
             {
+                SmartCardChannel scard = null;
                 try
                 {
                     //TODO: itt nem kell az Init-es hókuszpókusz?
                     SmartCardReader reader = new SmartCardReader(readerName);
-                    SmartCardChannel scard = new SmartCardChannel(reader);
-
-                    Lock(scard);
+                    scard = new SmartCardChannel(reader);
+                    bool connectSuccess = scard.Connect();
+                    if (!connectSuccess)
+                    {
+                        logger.Error("Connect failed!");
+                    }
+                    else
+                    {
+                        logger.Info("Connect successfull!");
+                        Lock(scard);
+                    }
 
                     logger.Info("Lock successful with reader: {0}.", readerName);
                     isSuccess = true;
@@ -412,12 +429,21 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 {
                     logger.Warning("Cannot erase with reader: {0}. Exception: {1}.", readerName, ex.ToString());
                 }
+                finally
+                {
+                    if (scard != null)
+                    {
+                        scard.Disconnect();
+                    }
+                }
             }
 
             if (!isSuccess)
             {
                 logger.Error("Cannot lock with any reader!");
             }
+
+            return isSuccess;
         }
 
         private List<string> GetReaders()
@@ -452,8 +478,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
 
             RtdText t = new RtdText(data);
-            tag.Format();
-            Prepare(scard);
+
             tag.Content.Add(t);
             if (!tag.Write())
             {
@@ -461,23 +486,39 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
-        public void WriteNfcTag(string data)
+        public bool WriteNfcTag(string data)
         {
             bool isSuccess = false;
             List<string> readerNames = GetReaders();
             foreach (string readerName in readerNames)
             {
+                SmartCardChannel scard = null;
                 try
                 {
-                    //TODO: itt nem kell az Init-es hókuszpókusz?
                     SmartCardReader reader = new SmartCardReader(readerName);
-                    SmartCardChannel scard = new SmartCardChannel(reader);
-
-                    WriteNfcTag(scard, data);
+                    scard = new SmartCardChannel(reader);
+                    bool connectSuccess = scard.Connect();
+                    if (!connectSuccess)
+                    {
+                        logger.Error("Connect failed!");
+                    }
+                    else
+                    {
+                        logger.Info("Connect successfull!");
+                        WriteNfcTag(scard, data);
+                        isSuccess = true;
+                    }
                 }
                 catch (InvalidOperationException ex)
                 {
                     logger.Warning("Cannot erase with reader: {0}. Exception: {1}.", readerName, ex.ToString());
+                }
+                finally
+                {
+                    if(scard != null)
+                    {
+                        scard.Disconnect();
+                    }
                 }
             }
 
@@ -485,6 +526,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             {
                 logger.Error("Cannot erase with any reader!");
             }
+
+            return isSuccess;
         }
 
         private void Prepare(SmartCardChannel scard)
@@ -602,32 +645,40 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
 
             logger.Debug("Card prepare done...");
-
-            SmartCardDesfire.DetachLibrary(scard.hCard);
-            scard.Disconnect();
         }
 
-        public void Prepare()
+        public bool Prepare(string key)
         {
             bool isSuccess = false;
             List<string> readerNames = GetReaders();
             foreach (string readerName in readerNames)
             {
+                SmartCardChannel scard = null;
                 try
                 {
-                    SmartCardChannel scard = Init(readerName);
+                    scard = Init(readerName, key);
+                    Prepare(scard);
+                    isSuccess = true;
                 }
                 catch (InvalidOperationException ex)
                 {
-                    logger.Warning("Cannot erase with reader: {0}. Exception: {1}.", readerName, ex.ToString());
+                    logger.Warning("Cannot prepare with reader: {0}. Exception: {1}.", readerName, ex.ToString());
+                }
+                finally
+                {
+                    if (scard != null)
+                    {
+                        SmartCardDesfire.DetachLibrary(scard.hCard);
+                        scard.Disconnect();
+                    }
                 }
             }
 
             if (!isSuccess)
             {
-                logger.Error("Cannot erase with any reader!");
+                logger.Error("Cannot prepare with any reader!");
             }
-
+            return isSuccess;
         }
     }
 }

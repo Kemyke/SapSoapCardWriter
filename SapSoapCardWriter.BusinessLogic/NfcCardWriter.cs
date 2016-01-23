@@ -20,12 +20,37 @@ namespace SapSoapCardWriter.BusinessLogic
             writer = new NfcWriter(logger);
         }
 
-        public ResultCode WriteCard(string data)
+        public ResultCode WriteCard(string key, string data)
         {
-            writer.Erase();
-            writer.Prepare();
-            writer.WriteNfcTag(data);
-            writer.Lock();
+            bool isSuccess;
+            logger.Debug("Start erase");
+            isSuccess = writer.Erase(key);
+            if(!isSuccess)
+            {
+                throw new InvalidOperationException("Erase failed");
+            }
+
+            logger.Debug("Start prepare");
+            isSuccess = writer.Prepare(key);
+            if (!isSuccess)
+            {
+                throw new InvalidOperationException("Prepare failed");
+            }
+
+            logger.Debug("Start write");
+            isSuccess = writer.WriteNfcTag(data);
+            if (!isSuccess)
+            {
+                throw new InvalidOperationException("Write failed");
+            }
+
+
+            logger.Debug("Start lock");
+            isSuccess = writer.Lock(key);
+            if (!isSuccess)
+            {
+                throw new InvalidOperationException("Lock failed");
+            }
 
             return ResultCode.OK;
         }
