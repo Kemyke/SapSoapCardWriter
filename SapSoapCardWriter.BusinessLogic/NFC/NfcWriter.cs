@@ -374,9 +374,50 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
         }
 
+        private void Lock(SmartCardChannel scard)
+        {
+            NfcTag tag;
+            string msg = null;
+            bool isFormattable = false;
+
+            if (!NfcTag.Recognize(scard, out tag, out msg, out isFormattable))
+            {
+                throw new InvalidOperationException("Unrecognized or unsupported tag!");
+            }
+
+            if (!tag.Lock())
+            {
+                throw new InvalidOperationException("Unable to lock tag!");
+            }
+        }
+
         public void Lock()
         {
-            throw new NotImplementedException();
+            bool isSuccess = false;
+            List<string> readerNames = GetReaders();
+            foreach (string readerName in readerNames)
+            {
+                try
+                {
+                    //TODO: itt nem kell az Init-es hókuszpókusz?
+                    SmartCardReader reader = new SmartCardReader(readerName);
+                    SmartCardChannel scard = new SmartCardChannel(reader);
+
+                    Lock(scard);
+
+                    logger.Info("Lock successful with reader: {0}.", readerName);
+                    isSuccess = true;
+                }
+                catch (InvalidOperationException ex)
+                {
+                    logger.Warning("Cannot erase with reader: {0}. Exception: {1}.", readerName, ex.ToString());
+                }
+            }
+
+            if (!isSuccess)
+            {
+                logger.Error("Cannot lock with any reader!");
+            }
         }
 
         private List<string> GetReaders()
@@ -420,7 +461,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             {
                 throw new InvalidOperationException("Unable to write onto the tag");
             }
-
         }
 
         public void WriteNfcTag(string data)
