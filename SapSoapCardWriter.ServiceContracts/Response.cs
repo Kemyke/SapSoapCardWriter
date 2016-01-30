@@ -22,6 +22,12 @@ namespace SapSoapCardWriter.ServiceContracts
             ResultCode = resultCode;
         }
 
+        public Response(ResultCode resultCode, string errorMessage)
+            :this(resultCode)
+        {
+            ErrorMessage = errorMessage;
+        }
+
         [DataMember]
         public ResultCode ResultCode { get; set; }
         [DataMember]
@@ -44,6 +50,13 @@ namespace SapSoapCardWriter.ServiceContracts
         {
             Result = result;
         }
+
+        public Response(ResultCode resultCode, T result, string errorMessage)
+            : base(resultCode, errorMessage)
+        {
+            Result = result;
+        }
+
 
         [DataMember]
         public T Result { get; set; }
