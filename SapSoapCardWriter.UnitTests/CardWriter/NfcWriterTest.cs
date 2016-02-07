@@ -35,12 +35,8 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
         [TestMethod]
         public void TestErase()
         {
-            Mock<ILogger> logger = new Mock<ILogger>();
-            logger.Setup(a => a.Debug(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            logger.Setup(a => a.Info(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            logger.Setup(a => a.Warning(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            logger.Setup(a => a.Error(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            NfcWriter writer = new NfcWriter(logger.Object);
+            ILogger logger = new ConsoleLogger();
+            NfcWriter writer = new NfcWriter(logger);
 
             writer.Erase("FADDDEADFADDDEAD");
         }
@@ -48,12 +44,8 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
         [TestMethod]
         public void TestPrepare()
         {
-            Mock<ILogger> logger = new Mock<ILogger>();
-            logger.Setup(a => a.Debug(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            logger.Setup(a => a.Info(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            logger.Setup(a => a.Warning(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            logger.Setup(a => a.Error(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            NfcWriter writer = new NfcWriter(logger.Object);
+            ILogger logger = new ConsoleLogger(); 
+            NfcWriter writer = new NfcWriter(logger);
 
             writer.Prepare("FADDDEADFADDDEAD");
         }
@@ -61,8 +53,8 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
         [TestMethod]
         public void TestWrite()
         {
-            Mock<ILogger> logger = new Mock<ILogger>();
-            NfcWriter writer = new NfcWriter(logger.Object);
+            ILogger logger = new ConsoleLogger(); 
+            NfcWriter writer = new NfcWriter(logger);
 
             writer.WriteNfcTag("testdata");
         }
@@ -70,8 +62,8 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
         [TestMethod]
         public void TestLock()
         {
-            Mock<ILogger> logger = new Mock<ILogger>();
-            NfcWriter writer = new NfcWriter(logger.Object);
+            ILogger logger = new ConsoleLogger(); 
+            NfcWriter writer = new NfcWriter(logger);
 
             writer.Lock("FADDDEADFADDDEAD");
         }
@@ -80,12 +72,8 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
         [TestMethod]
         public void TestFullWrite()
         {
-            Mock<ILogger> logger = new Mock<ILogger>();
-            logger.Setup(a => a.Debug(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            logger.Setup(a => a.Info(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            logger.Setup(a => a.Warning(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            logger.Setup(a => a.Error(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((m, p) => { Console.WriteLine(string.Format(m, p)); });
-            NfcCardWriter writer = new NfcCardWriter(logger.Object);
+            ILogger logger = new ConsoleLogger(); 
+            NfcCardWriter writer = new NfcCardWriter(logger);
 
             writer.WriteCard("FADDDEADFADDDEAD", "testfulldataa2");
         }
