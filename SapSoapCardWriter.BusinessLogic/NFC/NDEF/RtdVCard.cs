@@ -1,18 +1,21 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 using System.Diagnostics;
 
 namespace SapSoapCardWriter.BusinessLogic.NFC
 {
 	public class RtdVCard : RtdMedia
 	{
-		public RtdVCard() : base("text/x-vCard")
+		public RtdVCard(ILogger logger) 
+            : base(logger, "text/x-vCard")
 		{
 			
 		}
 		
-		public RtdVCard(byte[] payload) : base("text/x-vCard")
+		public RtdVCard(ILogger logger, byte[] payload) 
+            : base(logger, "text/x-vCard")
 		{
-			Trace.WriteLine("Parsing VCard Payload");
+			logger.Debug("Parsing VCard Payload");
 			
 			/* First: loop to determine how many lines are present in the VCard	*/
 			int i = 0;
@@ -246,7 +249,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				}
 				
 			}
-			Trace.WriteLine("VCard Payload successfully parsed");
+            logger.Debug("VCard Payload successfully parsed");
 
 		}
 		
@@ -1018,7 +1021,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			new_index = AddLine(pl, pl.Length, index, "BEGIN:VCARD", "");
 			if (new_index < 0)
 			{
-				Trace.WriteLine("Error generating 'VCard' object: after 'BEGIN'");
+                logger.Error("Error generating 'VCard' object: after 'BEGIN'");
 				return false;
 			}
 			index = new_index;
@@ -1026,7 +1029,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			new_index = AddLine(pl, pl.Length, index, "VERSION:3.0", "");
 			if (new_index < 0)
 			{
-				Trace.WriteLine("Error generating 'VCard' object: after 'VERSION'");
+                logger.Error("Error generating 'VCard' object: after 'VERSION'");
 				return false;
 			}
 			index = new_index;
@@ -1035,7 +1038,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			new_index = AddLine(pl, pl.Length, index, "FN:", name);
 			if (new_index < 0)
 			{
-				Trace.WriteLine("Error generating 'VCard' object: after 'FN'");
+                logger.Error("Error generating 'VCard' object: after 'FN'");
 				return false;
 			}
 			index = new_index;
@@ -1046,7 +1049,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "NICKNAME:", Nickname);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'Nickname'");
+                    logger.Error("Error generating 'VCard' object: after 'Nickname'");
 					return false;
 				}
 				index = new_index;
@@ -1060,7 +1063,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "BDAY:", Bday);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'Birthday'");
+                    logger.Error("Error generating 'VCard' object: after 'Birthday'");
 					return false;
 				}
 				index = new_index;
@@ -1080,7 +1083,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "ADR:;", addr_line);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'Address'");
+                    logger.Error("Error generating 'VCard' object: after 'Address'");
 					return false;
 				}
 				index = new_index;
@@ -1100,7 +1103,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "ADR;TYPE=work:;", pro_addr_line);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'Professional Address'");
+                    logger.Error("Error generating 'VCard' object: after 'Professional Address'");
 					return false;
 				}
 				index = new_index;
@@ -1112,7 +1115,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "TEL;TYPE=home:", Home_phone);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'TEL;TYPE=home'");
+                    logger.Error("Error generating 'VCard' object: after 'TEL;TYPE=home'");
 					return false;
 				}
 				index = new_index;
@@ -1125,7 +1128,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "TEL;TYPE=work:", Business_phone);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'TEL;TYPE=work'");
+                    logger.Error("Error generating 'VCard' object: after 'TEL;TYPE=work'");
 					return false;
 				}
 				index = new_index;
@@ -1137,7 +1140,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "TEL;TYPE=cell:", Cell_phone);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'TEL;TYPE=cell'");
+                    logger.Error("Error generating 'VCard' object: after 'TEL;TYPE=cell'");
 					return false;
 				}
 				index = new_index;
@@ -1149,7 +1152,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "TEL;TYPE=pager:", Pager);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'TEL;TYPE=pager'");
+                    logger.Error("Error generating 'VCard' object: after 'TEL;TYPE=pager'");
 					return false;
 				}
 				index = new_index;
@@ -1161,7 +1164,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "TEL;TYPE=fax:", Fax);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'TEL;TYPE=fax'");
+                    logger.Error("Error generating 'VCard' object: after 'TEL;TYPE=fax'");
 					return false;
 				}
 				index = new_index;
@@ -1175,7 +1178,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 					new_index = AddLine(pl, pl.Length, index, "EMAIL:", Email);
 					if (new_index < 0)
 					{
-						Trace.WriteLine("Error generating 'VCard' object: after 'EMAIL'");
+                        logger.Error("Error generating 'VCard' object: after 'EMAIL'");
 						return false;
 					}
 					index = new_index;
@@ -1186,7 +1189,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 					new_index = AddLine(pl, pl.Length, index, "EMAIL;PREF=1:", Email);
 					if (new_index < 0)
 					{
-						Trace.WriteLine("Error generating 'VCard' object: after 'EMAIL;PREF=1'");
+                        logger.Error("Error generating 'VCard' object: after 'EMAIL;PREF=1'");
 						return false;
 					}
 					index = new_index;
@@ -1194,7 +1197,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 					new_index = AddLine(pl, pl.Length, index, "EMAIL;PREF=2:", Email_alternative);
 					if (new_index < 0)
 					{
-						Trace.WriteLine("Error generating 'VCard' object: after 'EMAIL;PREF=2'");
+                        logger.Error("Error generating 'VCard' object: after 'EMAIL;PREF=2'");
 						return false;
 					}
 					index = new_index;
@@ -1206,7 +1209,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "TITLE:", Title);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'TITLE'");
+                    logger.Error("Error generating 'VCard' object: after 'TITLE'");
 					return false;
 				}
 				index = new_index;
@@ -1218,7 +1221,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "ROLE:", Role);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'ROLE'");
+                    logger.Error("Error generating 'VCard' object: after 'ROLE'");
 					return false;
 				}
 				index = new_index;
@@ -1230,7 +1233,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				new_index = AddLine(pl, pl.Length, index, "ORG:", Company);
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'ORG'");
+                    logger.Error("Error generating 'VCard' object: after 'ORG'");
 					return false;
 				}
 				index = new_index;
@@ -1243,7 +1246,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				
 				if (new_index < 0)
 				{
-					Trace.WriteLine("Error generating 'VCard' object: after 'PHOTO'");
+                    logger.Error("Error generating 'VCard' object: after 'PHOTO'");
 					return false;
 				}
 				
@@ -1251,7 +1254,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			}
 
 			new_index = AddLine(pl, pl.Length, index, "END:VCARD", "");
-			_payload = pl;
+			payload = pl;
 			
 			return base.Encode(ref buffer);
 

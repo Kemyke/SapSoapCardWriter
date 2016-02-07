@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,12 +13,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		private string _carrierDataReference = "";
 		private List<string> _auxilirayDataReference = new List<string>();
 		
-		public RtdAlternativeCarrier() : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "ac")
+		public RtdAlternativeCarrier(ILogger logger)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "ac", logger)
 		{
 			
 		}
-		
-		public RtdAlternativeCarrier(byte[] payload) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "ac")
+
+        public RtdAlternativeCarrier(ILogger logger, byte[] payload)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "ac", logger)
 		{
 			int offset = 0;
 			int nbchar = 0;
@@ -67,8 +70,9 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			}
 
 		}
-		
-		public RtdAlternativeCarrier(string carrierDateReference, byte carrierPowerState) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "ac")
+
+        public RtdAlternativeCarrier(ILogger logger, string carrierDateReference, byte carrierPowerState)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "ac", logger)
 		{
 			_carrierPowerState = carrierPowerState;
 			_carrierDataReference = carrierDateReference;

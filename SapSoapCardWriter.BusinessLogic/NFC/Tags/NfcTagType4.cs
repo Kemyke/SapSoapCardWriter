@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 using System.Diagnostics;
 
 namespace SapSoapCardWriter.BusinessLogic.NFC
@@ -8,11 +9,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		private const string NDEF_APPLICATION_ID = "D2760000850101";
 		private const ushort NDEF_CC_FILE_ID = 0xE103;
 		
-		private bool _application_selected = false;
-		private ushort _ndef_file_id = 0;
-		private ushort _file_selected = 0;
-		private ushort _max_le = 0;
-		private ushort _max_lc = 0;
+		private bool application_selected = false;
+		private ushort ndef_file_id = 0;
+		private ushort file_selected = 0;
+		private ushort max_le = 0;
+		private ushort max_lc = 0;
 
 		public override bool Format()
 		{
@@ -21,9 +22,9 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		
 		public override bool Lock()
 		{
-            SelectRootApplication(_channel);
+            SelectRootApplication(logger, channel);
 
-            if (!SelectNfcApplication(_channel))
+            if (!SelectNfcApplication(logger, channel))
 				return false;
 			if (!SelectFile(NDEF_CC_FILE_ID))
 				return false;
@@ -38,49 +39,49 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		
 		protected bool SelectNfcApplication()
 		{
-			if (!_application_selected)
+			if (!application_selected)
 			{
-				if (!SelectNfcApplication(_channel))
+                if (!SelectNfcApplication(logger, channel))
 				{
-					SelectRootApplication(_channel);
-					if (!SelectNfcApplication(_channel))
+                    SelectRootApplication(logger, channel);
+                    if (!SelectNfcApplication(logger, channel))
 						return false;
 				}
-				_application_selected = true;
-				_file_selected = 0;
+				application_selected = true;
+				file_selected = 0;
 			}
 			return true;
 		}
 
 		protected bool SelectFile(ushort file_id)
 		{
-			if (_file_selected != file_id)
+			if (file_selected != file_id)
 			{
-				if (!SelectFile(_channel, file_id))
+                if (!SelectFile(logger, channel, file_id))
 					return false;
-				_file_selected = file_id;
+				file_selected = file_id;
 			}
 			return true;
 		}
 		
 		protected byte[] ReadBinary(ushort offset, ushort length)
 		{
-			byte[] r = ReadBinary(_channel, offset, length);
+            byte[] r = ReadBinary(logger, channel, offset, length);
 			if (r == null)
 			{
-				_application_selected = false;
-				_file_selected = 0;
+				application_selected = false;
+				file_selected = 0;
 			}
 			return r;
 		}
 
 		protected bool WriteBinary(ushort offset, byte[] buffer)
 		{
-			bool r = WriteBinary(_channel, offset, buffer);
+			bool r = WriteBinary(logger, channel, offset, buffer);
 			if (!r)
 			{
-				_application_selected = false;
-				_file_selected = 0;
+				application_selected = false;
+				file_selected = 0;
 			}
 			return r;
 		}
@@ -94,9 +95,9 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			/* Write the content */
 			while (offset_in_content < content.Length)
 			{
-				if ((content.Length - offset_in_content) > _max_lc)
+				if ((content.Length - offset_in_content) > max_lc)
 				{
-					buffer = new byte[_max_lc];
+					buffer = new byte[max_lc];
 				} else
 					if ((content.Length - offset_in_content) > 254)
 				{
@@ -111,7 +112,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				
 				if (!WriteBinary(offset_in_file, buffer))
 				{
-					Trace.WriteLine("Failed to write the NDEF file at offset " + offset_in_file);
+					logger.Error("Failed to write the NDEF file at offset " + offset_in_file);
 					return false;
 				}
 				
@@ -126,60 +127,64 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
 			if (!WriteBinary(0, buffer))
 			{
-				Trace.WriteLine("Failed to write the header in the NDEF file");
+                logger.Error("Failed to write the header in the NDEF file");
 				return false;
 			}
 
 			return true;
 		}
 
-		public NfcTagType4(SmartCardChannel Channel) : base(Channel) {}
+		public NfcTagType4(ILogger logger, SmartCardChannel Channel)
+            : base(logger, Channel)
+        {
+
+        }
 		
 		protected override bool Read()
 		{
 			long ndef_file_size = 0;
 			byte[] buffer;
 			
-			if (!Recognize(_channel, ref _locked, ref _max_le, ref _max_lc, ref _ndef_file_id, ref ndef_file_size))
+			if (!Recognize(logger, channel, ref locked, ref max_le, ref max_lc, ref ndef_file_id, ref ndef_file_size))
 				return false;
 			
 			if (ndef_file_size > 2)
-				_capacity = ndef_file_size - 2;
+				capacity = ndef_file_size - 2;
 			else
-				_capacity = 0;
+				capacity = 0;
 			
-			_formatted = true;
+			formatted = true;
 			
-			_application_selected = true;
-			_file_selected = NDEF_CC_FILE_ID;
+			application_selected = true;
+			file_selected = NDEF_CC_FILE_ID;
 			
-			if (!SelectFile(_ndef_file_id))
+			if (!SelectFile(ndef_file_id))
 			{
-				Trace.WriteLine("Failed to select the NDEF file");
+                logger.Error("Failed to select the NDEF file");
 				return false;
 			}
 			
 			buffer = ReadBinary(0, 2);
 			if (buffer == null)
 			{
-				Trace.WriteLine("Failed to read from the NDEF file");
+                logger.Error("Failed to read from the NDEF file");
 				return false;
 			}
 			
 			if ((buffer[0] == 0) && (buffer[1] == 0))
 			{
-				Trace.WriteLine("Tag is empty");
-				_is_empty = true;
+                logger.Debug("Tag is empty");
+				is_empty = true;
 				return true;
 			}
 			
-			_is_empty = false;
+			is_empty = false;
 			
 			long ndef_announced_size = (long) (buffer[0] * 0x0100 + buffer[1]);
 			
 			if ((ndef_announced_size > (ndef_file_size - 2)) || (ndef_announced_size > 0xFFFF))
 			{
-				Trace.WriteLine("The NDEF file contains an invalid length");
+                logger.Error("The NDEF file contains an invalid length");
 				return false;
 			}
 			
@@ -190,17 +195,17 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			while (offset_in_content < content.Length)
 			{
-				if (_max_le > 254)
+				if (max_le > 254)
 					buffer = ReadBinary(offset_in_file, 254);
 				else
-					buffer = ReadBinary(offset_in_file, _max_le);
+					buffer = ReadBinary(offset_in_file, max_le);
 				
 				if ((buffer == null) || (buffer.Length == 0))
 				{
 					buffer = ReadBinary(offset_in_file, 0);
 					if ((buffer == null) || (buffer.Length == 0))
 					{
-						Trace.WriteLine("Failed to read the NDEF file at offset " + offset_in_file);
+                        logger.Error("Failed to read the NDEF file at offset " + offset_in_file);
 						return false;
 					}
 				}
@@ -220,15 +225,15 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 					break;
 			}
 			
-			Ndef[] ndefs = Ndef.Parse(content);
+			Ndef[] ndefs = Ndef.Parse(logger, content);
 			
 			if (ndefs == null)
 			{
-				Trace.WriteLine("The NDEF is invalid or unsupported");
+                logger.Error("The NDEF is invalid or unsupported");
 				return true;
 			}
-			
-			Trace.WriteLine(ndefs.Length + " NDEF record(s) found in the tag");
+
+            logger.Error(ndefs.Length + " NDEF record(s) found in the tag");
 			
 			/* This NDEF is the new content of the tag */
 			Content.Clear();
@@ -238,129 +243,129 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			return true;
 		}
 		
-		private static bool SelectFile(SmartCardChannel channel, ushort file_id)
+		private static bool SelectFile(ILogger logger, SmartCardChannel channel, ushort file_id)
 		{
             Capdu capdu = new Capdu(0x00, 0xA4, 0x00, 0x0C, (new CardBuffer(file_id)).GetBytes());
-			
-			Trace.WriteLine("< " + capdu.AsString(" "));
+
+            logger.Debug("< " + capdu.AsString(" "));
 			
 			Rapdu rapdu = channel.Transmit(capdu);
 			
 			if (rapdu == null)
 			{
-				Trace.WriteLine("SelectFile " + String.Format("{0:X4}", file_id) + " error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
+                logger.Error("SelectFile " + String.Format("{0:X4}", file_id) + " error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
 				return false;
 			}
-			
-			Trace.WriteLine("> " + rapdu.AsString(" "));
+
+            logger.Debug("> " + rapdu.AsString(" "));
 			
 			if (rapdu.SW != 0x9000)
 			{
-				Trace.WriteLine("SelectFile " + String.Format("{0:X4}", file_id) + " failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
+                logger.Error("SelectFile " + String.Format("{0:X4}", file_id) + " failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
 				return false;
 			}
 			
 			return true;
 		}
 		
-		private static bool SelectRootApplication(SmartCardChannel channel)
+		private static bool SelectRootApplication(ILogger logger, SmartCardChannel channel)
 		{
             Capdu capdu = new Capdu(0x00, 0xA4, 0x00, 0x00, "3F00");
-			
-			Trace.WriteLine("< " + capdu.AsString(" "));
+
+            logger.Debug("< " + capdu.AsString(" "));
 			
 			Rapdu rapdu = channel.Transmit(capdu);
 			
 			if (rapdu == null)
 			{
-				Trace.WriteLine("SelectRootApplication error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
+                logger.Error("SelectRootApplication error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
 				return false;
 			}
-			
-			Trace.WriteLine("> " + rapdu.AsString(" "));
+
+            logger.Debug("> " + rapdu.AsString(" "));
 
 			if (rapdu.SW != 0x9000)
 			{
-				Trace.WriteLine("SelectRootApplication failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
+                logger.Error("SelectRootApplication failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
 				return false;
 			}
 
 			return true;
 		}
 		
-		private static bool SelectNfcApplication(SmartCardChannel channel)
+		private static bool SelectNfcApplication(ILogger logger, SmartCardChannel channel)
 		{
             Capdu capdu = new Capdu(0x00, 0xA4, 0x04, 0x00, (new CardBuffer(NDEF_APPLICATION_ID)).GetBytes(), 0x00);
-			
-			Trace.WriteLine("< " + capdu.AsString(" "));
+
+            logger.Debug("< " + capdu.AsString(" "));
 
             Rapdu rapdu = channel.Transmit(capdu);
 			
 			if (rapdu == null)
 			{
-				Trace.WriteLine("SelectNfcApplication error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
+                logger.Error("SelectNfcApplication error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
 				return false;
 			}
-			
-			Trace.WriteLine("> " + rapdu.AsString(" "));
+
+            logger.Debug("> " + rapdu.AsString(" "));
 
 			if (rapdu.SW != 0x9000)
 			{
-				Trace.WriteLine("SelectNfcApplication failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
+                logger.Error("SelectNfcApplication failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
 				return false;
 			}
 
 			return true;
 		}
 
-		public static NfcTagType4 Create(SmartCardChannel channel)
+		public static NfcTagType4 Create(ILogger logger, SmartCardChannel channel)
 		{
-			NfcTagType4 t = new NfcTagType4(channel);
+            NfcTagType4 t = new NfcTagType4(logger, channel);
 			
 			if (!t.Read()) return null;
 			
 			return t;
 		}
 
-		public static bool Recognize(SmartCardChannel channel)
+		public static bool Recognize(ILogger logger, SmartCardChannel channel)
 		{
 			bool write_protected = false;
 			ushort max_le = 0;
 			ushort max_lc = 0;
 			ushort ndef_file_id = 0;
 			long ndef_file_size = 0;
-			return Recognize(channel, ref write_protected, ref max_le, ref max_lc, ref ndef_file_id, ref ndef_file_size);
+			return Recognize(logger, channel, ref write_protected, ref max_le, ref max_lc, ref ndef_file_id, ref ndef_file_size);
 		}
 
-		public static bool Recognize(SmartCardChannel channel, ref bool write_protected, ref ushort max_le, ref ushort max_lc, ref ushort ndef_file_id, ref long ndef_file_size)
+        public static bool Recognize(ILogger logger, SmartCardChannel channel, ref bool write_protected, ref ushort max_le, ref ushort max_lc, ref ushort ndef_file_id, ref long ndef_file_size)
 		{
-			if (!SelectNfcApplication(channel))
+			if (!SelectNfcApplication(logger, channel))
 			{
-				SelectRootApplication(channel);
-				if (!SelectNfcApplication(channel))
+				SelectRootApplication(logger, channel);
+				if (!SelectNfcApplication(logger, channel))
 					return false;
 			}
-			if (!SelectFile(channel, NDEF_CC_FILE_ID))
+			if (!SelectFile(logger, channel, NDEF_CC_FILE_ID))
 				return false;
 			
-			byte[] cc_file_content = ReadBinary(channel, 0, 15);
+			byte[] cc_file_content = ReadBinary(logger, channel, 0, 15);
 			
 			if ((cc_file_content == null) || (cc_file_content.Length < 15))
 			{
-				Trace.WriteLine("Failed to read the CC file");
+                logger.Error("Failed to read the CC file");
 				return false;
 			}
 			
 			long l = cc_file_content[0] * 0x0100 + cc_file_content[1];
 			if (l < 15)
 			{
-				Trace.WriteLine("Bad length in the CC file");
+                logger.Error("Bad length in the CC file");
 				return false;
 			}
 			
 			if ((cc_file_content[2] & 0xF0) != 0x20)
 			{
-				Trace.WriteLine("Bad version in the CC file");
+                logger.Error("Bad version in the CC file");
 				return false;
 			}
 			
@@ -369,13 +374,13 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			if (cc_file_content[7] != NDEF_FILE_CONTROL_TLV)
 			{
-				Trace.WriteLine("Bad TLV's Tag in the CC file");
+                logger.Error("Bad TLV's Tag in the CC file");
 				return false;
 			}
 			
 			if (cc_file_content[8] < 6)
 			{
-				Trace.WriteLine("Bad TLV's Length in the CC file");
+                logger.Error("Bad TLV's Length in the CC file");
 				return false;
 			}
 			
@@ -384,13 +389,13 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			if (cc_file_content[13] != 0x00)
 			{
-				Trace.WriteLine("No read access");
+                logger.Error("No read access");
 				return false;
 			}
 			
 			if (cc_file_content[14] != 0x00)
 			{
-				Trace.WriteLine("No write access");
+                logger.Error("No write access");
 				write_protected = true;
 			} else
 				write_protected = false;
@@ -398,55 +403,58 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			return true;
 		}
 		
-		protected static byte[] ReadBinary(SmartCardChannel channel, ushort offset, ushort length)
+		protected static byte[] ReadBinary(ILogger logger, SmartCardChannel channel, ushort offset, ushort length)
 		{
             Capdu capdu = new Capdu(0x00, 0xB0, (byte)(offset / 0x0100), (byte)(offset % 0x0100), (byte)length);
-			
-			Trace.WriteLine("< " + capdu.AsString(" "));
+
+            logger.Debug("< " + capdu.AsString(" "));
 
 			Rapdu rapdu = channel.Transmit(capdu);
 
 			if (rapdu == null)
 			{
-				Trace.WriteLine("ReadBinary " + String.Format("{0:X4}", offset) + "," + String.Format("{0:X2}", (byte) length) + " error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
+                logger.Error("ReadBinary " + String.Format("{0:X4}", offset) + "," + String.Format("{0:X2}", (byte)length) + " error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
 				return null;
 			}
-			
-			Trace.WriteLine("> " + rapdu.AsString(" "));
+
+            logger.Debug("> " + rapdu.AsString(" "));
 			
 			if (rapdu.SW != 0x9000)
 			{
-				Trace.WriteLine("ReadBinary " + String.Format("{0:X4}", offset) + "," + String.Format("{0:X2}", (byte) length) + " failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
+                logger.Error("ReadBinary " + String.Format("{0:X4}", offset) + "," + String.Format("{0:X2}", (byte)length) + " failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
 				return null;
 			}
-			
-			if (rapdu.hasData)
-				return rapdu.data.GetBytes();
-			
+
+            if (rapdu.hasData)
+            {
+                return rapdu.data.GetBytes();
+            }
+
 			return null;
 		}
 
-		protected static bool WriteBinary(SmartCardChannel channel, ushort offset, byte[] buffer)
+		protected static bool WriteBinary(ILogger logger, SmartCardChannel channel, ushort offset, byte[] buffer)
 		{
             Capdu capdu = new Capdu(0x00, 0xD6, (byte)(offset / 0x0100), (byte)(offset % 0x0100), buffer);
-			
-			Trace.WriteLine("< " + capdu.AsString(" "));
+
+            logger.Debug("< " + capdu.AsString(" "));
 
             Rapdu rapdu = channel.Transmit(capdu);
 			
 			if (rapdu == null)
 			{
-				Trace.WriteLine("WriteBinary " + String.Format("{0:X4}", offset) + "," + String.Format("{0:X2}", (byte) buffer.Length) + " error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
+                logger.Error("WriteBinary " + String.Format("{0:X4}", offset) + "," + String.Format("{0:X2}", (byte)buffer.Length) + " error " + channel.LastError + " (" + channel.LastErrorAsString + ")");
 				return false;
 			}
 
-			Trace.WriteLine("> " + rapdu.AsString(" "));
+            logger.Debug("> " + rapdu.AsString(" "));
 
 			if (rapdu.SW != 0x9000)
 			{
-				Trace.WriteLine("WriteBinary " + String.Format("{0:X4}", offset) + "," + String.Format("{0:X2}", (byte) buffer.Length) + " failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
+                logger.Error("WriteBinary " + String.Format("{0:X4}", offset) + "," + String.Format("{0:X2}", (byte)buffer.Length) + " failed " + rapdu.SWString + " (" + SmartCard.CardStatusWordsToString(rapdu.SW) + ")");
 				return false;
 			}
+
 			return true;
 		}
 

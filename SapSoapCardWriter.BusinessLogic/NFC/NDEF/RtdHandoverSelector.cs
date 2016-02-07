@@ -2,21 +2,24 @@
 using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
+using SapSoapCardWriter.Logger.Logging;
 
 namespace SapSoapCardWriter.BusinessLogic.NFC
 {
 	public class RtdHandoverSelector : Rtd
 	{
 		private byte version = 0x00;
-		private RtdAlternativeCarrier[] _alternative_carriers;
-		private AbsoluteUri[] _related_absolute_uris;
-		
-		public RtdHandoverSelector() : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Hs")
+		private RtdAlternativeCarrier[] alternative_carriers;
+		private AbsoluteUri[] related_absolute_uris;
+
+		public RtdHandoverSelector(ILogger logger) 
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Hs", logger)
 		{
 			
 		}
 		
-		public RtdHandoverSelector(byte[] payload, ref byte[] buffer, ref int next_ndef_starting_point) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Hs")
+		public RtdHandoverSelector(ILogger logger, byte[] payload, ref byte[] buffer, ref int next_ndef_starting_point) 
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Hs", logger)
 		{
 			
 			/* Take care of Payload	*/
@@ -29,65 +32,67 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			if (version < 0x10)
 			{
-				Trace.WriteLine("Incompatible version: " + String.Format("{0:x02}", version));
+				logger.Error("Incompatible version: " + String.Format("{0:x02}", version));
 				offset = payload.Length - 1; /* so that it won't be parsed	*/
 			}
 			
 			List<RtdAlternativeCarrier> altenative_carriers_list = new List<RtdAlternativeCarrier>();
 			
-			while (Ndef.Parse(payload, ref offset, ref ndef, ref terminated))
+			while (Ndef.Parse(logger, payload, ref offset, ref ndef, ref terminated))
 			{
 				if (ndef is RtdAlternativeCarrier)
 				{
-					Trace.WriteLine("Got a new Alternative Carrier");
+					logger.Debug("Got a new Alternative Carrier");
 					altenative_carriers_list.Add((RtdAlternativeCarrier) ndef);
 				}
 				
 				if (terminated)
 					break;
 			}
-			_alternative_carriers = altenative_carriers_list.ToArray();
+			alternative_carriers = altenative_carriers_list.ToArray();
 			
 			
 			/* Take care of following NDEFs	*/
 			terminated = true;
 			List<AbsoluteUri> related_absolute_uris_list = new List<AbsoluteUri>();
-			while (Ndef.Parse(buffer, ref next_ndef_starting_point, ref ndef, ref terminated))
+			while (Ndef.Parse(logger, buffer, ref next_ndef_starting_point, ref ndef, ref terminated))
 			{
 				if (ndef is AbsoluteUri)
 				{
-					Trace.WriteLine("Got a new Absolute Uri");
+					logger.Debug("Got a new Absolute Uri");
 					related_absolute_uris_list.Add((AbsoluteUri) ndef);
 				}
 				
 				if (terminated)
 					break;
 			}
-			_related_absolute_uris = related_absolute_uris_list.ToArray();
+			related_absolute_uris = related_absolute_uris_list.ToArray();
 			
 		}
 
-		
-		public RtdHandoverSelector(RtdAlternativeCarrier[] alternative_carrier, AbsoluteUri[] absolute_uri) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Hs")
+
+        public RtdHandoverSelector(ILogger logger, RtdAlternativeCarrier[] alternative_carrier, AbsoluteUri[] absolute_uri) 
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Hs", logger)
 		{
 			version = 0x12;
 			
-			_alternative_carriers = new RtdAlternativeCarrier[alternative_carrier.Length];
-			_alternative_carriers = alternative_carrier;
+			alternative_carriers = new RtdAlternativeCarrier[alternative_carrier.Length];
+			alternative_carriers = alternative_carrier;
 			
-			_related_absolute_uris = new AbsoluteUri[absolute_uri.Length];
-			_related_absolute_uris = absolute_uri;
+			related_absolute_uris = new AbsoluteUri[absolute_uri.Length];
+			related_absolute_uris = absolute_uri;
 		}
-		
-		public RtdHandoverSelector(RtdAlternativeCarrier alternative_carrier, AbsoluteUri absolute_uri) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Hs")
+
+        public RtdHandoverSelector(ILogger logger, RtdAlternativeCarrier alternative_carrier, AbsoluteUri absolute_uri)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Hs", logger)
 		{
 			version = 0x12;
 			
-			_alternative_carriers = new RtdAlternativeCarrier[1];
-			_alternative_carriers[0] = alternative_carrier;
+			alternative_carriers = new RtdAlternativeCarrier[1];
+			alternative_carriers[0] = alternative_carrier;
 			
-			_related_absolute_uris = new AbsoluteUri[1];
-			_related_absolute_uris[0] = absolute_uri;
+			related_absolute_uris = new AbsoluteUri[1];
+			related_absolute_uris[0] = absolute_uri;
 		}
 		
 		/**v* SpringCardNFC/RtdHandoverSelector.AlternativeCarriers
@@ -104,7 +109,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			get
 			{
-				return _alternative_carriers;
+				return alternative_carriers;
 			}
 		}
 		
@@ -125,7 +130,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			get
 			{
-				return _related_absolute_uris;
+				return related_absolute_uris;
 			}
 		}
 		
@@ -145,15 +150,15 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			/* First : encode the alternative carriers	*/
 			byte[] buffer_HsNDEF = null;
-			for (int i=0; i<_alternative_carriers.Length ; i++)
+			for (int i=0; i<alternative_carriers.Length ; i++)
 			{
 				if (i==0)
-					_alternative_carriers[i].SetMessageBegin(true);
+					alternative_carriers[i].SetMessageBegin(true);
 				
-				if (i==_alternative_carriers.Length - 1)
-					_alternative_carriers[i].SetMessageEnd(true);
+				if (i==alternative_carriers.Length - 1)
+					alternative_carriers[i].SetMessageEnd(true);
 				
-				_alternative_carriers[i].Encode(ref buffer_HsNDEF);
+				alternative_carriers[i].Encode(ref buffer_HsNDEF);
 			}
 			
 			/* Second : add the version in front of it : this becomes the payload of the Hs NDEF	*/
@@ -170,14 +175,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			/* Fourth : Encode the _related_absolute_uris	*/
 			byte[] buffer_related_ndef = null;
 			List<byte> buffer_related_ndefs_list_bytes = new List<byte>();
-			for (int i=0; i<_related_absolute_uris.Length ; i++)
+			for (int i=0; i<related_absolute_uris.Length ; i++)
 			{
 				
 				byte[] buffer_tmp = null;
-				if (i== (_related_absolute_uris.Length-1))
-					_related_absolute_uris[i].SetMessageEnd(true);
+				if (i== (related_absolute_uris.Length-1))
+					related_absolute_uris[i].SetMessageEnd(true);
 				
-				if (!_related_absolute_uris[i].Encode(ref buffer_tmp))
+				if (!related_absolute_uris[i].Encode(ref buffer_tmp))
 					return false;
 				
 				if (buffer_tmp != null)

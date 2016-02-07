@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 
 namespace SapSoapCardWriter.BusinessLogic.NFC
 {
@@ -7,21 +8,24 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		private string _lang = "";
 		private string _text = "";
 		
-		public RtdText(string Text) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "T")
+		public RtdText(ILogger logger, string Text)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "T", logger)
 		{
 			_lang = "en";
 			_text = Text;
 			EncodePayload();
 		}
-		
-		public RtdText(string Text, string Lang) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "T")
+
+        public RtdText(ILogger logger, string Text, string Lang)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "T", logger)
 		{
 			_lang = Lang;
 			_text = Text;
 			EncodePayload();
 		}
 
-		public RtdText(byte[] Payload) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "T")
+        public RtdText(ILogger logger, byte[] Payload)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "T", logger)
 		{
 			_lang = "";
 			_text = "";
@@ -42,18 +46,18 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		
 		private void EncodePayload()
 		{
-			_payload = new byte[1 + _lang.Length + _text.Length];
+			payload = new byte[1 + _lang.Length + _text.Length];
 			
-			_payload[0] = 0;
+			payload[0] = 0;
 			
-			_payload[0] |= (byte) (_lang.Length & 0x3F);
+			payload[0] |= (byte) (_lang.Length & 0x3F);
 			
 			int offset = 1;
 			
 			for (int i=0; i<_lang.Length; i++)
-				_payload[offset++] = (byte) _lang[i];
+				payload[offset++] = (byte) _lang[i];
 			for (int i=0; i<_text.Length; i++)
-				_payload[offset++] = (byte) _text[i];
+				payload[offset++] = (byte) _text[i];
 		}
 
 		/**v* SpringCardNFC/RtdText.Value

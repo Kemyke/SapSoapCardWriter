@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,15 +20,16 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		private byte[] _raw_data = null;
 
 
-		public NfcTagType2(SmartCardChannel Channel) : base(Channel)
+		public NfcTagType2(ILogger logger, SmartCardChannel Channel) 
+            : base(logger, Channel)
 		{
 			/* A type 2 Tag can always be locked */
-			_lockable = true;
+			lockable = true;
 		}
 		
 		protected override bool WriteContent(byte[] ndef_content)
 		{
-			Trace.WriteLine("Writing the NFC Forum type 2 Tag");
+            logger.Debug("Writing the NFC Forum type 2 Tag");
 			
 			if (ndef_content == null)
 				return false;
@@ -72,14 +74,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			if (actual_content.Length > Capacity())
 			{
-				Trace.WriteLine("The size of the content (with its TLVs) is bigger than the tag's capacity");
+                logger.Error("The size of the content (with its TLVs) is bigger than the tag's capacity");
 				return false;
 			}
 			
 			if ((actual_content.Length + 2) < Capacity())
 			{
 				/* Add a Terminator at the end */
-				Trace.WriteLine("We add a TERMINATOR TLV at the end of the Tag");
+                logger.Debug("We add a TERMINATOR TLV at the end of the Tag");
 				actual_content.Append((new NfcTlv(TERMINATOR_TLV, null)).Serialize());
 			}
 			
@@ -95,7 +97,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 						buffer[j] = actual_content.GetByte(i+j);
 				}
 				
-				if (!WriteBinary(_channel, page, buffer))
+				if (!WriteBinary(logger, channel, page, buffer))
 					return false;
 				page++;
 			}
@@ -105,7 +107,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
 		public override bool Format()
 		{
-			Trace.WriteLine("Formatting the NFC Forum type 2 Tag");
+            logger.Debug("Formatting the NFC Forum type 2 Tag");
 			
 			byte[] cc_block = new byte[4];
 			byte[] user_data = new byte[4];
@@ -122,9 +124,9 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			cc_block[2] = (byte) (capacity);
 			cc_block[3] = 0x00;
 
-			if (!WriteBinary(_channel, 3, cc_block))
+			if (!WriteBinary(logger, channel, 3, cc_block))
 			{
-				Trace.WriteLine("Can't write the CC bytes");
+                logger.Error("Can't write the CC bytes");
 				return false;
 			}
 			
@@ -134,35 +136,35 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			user_data[2] = 0x00; // TLVs
 			user_data[3] = 0x00;
 
-			if (!WriteBinary(_channel, 4, user_data))
+			if (!WriteBinary(logger, channel, 4, user_data))
 			{
-				Trace.WriteLine("Can't write the 1st page of user data");
+                logger.Error("Can't write the 1st page of user data");
 				return false;
 			}
 			
 			
 			/* The Tag is now formatted */
-			_formatted = true;
+			formatted = true;
 			/* So it's not formattable anymore */
-			_formattable = false;
+			formattable = false;
 			/* We consider it is empty */
-			_is_empty = true;
+			is_empty = true;
 
 			return true;
 		}
 		
 		public override bool Lock()
 		{
-			Trace.WriteLine("Locking the NFC Forum type 2 Tag");
+            logger.Debug("Locking the NFC Forum type 2 Tag");
 			
-			byte[] cc_block = ReadBinary(_channel, 3, 4);
+			byte[] cc_block = ReadBinary(logger, channel, 3, 4);
 			if ((cc_block == null) || (cc_block.Length != 4))
 				return false;
 			
 			/* No write access at all */
 			cc_block[3] = 0x0F;
-			
-			if (!WriteBinary(_channel, 3, cc_block))
+
+            if (!WriteBinary(logger, channel, 3, cc_block))
 				return false;
 			
 			/* Write the LOCKs */
@@ -172,21 +174,21 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			lock_block[2] = 0xFF;
 			lock_block[3] = 0xFF;
 
-			if (!WriteBinary(_channel, 2, lock_block))
+            if (!WriteBinary(logger, channel, 2, lock_block))
 				return false;
 			
 			/* OK! */
-			_locked = true;
-			_lockable = false;
+			locked = true;
+			lockable = false;
 
 			return true;
 		}
 		
-		protected static byte[] ReadBinary(SmartCardChannel channel, ushort address, byte length)
+		protected static byte[] ReadBinary(ILogger logger, SmartCardChannel channel, ushort address, byte length)
 		{
 			Capdu capdu = new Capdu(0xFF, 0xB0, (byte) (address / 0x0100), (byte) (address % 0x0100), length);
 
-			Trace.WriteLine("< " + capdu.AsString(" "));
+            logger.Debug("< " + capdu.AsString(" "));
 			
 			Rapdu rapdu = null;
 			
@@ -204,41 +206,41 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			if (rapdu == null)
 			{
-				Trace.WriteLine("Error '" + channel.LastErrorAsString + "' while reading the card");
+                logger.Error("Error '" + channel.LastErrorAsString + "' while reading the card");
 				return null;
 			}
 
-			Trace.WriteLine("> " + rapdu.AsString(" "));
+            logger.Debug("> " + rapdu.AsString(" "));
 
 			if (rapdu.SW != 0x9000)
 			{
-				Trace.WriteLine("Bad status word " + rapdu.SWString + " while reading the card");
+                logger.Error("Bad status word " + rapdu.SWString + " while reading the card");
 				return null;
 			}
 			
 			if (!rapdu.hasData)
 			{
-				Trace.WriteLine("Empty response");
+                logger.Error("Empty response");
 				return null;
 			}
 			
 			return rapdu.data.GetBytes();
 		}
 
-        protected static bool WriteBinary(SmartCardChannel channel, ushort address, byte[] data)
+        protected static bool WriteBinary(ILogger logger, SmartCardChannel channel, ushort address, byte[] data)
 		{
 			if (data == null)
 				return false;
 			
 			if (data.Length != 4)
 			{
-				Trace.WriteLine("Type 2 Tag: Write Binary accepts only 4B");
+				logger.Error("Type 2 Tag: Write Binary accepts only 4B");
 				return false;
 			}
 			
 			Capdu capdu = new Capdu(0xFF, 0xD6, (byte) (address / 0x0100), (byte) (address % 0x0100), data);
-			
-			Trace.WriteLine("< " + capdu.AsString(" "));
+
+            logger.Debug("< " + capdu.AsString(" "));
 			
 			
 			Rapdu rapdu = null;
@@ -257,15 +259,15 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
 			if (rapdu == null)
 			{
-				Trace.WriteLine("Error '" + channel.LastErrorAsString + "' while writing the card");
+                logger.Error("Error '" + channel.LastErrorAsString + "' while writing the card");
 				return false;
 			}
-			
-			Trace.WriteLine("> " + rapdu.AsString(" "));
+
+            logger.Debug("> " + rapdu.AsString(" "));
 			
 			if (rapdu.SW != 0x9000)
 			{
-				Trace.WriteLine("Bad status word " + rapdu.SWString + " while writing the card");
+                logger.Error("Bad status word " + rapdu.SWString + " while writing the card");
 				return false;
 			}
 			
@@ -275,11 +277,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		
 		protected override bool Read()
 		{
-			Trace.WriteLine("Reading the NFC Forum type 2 Tag");
+            logger.Debug("Reading the NFC Forum type 2 Tag");
 			
 			ushort page = 0;
 			
-			if (!Recognize(_channel, ref _formatted, ref _formattable, ref _locked))
+			if (!Recognize(logger, channel, ref formatted, ref formattable, ref locked))
 			{
 				return false;
 			}
@@ -288,7 +290,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			for (page = 0; page < 256; page+=4)
 			{
-				byte[] data = ReadBinary(_channel, page, READ_4_PAGES);
+				byte[] data = ReadBinary(logger, channel, page, READ_4_PAGES);
 				
 				if (data == null)
 					break;
@@ -310,26 +312,26 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				
 				buffer.Append(data);
 			}
-			
-			Trace.WriteLine("Read " + buffer.Length + "B of data from the Tag");
+
+            logger.Debug("Read " + buffer.Length + "B of data from the Tag");
 			
 			_raw_data = buffer.GetBytes();
 			
-			_capacity = _raw_data.Length;
-			if (_capacity <= OFFSET_USER_DATA)
+			capacity = _raw_data.Length;
+			if (capacity <= OFFSET_USER_DATA)
 			{
-				_capacity = 0;
+				capacity = 0;
 				return false;
 			}
 			
-			if (!_formatted)
+			if (!formatted)
 			{
 				/* Guess the capacity from the read area */
-				if ((_capacity > 64) && !_formatted)
+				if ((capacity > 64) && !formatted)
 				{
 					/* Drop the 16 last bytes if they are not empty (locks on Mifare UltraLight C) */
 					bool locks_found = false;
-					for (long i=_capacity-16; i<_capacity; i++)
+					for (long i=capacity-16; i<capacity; i++)
 					{
 						if (_raw_data[i] != 0)
 						{
@@ -339,34 +341,34 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 					}
 					if (locks_found)
 					{
-						Trace.WriteLine("Locks found at the end");
-						_capacity -= 16;
+                        logger.Debug("Locks found at the end");
+						capacity -= 16;
 					}
 				}
-				_capacity -= OFFSET_USER_DATA;
-				Trace.WriteLine("The Tag is not formatted, capacity=" + _capacity + "B");
+				capacity -= OFFSET_USER_DATA;
+                logger.Debug("The Tag is not formatted, capacity=" + capacity + "B");
 				
 			} else
 			{
 				/* Read the capacity in the CC */
-				_capacity = 8 * _raw_data[14];
-				Trace.WriteLine("The Tag is formatted, capacity read from the CC=" + _capacity + "B");
+				capacity = 8 * _raw_data[14];
+                logger.Debug("The Tag is formatted, capacity read from the CC=" + capacity + "B");
 			}
 
 			/* Is the tag empty ? */
-			_is_empty = true;
-			for (long i=0; i<_capacity; i++)
+			is_empty = true;
+			for (long i=0; i<capacity; i++)
 			{
 				if (_raw_data[OFFSET_USER_DATA+i] != 0)
 				{
-					_is_empty = false;
+					is_empty = false;
 					break;
 				}
 			}
 			
-			if (_is_empty)
+			if (is_empty)
 			{
-				Trace.WriteLine("The Tag is empty");
+                logger.Debug("The Tag is empty");
 				return true;
 			}
 
@@ -374,27 +376,27 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			if (!ParseUserData(buffer.GetBytes(OFFSET_USER_DATA, -1), ref ndef_data))
 			{
-				Trace.WriteLine("The parsing of the Tag failed");
+                logger.Error("The parsing of the Tag failed");
 				return false;
 			}
 			
 			if (ndef_data == null)
 			{
-				Trace.WriteLine("The Tag doesn't contain a NDEF");
-				_is_empty = true;
+                logger.Error("The Tag doesn't contain a NDEF");
+				is_empty = true;
 				return true;
 			}
 			
-			_is_empty = false;
+			is_empty = false;
 			
-			Ndef[] t = Ndef.Parse(ndef_data);
+			Ndef[] t = Ndef.Parse(logger, ndef_data);
 			if (t == null)
 			{
-				Trace.WriteLine("The NDEF is invalid or unsupported");
+                logger.Error("The NDEF is invalid or unsupported");
 				return false;
 			}
-			
-			Trace.WriteLine(t.Length + " NDEF record(s) found in the Tag");
+
+            logger.Debug(t.Length + " NDEF record(s) found in the Tag");
 			
 			/* This NDEF is the new content of the tag */
 			Content.Clear();
@@ -418,33 +420,34 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				
 				if (tlv == null)
 				{
-					Trace.WriteLine("An invalid content has been found (not a T,L,V)");
+                    logger.Error("An invalid content has been found (not a T,L,V)");
 					break;
 				}
 				
 				switch (tlv.T)
 				{
 					case NDEF_MESSAGE_TLV :
-						Trace.WriteLine("Found a NDEF TLV");
-						if (ndef_data != null)
-						{
-							Trace.WriteLine("The Tag has already a NDEF, ignoring this one");
-						} else
-						{
-							ndef_data = tlv.V;
-						}
+                        logger.Debug("Found a NDEF TLV");
+                        if (ndef_data != null)
+                        {
+                            logger.Debug("The Tag has already a NDEF, ignoring this one");
+                        }
+                        else
+                        {
+                            ndef_data = tlv.V;
+                        }
 						break;
 					case LOCK_CONTROL_TLV :
-						Trace.WriteLine("Found a LOCK CONTROL TLV");
+                        logger.Debug("Found a LOCK CONTROL TLV");
 						break;
 					case MEMORY_CONTROL_TLV :
-						Trace.WriteLine("Found a MEMORY CONTROL TLV");
+                        logger.Debug("Found a MEMORY CONTROL TLV");
 						break;
 					case PROPRIETARY_TLV :
-						Trace.WriteLine("Found a PROPRIETARY TLV");
+                        logger.Debug("Found a PROPRIETARY TLV");
 						break;
 					case TERMINATOR_TLV :
-						Trace.WriteLine("Found a TERMINATOR TLV");
+                        logger.Debug("Found a TERMINATOR TLV");
 						/* After a terminator... we terminate */
 						buffer = null;
 						break;
@@ -452,8 +455,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 						/* Terminate here */
 						buffer = null;
 						break;
-						default :
-							Trace.WriteLine("Found an unsupported TLV (T=" + tlv.T + ")");
+					default:
+                        logger.Error("Found an unsupported TLV (T=" + tlv.T + ")");
 						return false;
 				}
 				
@@ -466,61 +469,61 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		}
 
 
-		public static bool RecognizeAtr(CardBuffer atr)
+		public static bool RecognizeAtr(ILogger logger, CardBuffer atr)
 		{
 			string s = atr.AsString("");
 			if (s.Equals(ATR_MIFARE_UL))
 			{
-				Trace.WriteLine("ATR: Mifare UltraLight");
+                logger.Debug("ATR: Mifare UltraLight");
 				return true;
 			}
 			if (s.Equals(ATR_MIFARE_UL_C))
 			{
-				Trace.WriteLine("ATR: Mifare UltraLight C");
+                logger.Debug("ATR: Mifare UltraLight C");
 				return true;
 			}
 			
 			return false;
 		}
 		
-		public static bool RecognizeAtr(SmartCardChannel channel)
+		public static bool RecognizeAtr(ILogger logger, SmartCardChannel channel)
 		{
 			CardBuffer atr = channel.CardAtr;
 			
-			return RecognizeAtr(atr);
+			return RecognizeAtr(logger, atr);
 		}
 
-		public static NfcTagType2 Create(SmartCardChannel channel)
+		public static NfcTagType2 Create(ILogger logger, SmartCardChannel channel)
 		{
-			NfcTagType2 t = new NfcTagType2(channel);
+			NfcTagType2 t = new NfcTagType2(logger, channel);
 			
 			if (!t.Read()) return null;
 			
 			return t;
 		}
-		
-		public static bool Recognize(SmartCardChannel channel)
+
+        public static bool Recognize(ILogger logger, SmartCardChannel channel)
 		{
 			bool formatted = false;
 			bool formattable = false;
 			bool write_protected = false;
-			return Recognize(channel, ref formatted, ref formattable, ref write_protected);
+			return Recognize(logger, channel, ref formatted, ref formattable, ref write_protected);
 		}
 
-		public static bool Recognize(SmartCardChannel channel, ref bool formatted, ref bool formattable, ref bool write_protected)
+		public static bool Recognize(ILogger logger, SmartCardChannel channel, ref bool formatted, ref bool formattable, ref bool write_protected)
 		{
-			byte[] header = ReadBinary(channel, 0, READ_4_PAGES);
+			byte[] header = ReadBinary(logger, channel, 0, READ_4_PAGES);
 			
 			if (header == null)
 			{
-				Trace.WriteLine("Failed to read pages 0-3");
+				logger.Debug("Failed to read pages 0-3");
 				return false;
 			}
 			
 			if ((header[12] == 0) && (header[13] == 0) && (header[14] == 0) && (header[15] == 0))
 			{
 				/* The OTP bits are blank, assume the card is an unformatted type 2 Tag */
-				Trace.WriteLine("OTP are blank");
+                logger.Debug("OTP are blank");
 				formatted = false;
 				formattable = true;
 				write_protected = false;
@@ -530,7 +533,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			if (header[12] != NFC_FORUM_MAGIC_NUMBER)
 			{
 				/* The OTP bits contain something else */
-				Trace.WriteLine("OTP are not blank");
+                logger.Debug("OTP are not blank");
 				formatted = false;
 				formattable = false;
 				write_protected = true;
@@ -538,31 +541,33 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			}
 			
 			/* The OTP bits contain the NFC NDEF MAGIC NUMBER, so this is a formatted type 2 Tag */
-			Trace.WriteLine("OTP = NFC Forum magic number");
+            logger.Debug("OTP = NFC Forum magic number");
 			formatted = true;
 			formattable = false;
 			write_protected = true;
 			if ((header[13] & 0xF0) != (NFC_FORUM_VERSION_NUMBER & 0xF0))
 			{
-				Trace.WriteLine("Version mismatch in OTP");
+                logger.Debug("Version mismatch in OTP");
 				return false;
 			}
-			if ((header[15] & 0xF0) == 0)
-			{
-				Trace.WriteLine("Free read access");
-			} else
-			{
-				Trace.WriteLine("No read access");
-				return false;
-			}
-			if ((header[15] & 0x0F) == 0)
-			{
-				Trace.WriteLine("Free write access");
-				write_protected = false;
-			} else
-			{
-				Trace.WriteLine("No write access");
-			}
+            if ((header[15] & 0xF0) == 0)
+            {
+                logger.Debug("Free read access");
+            }
+            else
+            {
+                logger.Error("No read access");
+                return false;
+            }
+            if ((header[15] & 0x0F) == 0)
+            {
+                logger.Debug("Free write access");
+                write_protected = false;
+            }
+            else
+            {
+                logger.Debug("No write access");
+            }
 			return true;
 		}
 

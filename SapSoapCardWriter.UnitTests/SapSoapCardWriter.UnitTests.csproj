@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="CardWriter\NfcWriterTest.cs" />
     <Compile Include="Common\Encryption\AES128EncryptorTest.cs" />
+    <Compile Include="Helper\ConsoleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

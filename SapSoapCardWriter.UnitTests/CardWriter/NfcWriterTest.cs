@@ -6,6 +6,7 @@ using SapSoapCardWriter.BusinessLogic.NFC;
 using Moq;
 using SapSoapCardWriter.Logger.Logging;
 using SapSoapCardWriter.BusinessLogic;
+using SapSoapCardWriter.UnitTests.Helper;
 
 namespace SapSoapCardWriter.UnitTests.CardWriter
 {
@@ -15,7 +16,9 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
         [TestMethod]
         public void Foo()
         {
-            SmartCardChannel scard = new SmartCardChannel("OMNIKEY CardMan 5x21-CL 0");
+            ILogger logger = new ConsoleLogger();
+                
+            SmartCardChannel scard = new SmartCardChannel(logger, "OMNIKEY CardMan 5x21-CL 0");
             bool present = scard.CardPresent;
             Console.WriteLine("present: {0}", present);
             var beforeConnect = scard.Connected;

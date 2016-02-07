@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Diagnostics;
+using SapSoapCardWriter.Logger.Logging;
 
 namespace SapSoapCardWriter.BusinessLogic.NFC
 {
@@ -19,61 +20,62 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		public const byte TERMINATOR_TLV 		= 0xFE;
 		public const byte NULL_TLV				= 0x00;
 		
-		protected SmartCardChannel _channel = null;
+		protected SmartCardChannel channel = null;
 		
-		protected long _capacity = 0;
-		protected bool _is_empty = false;
-		protected bool _formatted = false;
-		protected bool _formattable = false;
-		protected bool _locked = false;
-		protected bool _lockable = false;
+		protected long capacity = 0;
+		protected bool is_empty = false;
+		protected bool formatted = false;
+		protected bool formattable = false;
+		protected bool locked = false;
+		protected bool lockable = false;
 
-        public NfcTag(SmartCardChannel channel)
+        public NfcTag(ILogger logger, SmartCardChannel channel)
 		{
-			_channel = channel;
+            this.logger = logger;
+			this.channel = channel;
 		}
 		
 		public List<Ndef> Content = new List<Ndef>();
-		
+        protected readonly ILogger logger;
 
 		protected abstract bool WriteContent(byte[] content);
 		
-		public static bool Recognize(SmartCardChannel cardchannel, out NfcTag tag, out string msg, out bool Desfire_formatable)
+		public static bool Recognize(ILogger logger, SmartCardChannel cardchannel, out NfcTag tag, out string msg, out bool Desfire_formatable)
 		{
 			bool res = false;
 			msg = "";
 			tag = null;
 			Desfire_formatable = false;
 			
-			if (NfcTagType2.RecognizeAtr(cardchannel))
+			if (NfcTagType2.RecognizeAtr(logger, cardchannel))
 			{
-				Trace.WriteLine("Based on the ATR, this card is likely to be a NFC type 2 Tag");
+                logger.Debug("Based on the ATR, this card is likely to be a NFC type 2 Tag");
 
-				if (NfcTagType2.Recognize(cardchannel))
+                if (NfcTagType2.Recognize(logger, cardchannel))
 				{
-					Trace.WriteLine("This card is actually a NFC type 2 Tag");
-					tag = NfcTagType2.Create(cardchannel);
+                    logger.Debug("This card is actually a NFC type 2 Tag");
+					tag = NfcTagType2.Create(logger, cardchannel);
 					if (tag == null)
 						msg = "An error has occured while reading the Tag's content";
 					res = true;
 				} 
                 else
 				{
-					Trace.WriteLine("Based on its content, this card is not a NFC type 2 Tag, sorry");
+                    logger.Debug("Based on its content, this card is not a NFC type 2 Tag, sorry");
 					msg = "From the ATR it may be a NFC type 2 Tag, but the content is invalid";
 				}
 			} 
-            else if (NfcTagType4.Recognize(cardchannel))
+            else if (NfcTagType4.Recognize(logger, cardchannel))
 			{
-				Trace.WriteLine("This card is a NFC type 4 Tag");
-				tag = NfcTagType4.Create(cardchannel);
+                logger.Debug("This card is a NFC type 4 Tag");
+				tag = NfcTagType4.Create(logger, cardchannel);
 				if (tag == null)
 					msg = "An error has occured while reading the Tag's content";
 				
 				res = true;
 				
 			} 
-            else if (NfcTagType4Desfire.Recognize(cardchannel))
+            else if (NfcTagType4Desfire.Recognize(logger, cardchannel))
 			{
 				msg = "A DESFire EV1 card has been detected.\nIt may be formatted into a type 4 Tag.";
 				Desfire_formatable = true;
@@ -92,7 +94,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			if ((Content == null) || (Content.Count == 0))
 			{
-				Trace.WriteLine("Nothing to serialize");
+                logger.Debug("Nothing to serialize");
 				return null;
 			}
 			
@@ -112,32 +114,32 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
 		public bool IsEmpty()
 		{
-			return _is_empty;
+			return is_empty;
 		}
 
 		public bool IsFormatted()
 		{
-			return _formatted;
+			return formatted;
 		}
 
 		public bool IsFormattable()
 		{
-			return (!_locked && !_formatted && _formattable);
+			return (!locked && !formatted && formattable);
 		}
 
 		public bool IsLocked()
 		{
-			return _locked;
+			return locked;
 		}
 
 		public bool IsLockable()
 		{
-			return (!_locked && _lockable);
+			return (!locked && lockable);
 		}
 		
 		public long Capacity()
 		{
-			return _capacity;
+			return capacity;
 		}
 
 		public long ContentSize()
@@ -161,13 +163,13 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			if (!IsFormatted() && !skip_checks)
 			{
-				Trace.WriteLine("The Tag is not formatted");
+                logger.Debug("The Tag is not formatted");
 				return false;
 			}
 			
 			if (IsLocked() && !skip_checks)
 			{
-				Trace.WriteLine("The Tag is not writable");
+                logger.Debug("The Tag is not writable");
 				return false;
 			}
 
@@ -175,25 +177,25 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			if ((bytes == null) || (bytes.Length == 0))
 			{
-				Trace.WriteLine("Nothing to write on the Tag");
+                logger.Debug("Nothing to write on the Tag");
 				return false;
 			}
 			
 			if (bytes.Length > Capacity())
 			{
-				Trace.WriteLine("The size of the content is bigger than the Tag's capacity");
+                logger.Debug("The size of the content is bigger than the Tag's capacity");
 				return false;
 			}
-			
-			Trace.WriteLine("Writing the Tag...");
+
+            logger.Debug("Writing the Tag...");
 
 			if (!WriteContent(bytes))
 			{
-				Trace.WriteLine("Write failed!");
+                logger.Debug("Write failed!");
 				return false;
 			}
-			
-			Trace.WriteLine("Write success!");
+
+            logger.Debug("Write success!");
 			return true;
 		}
 		

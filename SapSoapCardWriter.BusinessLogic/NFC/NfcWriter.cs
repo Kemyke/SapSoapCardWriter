@@ -161,7 +161,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             logger.Debug("Looking for Desfire EV1 card on reader " + readerName);
 
-            SmartCardChannel scard = new SmartCardChannel(readerName);
+            SmartCardChannel scard = new SmartCardChannel(logger, readerName);
 
             if (scard == null)
             {
@@ -388,7 +388,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             string msg = null;
             bool isFormattable = false;
 
-            if (!NfcTag.Recognize(scard, out tag, out msg, out isFormattable))
+            if (!NfcTag.Recognize(logger, scard, out tag, out msg, out isFormattable))
             {
                 throw new InvalidOperationException("Unrecognized or unsupported tag!");
             }
@@ -408,9 +408,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 SmartCardChannel scard = null;
                 try
                 {
-                    //TODO: itt nem kell az Init-es hókuszpókusz?
                     SmartCardReader reader = new SmartCardReader(readerName);
-                    scard = new SmartCardChannel(reader);
+                    scard = new SmartCardChannel(logger, reader);
                     bool connectSuccess = scard.Connect();
                     if (!connectSuccess)
                     {
@@ -472,12 +471,12 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             string msg = null;
             bool isFormattable = false;
 
-            if (!NfcTag.Recognize(scard, out tag, out msg, out isFormattable))
+            if (!NfcTag.Recognize(logger, scard, out tag, out msg, out isFormattable))
             {
                 throw new InvalidOperationException("Unrecognized or unsupported tag!");
             }
 
-            RtdText t = new RtdText(data);
+            RtdText t = new RtdText(logger, data);
 
             tag.Content.Add(t);
             if (!tag.Write())
@@ -496,7 +495,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 try
                 {
                     SmartCardReader reader = new SmartCardReader(readerName);
-                    scard = new SmartCardChannel(reader);
+                    scard = new SmartCardChannel(logger, reader);
                     bool connectSuccess = scard.Connect();
                     if (!connectSuccess)
                     {

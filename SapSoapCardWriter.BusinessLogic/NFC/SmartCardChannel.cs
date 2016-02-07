@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         TransmitDoneCallback _transmit_done_callback = null;
         Thread _transmit_thread = null;
 
+        private readonly ILogger logger;
         public delegate void TransmitDoneCallback(Rapdu rapdu);
 
         private void Instanciate(uint Scope, string ReaderName)
@@ -42,17 +44,25 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             _reader_name = ReaderName;
         }
 
-        public SmartCardChannel(uint Scope, string ReaderName)
+        private SmartCardChannel(ILogger logger)
+        {
+            this.logger = logger;
+        }
+
+        public SmartCardChannel(ILogger logger, uint Scope, string ReaderName)
+            : this(logger)
         {
             Instanciate(Scope, ReaderName);
         }
 
-        public SmartCardChannel(string ReaderName)
+        public SmartCardChannel(ILogger logger, string ReaderName)
+            : this(logger)
         {
             Instanciate(SmartCard.SCOPE_SYSTEM, ReaderName);
         }
 
-        public SmartCardChannel(SmartCardReader Reader)
+        public SmartCardChannel(ILogger logger, SmartCardReader Reader)
+            : this(logger)
         {
             Instanciate(Reader.Scope, Reader.Name);
         }
@@ -456,12 +466,12 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             if (Connected)
                 return false;
 
-            Trace.WriteLine("Connect to '" + _reader_name + "', share=" + _share_mode + ", protocol=" + _want_protocols);
+            logger.Debug("Connect to '" + _reader_name + "', share=" + _share_mode + ", protocol=" + _want_protocols);
 
             rc = SmartCard.Connect(_hContext, _reader_name, _share_mode, _want_protocols, ref _hCard, ref _active_protocol);
             if (rc != SmartCard.S_SUCCESS)
             {
-                Trace.WriteLine("Connect error: " + rc);
+                logger.Error("Connect error: " + rc);
                 _hCard = IntPtr.Zero;
                 _last_error = rc;
                 return false;
@@ -500,7 +510,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             uint rc;
 
-            Trace.WriteLine("Disconnect, disposition=" + disposition);
+            logger.Debug("Disconnect, disposition=" + disposition);
 
             rc = SmartCard.Disconnect(_hCard, disposition);
             if (rc != SmartCard.S_SUCCESS)
@@ -836,7 +846,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             _rapdu = null;
 
-            Trace.WriteLine("Transmit << " + _capdu.AsString());
+            logger.Debug("Transmit << " + _capdu.AsString());
 
             rc = SmartCard.Transmit(_hCard,
                                 SendPci,
@@ -848,14 +858,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             if (rc != SmartCard.S_SUCCESS)
             {
-                Trace.WriteLine("Transmit : " + rc);
+                logger.Error("Transmit : " + rc);
                 _last_error = rc;
                 return false;
             }
 
             _rapdu = new Rapdu(rsp_buffer, (int)rsp_length);
 
-            Trace.WriteLine("Transmit >> " + _rapdu.AsString());
+            logger.Debug("Transmit >> " + _rapdu.AsString());
 
             return true;
         }
@@ -963,7 +973,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             uint rl = 0;
             uint rc;
 
-            Trace.WriteLine("Control << " + (new CardBuffer(cctrl)).AsString());
+            logger.Debug("Control << " + (new CardBuffer(cctrl)).AsString());
 
             rc = SmartCard.Control(_hCard,
                                SmartCard.IOCTL_CSB6_PCSC_ESCAPE,
@@ -987,7 +997,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             if (rc != SmartCard.S_SUCCESS)
             {
-                Trace.WriteLine("Control: " + rc);
+                logger.Error("Control: " + rc);
                 _last_error = rc;
                 rctrl = null;
                 return null;
@@ -997,7 +1007,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             for (int i = 0; i < rl; i++)
                 r[i] = rctrl[i];
 
-            Trace.WriteLine("Control >> " + (new CardBuffer(r)).AsString());
+            logger.Debug("Control >> " + (new CardBuffer(r)).AsString());
 
             return r;
         }

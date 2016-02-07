@@ -1,31 +1,35 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 
 namespace SapSoapCardWriter.BusinessLogic.NFC
 {
 	public class RtdMedia : Rtd
 	{
-		public RtdMedia(string MimeType) : base(NDEF_HEADER_TNF_MEDIA_TYPE, MimeType)
+        public RtdMedia(ILogger logger, string MimeType)
+            : base(NDEF_HEADER_TNF_MEDIA_TYPE, MimeType, logger)
 		{
 			
 		}
-		
-		public RtdMedia(string MimeType, string TextContent) : base(NDEF_HEADER_TNF_MEDIA_TYPE, MimeType)
+
+        public RtdMedia(ILogger logger, string MimeType, string TextContent)
+            : base(NDEF_HEADER_TNF_MEDIA_TYPE, MimeType, logger)
 		{
-			_payload = CardBuffer.BytesFromString(TextContent);
+			payload = CardBuffer.BytesFromString(TextContent);
 		}
 
-		public RtdMedia(string MimeType, byte[] RawContent) : base(NDEF_HEADER_TNF_MEDIA_TYPE, MimeType)
+        public RtdMedia(ILogger logger, string MimeType, byte[] RawContent)
+            : base(NDEF_HEADER_TNF_MEDIA_TYPE, MimeType, logger)
 		{
-			_payload = RawContent;
+			payload = RawContent;
 		}
 		
 		public string TextContent
 		{
 			get
 			{
-				if (_payload == null)
+				if (payload == null)
 					return "";
-				return CardBuffer.StringFromBytes(_payload);
+				return CardBuffer.StringFromBytes(payload);
 			}
 		}
 		
@@ -33,7 +37,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			get
 			{
-				return _payload;
+				return payload;
 			}
 		}
 

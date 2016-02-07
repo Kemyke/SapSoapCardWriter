@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,22 +8,26 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 	public class RtdUri : Rtd
 	{
 		
-		public RtdUri() : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "U")
+		public RtdUri(ILogger logger) 
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "U", logger)
 		{
 
 		}
-		
-		public RtdUri(string Uri) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "U")
+
+        public RtdUri(ILogger logger, string Uri)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "U", logger)
 		{
 			Value = Uri;
 		}
 
-		public RtdUri(byte[] Payload) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "U")
+        public RtdUri(ILogger logger, byte[] Payload)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "U", logger)
 		{
-			_payload = Payload;
+			payload = Payload;
 		}
 
-		public RtdUri(Ndef record) : base(record)
+        public RtdUri(ILogger logger, Ndef record)
+            : base(record, logger)
 		{
 
 		}
@@ -33,16 +38,16 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			{
 				List<UriShortcut> shortcuts = UriShortcuts();
 				
-				byte[] t = new byte[_payload.Length - 1];
+				byte[] t = new byte[payload.Length - 1];
 				
-				for (int i=0; i<_payload.Length-1; i++)
-					t[i] = _payload[i+1];
+				for (int i=0; i<payload.Length-1; i++)
+					t[i] = payload[i+1];
 				
 				string s = CardBuffer.StringFromBytes(t);
 				
 				for (int i=0; i<shortcuts.Count; i++)
 				{
-					if (shortcuts[i].Shortcut == _payload[0])
+					if (shortcuts[i].Shortcut == payload[0])
 					{
 						s = shortcuts[i].StandFor + s;
 						break;
@@ -71,12 +76,12 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				
 				byte[] t = CardBuffer.BytesFromString(s);
 				
-				_payload = new byte[t.Length + 1];
+				payload = new byte[t.Length + 1];
 				
-				_payload[0] = shortcut;
+				payload[0] = shortcut;
 				
 				for (int i=0; i<t.Length; i++)
-					_payload[i+1] = t[i];
+					payload[i+1] = t[i];
 				
 
 			}

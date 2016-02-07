@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,84 +23,96 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		public const byte NDEF_HEADER_TNF_UNCHANGED     = 0x06;
 		public const byte NDEF_HEADER_TNF_RESERVED      = 0x07;
 		
-		protected byte[] _payload = null;
-		protected List<Ndef> _children = new List<Ndef>();
+		protected byte[] payload = null;
+		protected List<Ndef> children = new List<Ndef>();
 
-		private byte _header = 0;
-		private byte[] _type = null;
-		private byte[] _id = null;
-		
-		public Ndef(Ndef ndef)
+		private byte header = 0;
+		private byte[] type = null;
+		private byte[] id = null;
+
+        protected readonly ILogger logger;
+
+        private Ndef(ILogger logger)
+        {
+            this.logger = logger;
+        }
+
+		public Ndef(Ndef ndef, ILogger logger)
+            : this(logger)
 		{
 			TNF = ndef.TNF;
 			TYPE = ndef.TYPE;
 			PAYLOAD = ndef.PAYLOAD;
 		}
-		
-		public Ndef(byte _TNF, string _TYPE)
+
+        public Ndef(byte _TNF, string _TYPE, ILogger logger)
+            : this(logger)
 		{
 			_TNF &= 0x07;
-			_header &= 0xF8;
-			_header |= _TNF;
-			_type = CardBuffer.BytesFromString(_TYPE);
+			header &= 0xF8;
+			header |= _TNF;
+			type = CardBuffer.BytesFromString(_TYPE);
 		}
 
-		public Ndef(byte _TNF, string _TYPE, byte[] _PAYLOAD)
+        public Ndef(byte _TNF, string _TYPE, byte[] _PAYLOAD, ILogger logger)
+            : this(logger)
 		{
 			_TNF &= 0x07;
-			_header &= 0xF8;
-			_header |= _TNF;
-			_type = CardBuffer.BytesFromString(_TYPE);
-			_payload = _PAYLOAD;
+			header &= 0xF8;
+			header |= _TNF;
+			type = CardBuffer.BytesFromString(_TYPE);
+			payload = _PAYLOAD;
 		}
 
-		public Ndef(byte _TNF, string _TYPE, byte[] ID, byte[] _PAYLOAD)
+        public Ndef(byte _TNF, string _TYPE, byte[] ID, byte[] _PAYLOAD, ILogger logger)
+            : this(logger)
 		{
 			_TNF &= 0x07;
-			_header &= 0xF8;
-			_header |= _TNF;
-			_type = CardBuffer.BytesFromString(_TYPE);
-			_id = ID;
-			_payload = _PAYLOAD;
+			header &= 0xF8;
+			header |= _TNF;
+			type = CardBuffer.BytesFromString(_TYPE);
+			id = ID;
+			payload = _PAYLOAD;
 		}
 		
-		public Ndef(byte _TNF, byte[] _TYPE, byte[] ID, byte[] _PAYLOAD)
+		public Ndef(byte _TNF, byte[] _TYPE, byte[] ID, byte[] _PAYLOAD, ILogger logger)
+            : this(logger)
 		{
 			_TNF &= 0x07;
-			_header &= 0xF8;
-			_header |= _TNF;
-			_type = _TYPE;
-			_id = ID;
-			_payload = _PAYLOAD;
+			header &= 0xF8;
+			header |= _TNF;
+			type = _TYPE;
+			id = ID;
+			payload = _PAYLOAD;
 		}
 		
 		public void SetMessageBegin(bool mb)
 		{
 			if (mb)
-				_header |= NDEF_HEADER_MESSAGE_BEGIN;
+				header |= NDEF_HEADER_MESSAGE_BEGIN;
 			else
-				_header = (byte) (_header & ~NDEF_HEADER_MESSAGE_BEGIN);
+				header = (byte) (header & ~NDEF_HEADER_MESSAGE_BEGIN);
 		}
 
 		public void SetMessageEnd(bool me)
 		{
 			if (me)
-				_header |= NDEF_HEADER_MESSAGE_END;
+				header |= NDEF_HEADER_MESSAGE_END;
 			else
-				_header = (byte) (_header & ~NDEF_HEADER_MESSAGE_END);
+				header = (byte) (header & ~NDEF_HEADER_MESSAGE_END);
 		}
 
 		public byte TNF
 		{
 			get
 			{
-				return (byte) (_header & 0x07);
+				return (byte) (header & 0x07);
 			}
 			set
 			{
 				value &= 0x07;
-				_header &= 0xF8;
-				_header |= value;
+				header &= 0xF8;
+				header |= value;
 			}
 		}
 
@@ -107,11 +120,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			get
 			{
-				return CardBuffer.StringFromBytes(_type);
+				return CardBuffer.StringFromBytes(type);
 			}
 			set
 			{
-				_type = CardBuffer.BytesFromString(value);
+				type = CardBuffer.BytesFromString(value);
 			}
 		}
 		
@@ -119,11 +132,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			get
 			{
-				return _id;
+				return id;
 			}
 			set
 			{
-				_id = value;
+				id = value;
 			}
 		}
 
@@ -131,11 +144,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			get
 			{
-				return _payload;
+				return payload;
 			}
 			set
 			{
-				_payload = value;
+				payload = value;
 			}
 		}
 
@@ -143,7 +156,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			int l = 2; /* 1 byte for the header and 1 for type length			*/
 			
-			is_short_record = (_payload.Length < 256) ? true : false;
+			is_short_record = (payload.Length < 256) ? true : false;
 
 			if (is_short_record)
 			{
@@ -153,14 +166,14 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				l += 4;
 			}
 
-			if (_id != null)
+			if (id != null)
 			{
 				l += 1; 		/* ID_Length byte	*/
-				l += _id.Length;
+				l += id.Length;
 			}
 			
-			l += _type.Length;
-			l += _payload.Length;
+			l += type.Length;
+			l += payload.Length;
 			
 			return l;
 		}
@@ -189,66 +202,66 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			int offset;
 			
 			/* Serializes the children (if any), which will become the payload of the NDEF	*/
-			if (_children.Count != 0)
+			if (children.Count != 0)
 			{
-				Trace.WriteLine("Encoding children...");
+				logger.Debug("Encoding children...");
 				
 				int payload_size = 0;
 				bool child_is_short = false;
 				
-				for (int i=0; i<_children.Count; i++)
-					payload_size += _children[i].Size(ref child_is_short);
+				for (int i=0; i<children.Count; i++)
+					payload_size += children[i].Size(ref child_is_short);
 
-				_payload = new byte[payload_size];
+				payload = new byte[payload_size];
 				
 				offset = 0;
-				for (int i=0; i<_children.Count; i++)
+				for (int i=0; i<children.Count; i++)
 				{
 					byte[] child_buffer = null;
 					
-					_children[i].SetMessageBegin((i == 0) ? true : false);
-					_children[i].SetMessageEnd((i == _children.Count - 1) ? true : false);
+					children[i].SetMessageBegin((i == 0) ? true : false);
+					children[i].SetMessageEnd((i == children.Count - 1) ? true : false);
 					
-					if (!_children[i].Encode(ref child_buffer))
+					if (!children[i].Encode(ref child_buffer))
 						return false;
 					
 					for (int j=0; j<child_buffer.Length; j++)
-						_payload[offset++] = child_buffer[j];
+						payload[offset++] = child_buffer[j];
 				}
 			}
 			
 			/* Serializes the NDEF	*/
-			Trace.WriteLine("Encoding NDEF");
+            logger.Debug("Encoding NDEF");
 			
 			bool is_short_record = false;
 			int record_size = Size(ref is_short_record);
 			
 			if (is_short_record)
-				_header |= NDEF_HEADER_SHORT_RECORD;
+				header |= NDEF_HEADER_SHORT_RECORD;
 			else
-				_header = (byte) (_header & ~NDEF_HEADER_SHORT_RECORD);
+				header = (byte) (header & ~NDEF_HEADER_SHORT_RECORD);
 			
-			if (_id != null)
-				_header |= NDEF_HEADER_ID_LENGTH_PRESENT;
+			if (id != null)
+				header |= NDEF_HEADER_ID_LENGTH_PRESENT;
 			else
-				_header = (byte) (_header & ~NDEF_HEADER_ID_LENGTH_PRESENT);
+				header = (byte) (header & ~NDEF_HEADER_ID_LENGTH_PRESENT);
 
 			buffer = new byte[record_size];
 			offset = 0;
-			
-			Trace.WriteLine(String.Format("- Header : {0:X2}", _header));
-			buffer[offset++] = _header;
-			
-			Trace.WriteLine(String.Format("- Type length : {0}", _type.Length));
-			buffer[offset++] = (byte) _type.Length;
-			
-			Trace.WriteLine(String.Format("- Payload length : {0}", _payload.Length));
+
+            logger.Debug(String.Format("- Header : {0:X2}", header));
+			buffer[offset++] = header;
+
+            logger.Debug(String.Format("- Type length : {0}", type.Length));
+			buffer[offset++] = (byte) type.Length;
+
+            logger.Debug(String.Format("- Payload length : {0}", payload.Length));
 			if (is_short_record)
 			{
-				buffer[offset++] = (byte) _payload.Length;
+				buffer[offset++] = (byte) payload.Length;
 			} else
 			{
-				int l = _payload.Length;
+				int l = payload.Length;
 				buffer[offset + 3] = (byte) (l % 0x00000100); l /= 0x00000100;
 				buffer[offset + 2] = (byte) (l % 0x00000100); l /= 0x00000100;
 				buffer[offset + 1] = (byte) (l % 0x00000100); l /= 0x00000100;
@@ -256,26 +269,26 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				offset += 4;
 			}
 			
-			if (_id != null)
+			if (id != null)
 			{
-				Trace.WriteLine(String.Format("- ID length : {0}", _id.Length));
-				buffer[offset++] = (byte) _id.Length;
+                logger.Debug(String.Format("- ID length : {0}", id.Length));
+				buffer[offset++] = (byte) id.Length;
 			}
 
-			Trace.WriteLine("- Type : " + (new CardBuffer(_type)).AsString(" "));
-			for (int i=0; i<_type.Length; i++)
-				buffer[offset++] = _type[i];
+            logger.Debug("- Type : " + (new CardBuffer(type)).AsString(" "));
+			for (int i=0; i<type.Length; i++)
+				buffer[offset++] = type[i];
 			
-			if (_id != null)
+			if (id != null)
 			{
-				Trace.WriteLine("- ID : " + (new CardBuffer(_id)).AsString(" "));
-				for (int i=0; i<_id.Length; i++)
-					buffer[offset++] = _id[i];
+                logger.Debug("- ID : " + (new CardBuffer(id)).AsString(" "));
+				for (int i=0; i<id.Length; i++)
+					buffer[offset++] = id[i];
 			}
-			
-			Trace.WriteLine("- Payload : " + (new CardBuffer(_payload)).AsString(" "));
-			for (int i=0; i<_payload.Length; i++)
-				buffer[offset++] = _payload[i];
+
+            logger.Debug("- Payload : " + (new CardBuffer(payload)).AsString(" "));
+			for (int i=0; i<payload.Length; i++)
+				buffer[offset++] = payload[i];
 
 
 			return true;
@@ -283,13 +296,13 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
 		public delegate void NdefFoundCallback(Ndef ndef);
 
-		public static bool Parse(byte[] buffer, NdefFoundCallback callback)
+		public static bool Parse(ILogger logger, byte[] buffer, NdefFoundCallback callback)
 		{
 			int offset = 0;
 			Ndef ndef = null;
 			bool terminated = true;
 			
-			while (Ndef.Parse(buffer, ref offset, ref ndef, ref terminated))
+			while (Ndef.Parse(logger, buffer, ref offset, ref ndef, ref terminated))
 			{
 				if (callback != null)
 					callback(ndef);
@@ -298,11 +311,11 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 					return true;
 			}
 
-			Trace.WriteLine("Parsing failed at offset " + offset);
+            logger.Debug("Parsing failed at offset " + offset);
 			return false;
 		}
 
-		public static bool Parse(byte[] buffer, ref int offset, ref Ndef ndef, ref bool terminated)
+		public static bool Parse(ILogger logger, byte[] buffer, ref int offset, ref Ndef ndef, ref bool terminated)
 		{
 			if (offset > buffer.Length)
 				return false;
@@ -313,21 +326,21 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			/*  Header */
 			if (offset+1 > buffer.Length)
 			{
-				Trace.WriteLine("NDEF truncated after 'Header' byte");
+                logger.Debug("NDEF truncated after 'Header' byte");
 				return false;
 			}
 			byte header = buffer[offset++];
 			
 			if (header == 0)
 			{
-				Trace.WriteLine("Empty byte?");
+                logger.Debug("Empty byte?");
 				return false;
 			}
 			
 			/* Type length		*/
 			if (offset+1 > buffer.Length)
 			{
-				Trace.WriteLine("NDEF truncated after 'Type Length' byte");
+                logger.Debug("NDEF truncated after 'Type Length' byte");
 				return false;
 			}
 			int type_length = buffer[offset++];
@@ -338,7 +351,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			{
 				if (offset+1 > buffer.Length)
 				{
-					Trace.WriteLine("NDEF truncated after 'Payload Length' byte");
+                    logger.Debug("NDEF truncated after 'Payload Length' byte");
 					return false;
 				}
 				payload_length = buffer[offset++];
@@ -346,7 +359,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			{
 				if (offset+4 > buffer.Length)
 				{
-					Trace.WriteLine("NDEF truncated after 'Payload Length' dword");
+                    logger.Debug("NDEF truncated after 'Payload Length' dword");
 					return false;
 				}
 				payload_length  = buffer[offset++]; payload_length *= 0x00000100;
@@ -361,7 +374,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			{
 				if (offset+1 > buffer.Length)
 				{
-					Trace.WriteLine("NDEF truncated after 'ID Length' byte");
+                    logger.Debug("NDEF truncated after 'ID Length' byte");
 					return false;
 				}
 				id_length = buffer[offset++];
@@ -373,7 +386,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			{
 				if (offset+type_length > buffer.Length)
 				{
-					Trace.WriteLine("NDEF truncated after 'Type' bytes");
+                    logger.Debug("NDEF truncated after 'Type' bytes");
 					return false;
 				}
 				type = new byte[type_length];
@@ -387,7 +400,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			{
 				if (offset+id_length > buffer.Length)
 				{
-					Trace.WriteLine("NDEF truncated after 'ID' bytes");
+                    logger.Debug("NDEF truncated after 'ID' bytes");
 					return false;
 				}
 				id = new byte[id_length];
@@ -401,7 +414,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			{
 				if (offset+payload_length > buffer.Length)
 				{
-					Trace.WriteLine("NDEF truncated after 'Payload' bytes");
+                    logger.Debug("NDEF truncated afterTra 'Payload' bytes");
 					return false;
 				}
 				payload = new byte[payload_length];
@@ -420,82 +433,82 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 				case NDEF_HEADER_TNF_NFC_RTD_WKN :
 					if (type_s.Equals("Sp"))
 					{
-						Trace.WriteLine("Found a SmartPoster");
-						ndef = new RtdSmartPoster(payload);
+                        logger.Debug("Found a SmartPoster");
+						ndef = new RtdSmartPoster(logger, payload);
 					} else
 						if (type_s.Equals("U"))
 					{
-						Trace.WriteLine("Found an URI");
-						ndef = new RtdUri(payload);
+                        logger.Debug("Found an URI");
+						ndef = new RtdUri(logger, payload);
 					} else
 						if (type_s.Equals("T"))
 					{
-						Trace.WriteLine("Found a Text");
-						ndef = new RtdText(payload);
+                        logger.Debug("Found a Text");
+                        ndef = new RtdText(logger, payload);
 					} else
 						if (type_s.Equals("act"))
 					{
-						Trace.WriteLine("Found an Action");
-						ndef = new RtdSmartPosterAction(payload);
+                        logger.Debug("Found an Action");
+                        ndef = new RtdSmartPosterAction(logger, payload);
 						
 					} else
 						if (type_s.Equals("s"))
 					{
-						Trace.WriteLine("Found a Size");
-						ndef = new RtdSmartPosterTargetSize(payload);
+                        logger.Debug("Found a Size");
+                        ndef = new RtdSmartPosterTargetSize(logger, payload);
 						
 					} else
 						if (type_s.Equals("t"))
 					{
-						Trace.WriteLine("Found a MIME-Type");
-						ndef = new RtdSmartPosterTargetType(payload);
+                        logger.Debug("Found a MIME-Type");
+                        ndef = new RtdSmartPosterTargetType(logger, payload);
 					} else
 						if (type_s.Equals("Hs"))
 					{
-						Trace.WriteLine("Found a Handover Selector");
-						ndef = new RtdHandoverSelector(payload, ref buffer, ref offset);
+                        logger.Debug("Found a Handover Selector");
+                        ndef = new RtdHandoverSelector(logger, payload, ref buffer, ref offset);
 					} else
 						if (type_s.Equals("ac"))
 					{
-						Trace.WriteLine("Found a Alternative Carrier");
-						ndef = new RtdAlternativeCarrier(payload);
+                        logger.Debug("Found a Alternative Carrier");
+                        ndef = new RtdAlternativeCarrier(logger, payload);
 					} else
 					{
-						Trace.WriteLine("Found an unknown RTD : " + type_s);
+                        logger.Debug("Found an unknown RTD : " + type_s);
 					}
 					break;
 					
 				case NDEF_HEADER_TNF_MEDIA_TYPE :
 					if (type_s.ToLower().Equals("text/x-vcard"))
 					{
-						Trace.WriteLine("Found a vCard");
-						ndef = new RtdVCard(payload);
+                        logger.Debug("Found a vCard");
+                        ndef = new RtdVCard(logger, payload);
 					} else
 					{
-						Trace.WriteLine("Found a MIME Media : " + type_s);
-						ndef = new RtdMedia(type_s, payload);
+                        logger.Debug("Found a MIME Media : " + type_s);
+                        ndef = new RtdMedia(logger, type_s, payload);
 					}
 					break;
 					
 				case NDEF_HEADER_TNF_ABSOLUTE_URI :
 					if (type_s.Equals("U"))
 					{
-						Trace.WriteLine("Found an absolute URI");
-						ndef = new AbsoluteUri(id, payload);
+                        logger.Debug("Found an absolute URI");
+                        ndef = new AbsoluteUri(logger, id, payload);
 					}
 					break;
 					
 				case NDEF_HEADER_TNF_NFC_RTD_EXT :
-					Trace.WriteLine("Found TNF urn:nfc:ext");
+                    logger.Debug("Found TNF urn:nfc:ext");
 					break;
 				case NDEF_HEADER_TNF_UNKNOWN :
-					Trace.WriteLine("Found TNF unknown");
+                    logger.Debug("Found TNF unknown");
 					break;
 				case NDEF_HEADER_TNF_UNCHANGED :
-					Trace.WriteLine("Found TNF unchanged");
+                    logger.Debug("Found TNF unchanged");
 					break;
 				case NDEF_HEADER_TNF_RESERVED :
-					Trace.WriteLine("Found TNF reserved");
+                    logger.Debug("Found TNF reserved");
 					break;
 					
 				default :
@@ -504,26 +517,26 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			
 			if (ndef == null)
 			{
-				ndef = new Ndef(header, type, id, payload);
+				ndef = new Ndef(header, type, id, payload, logger);
 			}
 			
 			if (offset >= buffer.Length)
 			{
-				Trace.WriteLine("Done!");
+                logger.Debug("Done!");
 				terminated = true;
 			}
 
 			return true;
 		}
 		
-		public static Ndef[] Parse(byte[] buffer)
+		public static Ndef[] Parse(ILogger logger, byte[] buffer)
 		{
 			int offset = 0;
 			List<Ndef> ndefs = new List<Ndef>();
 			Ndef ndef = null;
 			bool terminated = true;
 			
-			while (Ndef.Parse(buffer, ref offset, ref ndef, ref terminated))
+			while (Ndef.Parse(logger, buffer, ref offset, ref ndef, ref terminated))
 			{
 				ndefs.Add(ndef);
 				

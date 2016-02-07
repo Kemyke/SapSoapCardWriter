@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SapSoapCardWriter.Logger.Logging;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,58 +8,63 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 {
 	public class RtdSmartPosterAction : Rtd
 	{
-		public RtdSmartPosterAction(int Action) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "act")
+		public RtdSmartPosterAction(ILogger logger, int Action) 
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "act", logger)
 		{
-			_payload = new byte[1];
-			_payload[0] = (byte) Action;
+			payload = new byte[1];
+			payload[0] = (byte) Action;
 		}
-		
-		public RtdSmartPosterAction(byte[] Payload) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "act")
+
+        public RtdSmartPosterAction(ILogger logger, byte[] Payload)
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "act", logger)
 		{
 			if ((Payload == null) || (Payload.Length == 0))
 			{
-				_payload = new byte[1];
+				payload = new byte[1];
 			} else
 			{
-				_payload = Payload;
+				payload = Payload;
 			}
 		}
 
 		public int Value
 		{
-			get{ return _payload[0]; }
-			set{ _payload[0] = (byte) Value;}
+			get{ return payload[0]; }
+			set{ payload[0] = (byte) Value;}
 		}
 	}
 
 	public class RtdSmartPosterTargetIcon : Rtd
 	{
-		public RtdSmartPosterTargetIcon(string IconMimeType, byte[] ImageBlob) : base(Ndef.NDEF_HEADER_TNF_MEDIA_TYPE, IconMimeType)
+        public RtdSmartPosterTargetIcon(ILogger logger, string IconMimeType, byte[] ImageBlob) 
+            : base(Ndef.NDEF_HEADER_TNF_MEDIA_TYPE, IconMimeType, logger)
 		{
-			_payload = ImageBlob;
+			payload = ImageBlob;
 		}
 	}
 
     public class RtdSmartPosterTargetSize : Rtd
 	{
 
-		public RtdSmartPosterTargetSize(int Size) : base(NDEF_HEADER_TNF_NFC_RTD_WKN, "s")
+        public RtdSmartPosterTargetSize(ILogger logger, int Size) 
+            : base(NDEF_HEADER_TNF_NFC_RTD_WKN, "s", logger)
 		{
-			_payload = new byte[4];
-			_payload[3] = (byte) (Size); Size /= 0x00000100;
-			_payload[2] = (byte) (Size); Size /= 0x00000100;
-			_payload[1] = (byte) (Size); Size /= 0x00000100;
-			_payload[0] = (byte) (Size);
+			payload = new byte[4];
+			payload[3] = (byte) (Size); Size /= 0x00000100;
+			payload[2] = (byte) (Size); Size /= 0x00000100;
+			payload[1] = (byte) (Size); Size /= 0x00000100;
+			payload[0] = (byte) (Size);
 		}
-		
-		public RtdSmartPosterTargetSize(byte[] Payload) : base(NDEF_HEADER_TNF_NFC_RTD_WKN, "s")
+
+        public RtdSmartPosterTargetSize(ILogger logger, byte[] Payload)
+            : base(NDEF_HEADER_TNF_NFC_RTD_WKN, "s", logger)
 		{
 			if ((Payload == null) || (Payload.Length == 0))
 			{
-				_payload = new byte[4];
+				payload = new byte[4];
 			} else
 			{
-				_payload = Payload;
+				payload = Payload;
 			}
 		}
 		
@@ -67,21 +73,21 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 			get
 			{
 				int size = 0;
-				for (int i = 0 ; i< (_payload.Length -1) ; i++)
+				for (int i = 0 ; i< (payload.Length -1) ; i++)
 				{
-					size += _payload[i];
+					size += payload[i];
 					size <<= 8;
 				}
-				size += _payload[_payload.Length -1] ;
+				size += payload[payload.Length -1] ;
 				return size;
 			}
 			set
 			{
-				_payload = new byte[4];
-				_payload[3] = (byte) (Value); Value /= 0x00000100;
-				_payload[2] = (byte) (Value); Value /= 0x00000100;
-				_payload[1] = (byte) (Value); Value /= 0x00000100;
-				_payload[0] = (byte) (Value);
+				payload = new byte[4];
+				payload[3] = (byte) (Value); Value /= 0x00000100;
+				payload[2] = (byte) (Value); Value /= 0x00000100;
+				payload[1] = (byte) (Value); Value /= 0x00000100;
+				payload[0] = (byte) (Value);
 
 			}
 		}
@@ -90,19 +96,21 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
 	public class RtdSmartPosterTargetType : Rtd
 	{
-		public RtdSmartPosterTargetType(string MimeType) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "t")
+		public RtdSmartPosterTargetType(ILogger logger, string MimeType) 
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "t", logger)
 		{
-			_payload = CardBuffer.BytesFromString(MimeType);
+			payload = CardBuffer.BytesFromString(MimeType);
 		}
 		
-		public RtdSmartPosterTargetType(byte[] Payload) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "t")
+		public RtdSmartPosterTargetType(ILogger logger, byte[] Payload) 
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "t", logger)
 		{
 			if ((Payload == null) || (Payload.Length == 0))
 			{
 				
 			} else
 			{
-				_payload = Payload;
+				payload = Payload;
 			}
 		}
 		
@@ -110,15 +118,15 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		{
 			get
 			{
-				if (_payload != null)
+				if (payload != null)
 				{
-					return CardBuffer.StringFromBytes(_payload);
+					return CardBuffer.StringFromBytes(payload);
 				} else
 				{
 					return "";
 				}
 			}
-			set{ _payload = CardBuffer.BytesFromString(Value);}
+			set{ payload = CardBuffer.BytesFromString(Value);}
 		}
 		
 	}
@@ -132,51 +140,53 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 		public RtdSmartPosterTargetType TargetType = null;
 		public RtdSmartPosterTargetSize TargetSize = null;
 		
-		public RtdSmartPoster() : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Sp")
+		public RtdSmartPoster(ILogger logger) 
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Sp", logger)
 		{
 			
 		}
 
-		public RtdSmartPoster(byte[] payload) : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Sp")
+		public RtdSmartPoster(ILogger logger, byte[] payload) 
+            : base(Ndef.NDEF_HEADER_TNF_NFC_RTD_WKN, "Sp", logger)
 		{
 			int offset = 0;
 			Ndef ndef = null;
 			bool terminated = true;
 			
-			while (Ndef.Parse(payload, ref offset, ref ndef, ref terminated))
+			while (Ndef.Parse(logger, payload, ref offset, ref ndef, ref terminated))
 			{
 				if (ndef is RtdUri)
 				{
-					Trace.WriteLine("Got a new URI");
+					logger.Debug("Got a new URI");
 					Uri = (RtdUri) ndef;
 				} else
 					if (ndef is RtdText)
 				{
-					Trace.WriteLine("Got a new Text");
+                    logger.Debug("Got a new Text");
 					Title.Add((RtdText) ndef);
 				} else
 					if (ndef is RtdSmartPosterAction)
 				{
-					Trace.WriteLine("Got a new SmartPoster Action");
+                    logger.Debug("Got a new SmartPoster Action");
 					Action = (RtdSmartPosterAction) ndef;
 				} else
 					if (ndef is RtdSmartPosterTargetIcon)
 				{
-					Trace.WriteLine("Got a new SmartPoster Icon");
+                    logger.Debug("Got a new SmartPoster Icon");
 					TargetIcon = (RtdSmartPosterTargetIcon) ndef;
 				} else
 					if (ndef is RtdSmartPosterTargetType)
 				{
-					Trace.WriteLine("Got a new SmartPoster MIME type");
+                    logger.Debug("Got a new SmartPoster MIME type");
 					TargetType = (RtdSmartPosterTargetType) ndef;
 				} else
 					if (ndef is RtdSmartPosterTargetSize)
 				{
-					Trace.WriteLine("Got a new SmartPoster Size");
+                    logger.Debug("Got a new SmartPoster Size");
 					TargetSize = (RtdSmartPosterTargetSize) ndef;
 				} else
 				{
-					Trace.WriteLine("Got an unknown child in the SmartPoster");
+                    logger.Debug("Got an unknown child in the SmartPoster");
 				}
 				
 				if (terminated)
@@ -186,20 +196,20 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
 		public override bool Encode(ref byte[] buffer)
 		{
-			_children.Clear();
+			children.Clear();
 			
 			if (Uri != null)
-				_children.Add(Uri);
+				children.Add(Uri);
 			for (int i=0; i<Title.Count; i++)
-				_children.Add(Title[i]);
+				children.Add(Title[i]);
 			if (Action != null)
-				_children.Add(Action);
+				children.Add(Action);
 			if (TargetIcon != null)
-				_children.Add(TargetIcon);
+				children.Add(TargetIcon);
 			if (TargetType != null)
-				_children.Add(TargetType);
+				children.Add(TargetType);
 			if (TargetSize != null)
-				_children.Add(TargetSize);
+				children.Add(TargetSize);
 			
 			return base.Encode(ref buffer);
 		}
