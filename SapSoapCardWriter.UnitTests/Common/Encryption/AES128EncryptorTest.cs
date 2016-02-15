@@ -13,9 +13,10 @@ namespace SapSoapCardWriter.UnitTests
             AES128Encryptor enc = new AES128Encryptor();
             string clearText = "Test text";
             string key = "qwerty";
-            string chiperText = enc.Encrypt(clearText, key);
+            string encryptedPayload = enc.Encrypt(clearText, key);
 
-            string clearTextAgain = enc.Decrypt(chiperText, key);
+            string clearTextAgain = enc.Decrypt(encryptedPayload, key);
+
             Assert.AreEqual(clearText, clearTextAgain);
         }
     }

@@ -51,8 +51,8 @@ namespace SapSoapCardWriter.ServiceHost
             try
             {
                 logger.Debug("Encrypt called!");
-                string chiper = encryptor.Encrypt(payload, key);
-                return new Response<string>(ResultCode.OK, chiper);
+                string encryptedPayload = encryptor.Encrypt(payload, key);
+                return new Response<string>(ResultCode.OK, encryptedPayload);
             }
             catch(Exception ex)
             {
@@ -61,12 +61,12 @@ namespace SapSoapCardWriter.ServiceHost
             }
         }
 
-        public Response<string> Decrypt(string chiper, string key)
+        public Response<string> Decrypt(string encryptedPayload, string key)
         {
             try
             {
                 logger.Debug("Decrypt called!");
-                string clearText = encryptor.Encrypt(chiper, key);
+                string clearText = encryptor.Decrypt(encryptedPayload, key);
                 return new Response<string>(ResultCode.OK, clearText);
             }
             catch (Exception ex)

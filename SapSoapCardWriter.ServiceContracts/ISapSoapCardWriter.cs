@@ -17,6 +17,6 @@ namespace SapSoapCardWriter.ServiceContracts
         Response<string> Encrypt(string payload, string key);
 
         [OperationContract]
-        Response<string> Decrypt(string chiper, string key);
+        Response<string> Decrypt(string encryptedPayload, string key);
     }
 }

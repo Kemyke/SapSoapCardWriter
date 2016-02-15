@@ -96,15 +96,15 @@
     <None Include="App.Release.config">
       <DependentUpon>App.config</DependentUpon>
     </None>
-    <None Include="Configs\log4net.config">
+    <Content Include="Configs\log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\SapSoapCardWriterConfig.config">
+    </Content>
+    <Content Include="Configs\SapSoapCardWriterConfig.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Configs\Unity.config">
+    </Content>
+    <Content Include="Configs\Unity.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="packages.config" />
     <None Include="Tools\install.bat" />
     <None Include="Tools\uninstall.bat" />
@@ -126,6 +126,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SapSoapCardWriterService.resx">
+      <DependentUpon>SapSoapCardWriterService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
