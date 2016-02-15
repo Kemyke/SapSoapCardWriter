@@ -159,12 +159,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_37F82CF50711590E5F2F7F27AA8CB84B"
-        "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_3B2FD5EFF720D7882AA79DD7447833E9"
         "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
         "MsmSig" = "8:_UNDEFINED"
@@ -177,7 +171,31 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_44FADE1859204F1029416099891F00C5"
+        "OwnerKey" = "8:_504184345C3652BB4280BD1548B51ED5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_44FADE1859204F1029416099891F00C5"
+        "OwnerKey" = "8:_8084EED7150B860A991811E079A6F43F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_44FADE1859204F1029416099891F00C5"
+        "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4889CFC1517FB15E268D756CF8A6DAD8"
+        "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_504184345C3652BB4280BD1548B51ED5"
         "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -250,7 +268,7 @@
         "Entry"
         {
         "MsmKey" = "8:_7559EE9FBB576CB9A1CC1D5FFD3215BB"
-        "OwnerKey" = "8:_C966CE8BD4855D1D7E1EEECEFFD55E56"
+        "OwnerKey" = "8:_44FADE1859204F1029416099891F00C5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -262,6 +280,12 @@
         "Entry"
         {
         "MsmKey" = "8:_799CF583DFF94D9DE5A19DDA51B0F477"
+        "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8084EED7150B860A991811E079A6F43F"
         "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -292,7 +316,7 @@
         "Entry"
         {
         "MsmKey" = "8:_87942DC3BAA730D2B7D03A79E42A8532"
-        "OwnerKey" = "8:_C966CE8BD4855D1D7E1EEECEFFD55E56"
+        "OwnerKey" = "8:_44FADE1859204F1029416099891F00C5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -345,6 +369,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BAC5695E6B5C49EB9CB35986038F3457"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_BEDA9A3E2E0B65CA6B7B5CD48EC55652"
         "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
         "MsmSig" = "8:_UNDEFINED"
@@ -358,24 +388,6 @@
         "Entry"
         {
         "MsmKey" = "8:_C7CAC65DBA4595A8E4C267804316FACE"
-        "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C966CE8BD4855D1D7E1EEECEFFD55E56"
-        "OwnerKey" = "8:_E8923EDF779E2332CD30C59E3286C58C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C966CE8BD4855D1D7E1EEECEFFD55E56"
-        "OwnerKey" = "8:_37F82CF50711590E5F2F7F27AA8CB84B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C966CE8BD4855D1D7E1EEECEFFD55E56"
         "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -400,7 +412,7 @@
         "Entry"
         {
         "MsmKey" = "8:_D223AA6627C6E0BD33E2E2F3DDAD3EBD"
-        "OwnerKey" = "8:_C966CE8BD4855D1D7E1EEECEFFD55E56"
+        "OwnerKey" = "8:_44FADE1859204F1029416099891F00C5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -436,12 +448,6 @@
         "Entry"
         {
         "MsmKey" = "8:_E43598E284F3B7A43113AAA99FB2D3B5"
-        "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E8923EDF779E2332CD30C59E3286C58C"
         "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -496,25 +502,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8084EED7150B860A991811E079A6F43F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_504184345C3652BB4280BD1548B51ED5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_44FADE1859204F1029416099891F00C5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C4AD271B1D47442584A0FAD6C3FE3A9F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_37F82CF50711590E5F2F7F27AA8CB84B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E8923EDF779E2332CD30C59E3286C58C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C966CE8BD4855D1D7E1EEECEFFD55E56"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1512,37 +1518,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_37F82CF50711590E5F2F7F27AA8CB84B"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.ServiceContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_37F82CF50711590E5F2F7F27AA8CB84B"
-                    {
-                    "Name" = "8:SapSoapCardWriter.ServiceContracts.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:SapSoapCardWriter.ServiceContracts.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_12A3F080C5EC4B46A457151FB3A9C505"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3B2FD5EFF720D7882AA79DD7447833E9"
             {
             "AssemblyRegister" = "3:1"
@@ -1605,6 +1580,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_44FADE1859204F1029416099891F00C5"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_44FADE1859204F1029416099891F00C5"
+                    {
+                    "Name" = "8:SapSoapCardWriter.Common.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:SapSoapCardWriter.Common.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_12A3F080C5EC4B46A457151FB3A9C505"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4889CFC1517FB15E268D756CF8A6DAD8"
             {
             "AssemblyRegister" = "3:1"
@@ -1633,6 +1639,37 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_504184345C3652BB4280BD1548B51ED5"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.BusinessLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_504184345C3652BB4280BD1548B51ED5"
+                    {
+                    "Name" = "8:SapSoapCardWriter.BusinessLogic.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:SapSoapCardWriter.BusinessLogic.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_12A3F080C5EC4B46A457151FB3A9C505"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -1946,6 +1983,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8084EED7150B860A991811E079A6F43F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.ServiceContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_8084EED7150B860A991811E079A6F43F"
+                    {
+                    "Name" = "8:SapSoapCardWriter.ServiceContracts.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:SapSoapCardWriter.ServiceContracts.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_12A3F080C5EC4B46A457151FB3A9C505"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_83041B713E65AA34F8F99084177702F6"
             {
             "AssemblyRegister" = "3:1"
@@ -2256,6 +2324,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BAC5695E6B5C49EB9CB35986038F3457"
+            {
+            "SourcePath" = "8:..\\SapSoapCardWriter.ServiceHost\\bin\\Release\\SapSoapCardWriter.ServiceHost.exe.config"
+            "TargetName" = "8:SapSoapCardWriter.ServiceHost.exe.config"
+            "Tag" = "8:"
+            "Folder" = "8:_12A3F080C5EC4B46A457151FB3A9C505"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BEDA9A3E2E0B65CA6B7B5CD48EC55652"
             {
             "AssemblyRegister" = "3:1"
@@ -2315,37 +2403,6 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C966CE8BD4855D1D7E1EEECEFFD55E56"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_C966CE8BD4855D1D7E1EEECEFFD55E56"
-                    {
-                    "Name" = "8:SapSoapCardWriter.Common.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:SapSoapCardWriter.Common.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_12A3F080C5EC4B46A457151FB3A9C505"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -2532,37 +2589,6 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E8923EDF779E2332CD30C59E3286C58C"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.BusinessLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_E8923EDF779E2332CD30C59E3286C58C"
-                    {
-                    "Name" = "8:SapSoapCardWriter.BusinessLogic.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:SapSoapCardWriter.BusinessLogic.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_12A3F080C5EC4B46A457151FB3A9C505"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -2809,7 +2835,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SapSoapCardWriter"
         "ProductCode" = "8:{E4692F45-56F4-47F0-9954-99E4112C682D}"
-        "PackageCode" = "8:{CAABE7B1-3280-4071-9002-5C8EDAE1D7B7}"
+        "PackageCode" = "8:{5B1B8DAD-79A1-47A3-8FBF-4C24A621B373}"
         "UpgradeCode" = "8:{A99EE64C-50AA-42F4-833B-E13070F45E22}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3358,7 +3384,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C4AD271B1D47442584A0FAD6C3FE3A9F"
             {
-            "SourcePath" = "8:..\\SapSoapCardWriter.ServiceHost\\obj\\Debug\\SapSoapCardWriter.ServiceHost.exe"
+            "SourcePath" = "8:..\\SapSoapCardWriter.ServiceHost\\obj\\Release\\SapSoapCardWriter.ServiceHost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_12A3F080C5EC4B46A457151FB3A9C505"
@@ -3382,6 +3408,7 @@
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
+                "ExcludeFilter" = "8:*.config"
                 }
             }
         }

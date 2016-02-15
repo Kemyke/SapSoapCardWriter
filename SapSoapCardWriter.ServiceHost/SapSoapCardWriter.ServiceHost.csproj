@@ -131,7 +131,48 @@
       <DependentUpon>SapSoapCardWriterService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\Web\Microsoft.Web.Publishing.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.targets" Condition="false" />
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+
+  <Target Name="AfterCompile" Condition="exists('app.$(Configuration).config')">
+    <CallTarget Targets="TransformAppConfig" />
+    <CallTarget Targets="TransformUnity" />
+    <CallTarget Targets="TransformLog4net" />
+  </Target>
+
+  <Target Name="TransformAppConfig" Condition="exists('app.$(Configuration).config')">
+    <TransformXml Source="app.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="app.$(Configuration).config" />
+    <ItemGroup>
+      <AppConfigWithTargetPath Remove="app.config" />
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
+        <TargetPath>$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
+        <TargetPath>$(TargetName).vshost$(TargetExt).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="TransformUnity" Condition="exists('Configs\Unity.$(Configuration).config')">
+    <TransformXml Source="Configs\Unity.config" Transform="Configs\Unity.$(Configuration).config" Destination="$(IntermediateOutputPath)\Unity.config" />
+    <ItemGroup>
+      <CopyCustomConfigAfterBuild Include="$(IntermediateOutputPath)\Unity.config" />
+    </ItemGroup>
+    <Copy SourceFiles="@(CopyCustomConfigAfterBuild)" DestinationFolder="$(OutDir)\Configs" OverwriteReadOnlyFiles="True" />
+  </Target>
+  
+  <Target Name="TransformLog4net" Condition="exists('Configs\log4net.$(Configuration).config')">
+    <TransformXml Source="Configs\log4net.config" Transform="Configs\log4net.$(Configuration).config" Destination="$(IntermediateOutputPath)\log4net.config" />
+    <ItemGroup>
+      <CopyLog4netConfigAfterBuild Include="$(IntermediateOutputPath)\log4net.config" />
+    </ItemGroup>
+    <Copy SourceFiles="@(CopyLog4netConfigAfterBuild)" DestinationFolder="$(OutDir)\Configs" OverwriteReadOnlyFiles="True" />
+  </Target>
+
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
