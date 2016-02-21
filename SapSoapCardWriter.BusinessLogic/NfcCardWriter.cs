@@ -20,7 +20,7 @@ namespace SapSoapCardWriter.BusinessLogic
             writer = new NfcWriter(logger);
         }
 
-        public ResultCode WriteCard(string key, string data)
+        public ResultCode WriteCard(string key, List<string> dataList)
         {
             bool isSuccess;
             logger.Debug("Start erase");
@@ -38,7 +38,7 @@ namespace SapSoapCardWriter.BusinessLogic
             }
 
             logger.Debug("Start write");
-            isSuccess = writer.WriteNfcTag(data);
+            isSuccess = writer.WriteNfcTag(dataList);
             if (!isSuccess)
             {
                 throw new InvalidOperationException("Write failed");

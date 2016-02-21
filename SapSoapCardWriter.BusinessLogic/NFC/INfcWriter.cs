@@ -11,6 +11,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         bool Erase(string key);
         bool Prepare(string key);
         bool Lock(string key);
-        bool WriteNfcTag(string data);
+        bool WriteNfcTag(List<string> dataList);
     }
 }

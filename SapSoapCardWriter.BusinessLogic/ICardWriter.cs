@@ -9,6 +9,6 @@ namespace SapSoapCardWriter.BusinessLogic
 {
     public interface ICardWriter
     {
-        ResultCode WriteCard(string key, string data);
+        ResultCode WriteCard(string key, List<string> dataList);
     }
 }

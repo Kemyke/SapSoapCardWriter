@@ -28,13 +28,13 @@ namespace SapSoapCardWriter.ServiceHost
             this.encryptor = encryptor;
         }
 
-        public Response WriteCard(string key, string data)
+        public Response WriteCard(string key, List<string> dataList)
         {
             try
             {
                 logger.Debug("WriteCard called!");
 
-                ResultCode rc = cardWriter.WriteCard(key, data);
+                ResultCode rc = cardWriter.WriteCard(key, dataList);
                 return new Response(rc);
             }
             catch(Exception ex)

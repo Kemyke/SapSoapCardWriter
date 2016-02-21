@@ -465,7 +465,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             return ret;
         }
 
-        private void WriteNfcTag(SmartCardChannel scard, string data)
+        private void WriteNfcTag(SmartCardChannel scard, List<string> dataList)
         {
             NfcTag tag;
             string msg = null;
@@ -474,18 +474,21 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             if (!NfcTag.Recognize(logger, scard, out tag, out msg, out isFormattable))
             {
                 throw new InvalidOperationException("Unrecognized or unsupported tag!");
-            }
+            }                        
 
-            RtdText t = new RtdText(logger, data);
+            foreach (string data in dataList)
+            {
+                RtdText t = new RtdText(logger, data);
+                tag.Content.Add(t);
+            }                        
 
-            tag.Content.Add(t);
             if (!tag.Write())
             {
                 throw new InvalidOperationException("Unable to write onto the tag");
-            }
+            }            
         }
 
-        public bool WriteNfcTag(string data)
+        public bool WriteNfcTag(List<string> dataList)
         {
             bool isSuccess = false;
             List<string> readerNames = GetReaders();
@@ -504,7 +507,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                     else
                     {
                         logger.Info("Connect successfull!");
-                        WriteNfcTag(scard, data);
+                        WriteNfcTag(scard, dataList);
                         isSuccess = true;
                     }
                 }

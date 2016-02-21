@@ -56,7 +56,10 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
             ILogger logger = new ConsoleLogger(); 
             NfcWriter writer = new NfcWriter(logger);
 
-            writer.WriteNfcTag("testdata");
+            List<string> testDataList = new List<string>();
+            testDataList.Add("testdata1");
+            testDataList.Add("testdata2");
+            writer.WriteNfcTag(testDataList);
         }
 
         [TestMethod]
@@ -75,7 +78,10 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
             ILogger logger = new ConsoleLogger(); 
             NfcCardWriter writer = new NfcCardWriter(logger);
 
-            writer.WriteCard("FADDDEADFADDDEAD", "testfulldataa2");
+            List<string> testDataList = new List<string>();            
+            testDataList.Add("testfulldata1");
+            testDataList.Add("testfulldata2");
+            writer.WriteCard("FADDDEADFADDDEAD", testDataList);
         }
     }
 }
