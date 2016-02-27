@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace SapSoapCardWriter.BusinessLogic
 {
@@ -14,6 +15,18 @@ namespace SapSoapCardWriter.BusinessLogic
         public MockCardWriter(ILogger logger)
         {
             this.logger = logger;
+            Timer timer = new Timer(20000);
+            timer.AutoReset = false;
+            timer.Elapsed += timer_Elapsed;
+            timer.Start();
+        }
+
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if(ReaderStateChanged != null)
+            {
+                ReaderStateChanged(this, NFC.ReaderState.CardPresent);
+            }
         }
 
         public ResultCode WriteCard(string key, List<string> dataList)
@@ -21,5 +34,13 @@ namespace SapSoapCardWriter.BusinessLogic
             logger.Debug("Key: {0}. Data: {1}", key, dataList);
             return ResultCode.OK;
         }
+
+
+        public string GetRfid()
+        {
+            return "rfid";
+        }
+
+        public event EventHandler<NFC.ReaderState> ReaderStateChanged;
     }
 }

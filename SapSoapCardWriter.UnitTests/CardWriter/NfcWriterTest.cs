@@ -33,6 +33,18 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
         }
 
         [TestMethod]
+        public void TestGetUid()
+        {
+            ILogger logger = new ConsoleLogger();
+            NfcWriter writer = new NfcWriter(logger);
+
+            byte[] rfid = writer.GetCardUID();
+
+            Console.WriteLine(Encoding.Default.GetString(rfid));
+        }
+
+
+        [TestMethod]
         public void TestErase()
         {
             ILogger logger = new ConsoleLogger();

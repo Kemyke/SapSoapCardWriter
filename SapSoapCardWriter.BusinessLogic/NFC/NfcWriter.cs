@@ -32,6 +32,40 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             this.logger = logger;
         }
 
+        private void StartMonitor()
+        {
+            List<string> readerNames = GetReaders();
+            foreach (string readerName in readerNames)
+            {
+                try
+                {
+                    SmartCardReader reader = new SmartCardReader(readerName);
+                    reader.StartMonitor(OnStatusChange);
+                }
+                catch 
+                { 
+                }
+            }
+        }
+
+        private void OnStatusChange(uint ReaderState, CardBuffer CardAtr)
+        {
+            SapSoapCardWriter.BusinessLogic.NFC.ReaderState rs;
+            if(ReaderState == SmartCard.STATE_PRESENT)
+            {
+                rs = NFC.ReaderState.CardPresent;
+            }
+            else
+            {
+                rs = NFC.ReaderState.CardNotPresent;
+            }
+
+            if(ReaderStateChanged != null)
+            {
+                ReaderStateChanged(this, rs);
+            }
+        }
+
         private SmartCardChannel Init(string readerName, string key)
         {
             string p_key = key;
@@ -161,34 +195,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             logger.Debug("Looking for Desfire EV1 card on reader " + readerName);
 
-            SmartCardChannel scard = new SmartCardChannel(logger, readerName);
-
-            if (scard == null)
-            {
-                logger.Error("Failed to connect to the target card.");
-                throw new InvalidOperationException("Failed to connect to the target card.");
-            }
-
-            if (!scard.Connect())
-            {
-                logger.Error("Failed to connect to the target card.");
-                throw new InvalidOperationException("Failed to connect to the target card.");
-            }
-
-            /* Open the Desfire DLL */
-            rc = SmartCardDesfire.AttachLibrary(scard.hCard);
-            if (rc != SmartCard.S_SUCCESS)
-            {
-                logger.Error("Failed to instantiate the PC/SC Desfire DLL.");
-                throw new InvalidOperationException("Failed to instantiate the PC/SC Desfire DLL.");
-            }
-
-            rc = SmartCardDesfire.IsoWrapping(scard.hCard, DF_ISO_WRAPPING_CARD);
-            if (rc != SmartCard.S_SUCCESS)
-            {
-                logger.Error("Failed to select the ISO 7816 wrapping mode.");
-                throw new InvalidOperationException("Failed to select the ISO 7816 wrapping mode.");
-            }
+            SmartCardChannel scard = Connect(readerName);
 
             byte[] version_info = new byte[30];
 
@@ -328,6 +335,40 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 logger.Debug("Changing the key...");
             }
 
+            return scard;
+        }
+
+        private SmartCardChannel Connect(string readerName)
+        {
+            SmartCardChannel scard = new SmartCardChannel(logger, readerName);
+
+            if (scard == null)
+            {
+                logger.Error("Failed to connect to the target card.");
+                throw new InvalidOperationException("Failed to connect to the target card.");
+            }
+
+            if (!scard.Connect())
+            {
+                logger.Error("Failed to connect to the target card.");
+                throw new InvalidOperationException("Failed to connect to the target card.");
+            }
+
+            /* Open the Desfire DLL */
+            int rc = SmartCardDesfire.AttachLibrary(scard.hCard);
+            if (rc != SmartCard.S_SUCCESS)
+            {
+                logger.Error("Failed to instantiate the PC/SC Desfire DLL.");
+                throw new InvalidOperationException("Failed to instantiate the PC/SC Desfire DLL.");
+            }
+
+            rc = SmartCardDesfire.IsoWrapping(scard.hCard, DF_ISO_WRAPPING_CARD);
+            if (rc != SmartCard.S_SUCCESS)
+            {
+                logger.Error("Failed to select the ISO 7816 wrapping mode.");
+                throw new InvalidOperationException("Failed to select the ISO 7816 wrapping mode.");
+            }
+            
             return scard;
         }
 
@@ -681,6 +722,48 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 logger.Error("Cannot prepare with any reader!");
             }
             return isSuccess;
+        }
+
+
+        public event EventHandler<ReaderState> ReaderStateChanged;
+
+
+        public byte[] GetCardUID()
+        {
+            List<string> readerNames = GetReaders();
+            foreach (string readerName in readerNames)
+            {
+                SmartCardChannel scard = null;
+                try
+                {
+                    scard = Connect(readerName);
+                    byte[] uid = new byte[7];
+                    int rc = SmartCardDesfire.GetCardUID(scard.hCard, uid);
+
+                    if (rc != SmartCard.S_SUCCESS)
+                    {
+                        string errorMsg = SmartCardDesfire.GetErrorMessage(rc);
+                        logger.Error("Get RFID failed! Error message: {0}", errorMsg);
+                        throw new InvalidOperationException(string.Format("Get RFID failed! Error message: {0}", errorMsg));
+                    }
+                    
+                    return uid;
+                }
+                catch (InvalidOperationException ex)
+                {
+                    logger.Warning("Cannot prepare with reader: {0}. Exception: {1}.", readerName, ex.ToString());
+                }
+                finally
+                {
+                    if (scard != null)
+                    {
+                        SmartCardDesfire.DetachLibrary(scard.hCard);
+                        scard.Disconnect();
+                    }
+                }
+            }
+
+            throw new InvalidOperationException("Cannot get RFID from any reader!");
         }
     }
 }

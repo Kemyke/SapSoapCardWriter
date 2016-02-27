@@ -12,12 +12,21 @@ namespace SapSoapCardWriter.BusinessLogic
     public class NfcCardWriter : ICardWriter
     {
         private readonly ILogger logger;
-        private readonly NfcWriter writer;
+        private readonly INfcWriter writer;
 
         public NfcCardWriter(ILogger logger)
         {
             this.logger = logger;
             writer = new NfcWriter(logger);
+            writer.ReaderStateChanged += writer_ReaderStateChanged;
+        }
+
+        private void writer_ReaderStateChanged(object sender, ReaderState e)
+        {
+            if (ReaderStateChanged != null)
+            {
+                ReaderStateChanged(this, e);
+            }
         }
 
         public ResultCode WriteCard(string key, List<string> dataList)
@@ -54,5 +63,16 @@ namespace SapSoapCardWriter.BusinessLogic
 
             return ResultCode.OK;
         }
+
+
+        public string GetRfid()
+        {
+            byte[] uid = writer.GetCardUID();
+            string rfid = Encoding.Default.GetString(uid);
+            return rfid;
+        }
+
+
+        public event EventHandler<ReaderState> ReaderStateChanged;
     }
 }

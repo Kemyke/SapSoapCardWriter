@@ -1,4 +1,5 @@
-﻿using SapSoapCardWriter.Common;
+﻿using SapSoapCardWriter.BusinessLogic.NFC;
+using SapSoapCardWriter.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,7 @@ namespace SapSoapCardWriter.BusinessLogic
     public interface ICardWriter
     {
         ResultCode WriteCard(string key, List<string> dataList);
+        string GetRfid();
+        event EventHandler<ReaderState> ReaderStateChanged;
     }
 }
