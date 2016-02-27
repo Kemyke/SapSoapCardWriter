@@ -17,13 +17,16 @@ namespace SapSoapCardWriter.GUI
             client = new NakCardServiceClient();
         }
 
-        public void ValidateUser(string userName, string password)
+        public LoginData ValidateUser(string userName, string password)
         {
             LoginData ld = client.ValidateUser(userName, password);
-            if(!ld.IsSuccessful)
-            {
-                throw new AuthenticationException(ld.ErrorString);
-            }
+            return ld;
+        }
+
+        public Task<LoginData> ValidateUserAsync(string userName, string password)
+        {
+            Task<LoginData> ld = client.ValidateUserAsync(userName, password);
+            return ld;
         }
 
         public CardData GetCardData(UserData userData, string rfid)
@@ -31,5 +34,12 @@ namespace SapSoapCardWriter.GUI
             CardData cd = client.GetCardData(userData.LoginName, userData.Password, rfid);
             return cd;
         }
+
+        public Task<CardData> GetCardDataAsync(UserData userData, string rfid)
+        {
+            Task<CardData> cd = client.GetCardDataAsync(userData.LoginName, userData.Password, rfid);
+            return cd;
+        }
+
     }
 }

@@ -11,7 +11,9 @@ namespace SapSoapCardWriter.BusinessLogic
     public interface ICardWriter
     {
         ResultCode WriteCard(string key, List<string> dataList);
+        Task<ResultCode> WriteCardAsync(string key, List<string> dataList);
         string GetRfid();
+        Task<string> GetRfidAsync();
         event EventHandler<ReaderState> ReaderStateChanged;
     }
 }

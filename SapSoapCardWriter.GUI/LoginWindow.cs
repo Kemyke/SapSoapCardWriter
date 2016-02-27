@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SapSoapCardWriter.GUI.NakCardService;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,17 +24,17 @@ namespace SapSoapCardWriter.GUI
             User = null;
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
-            try
+            LoginData ld = await serviceManager.ValidateUserAsync(tbUserName.Text, tbPassword.Text);
+            if (ld.IsSuccessful)
             {
-                serviceManager.ValidateUser(tbUserName.Text, tbPassword.Text);
                 User = new UserData(tbUserName.Text, tbPassword.Text);
                 DialogResult = System.Windows.Forms.DialogResult.OK;
             }
-            catch (AuthenticationException ex)
+            else
             {
-                MessageBox.Show(ex.Message, "Bejelentkezés sikertelen!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ld.ErrorString, "Bejelentkezés sikertelen!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

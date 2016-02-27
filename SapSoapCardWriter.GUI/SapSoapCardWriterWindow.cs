@@ -1,6 +1,8 @@
 ﻿using SapSoapCardWriter.BusinessLogic;
 using SapSoapCardWriter.BusinessLogic.NFC;
+using SapSoapCardWriter.Common.DIContainer;
 using SapSoapCardWriter.GUI.NakCardService;
+using SapSoapCardWriter.Logger.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,51 +15,65 @@ using System.Windows.Forms;
 
 namespace SapSoapCardWriter.GUI
 {
-    //TODO: logging, async
     public partial class SapSoapCardWriterWindow : Form
     {
-        private UserData user = null;
         private ICardWriter cardWriter = null;
+        private ILogger logger = null;
+
+        private UserData user = null;
         private ServiceManager sm = null;
         private CardData cardData = null;
+
+        private void InitDIContainer()
+        {
+            DIContainerFactory diFactory = new DIContainerFactory();
+            IDIContainer di = diFactory.CreateAndLoadDIContainer();
+            cardWriter = di.GetInstance<ICardWriter>();
+            logger = di.GetInstance<ILogger>();
+        }
 
         public SapSoapCardWriterWindow()
         {
             InitializeComponent();
+            InitDIContainer();
+
             sm = new ServiceManager();
-            //cardWriter = new NfcCardWriter(new Logger.Logging.Log4Net.Logger());
-            cardWriter = new MockCardWriter(new Logger.Logging.Log4Net.Logger());
             cardWriter.ReaderStateChanged += cardWriter_ReaderStateChanged;
+        }
+
+        private async Task StateChange(ReaderState newState)
+        {
+            cardData = null;
+            btnWriteCard.Enabled = false;
+            tbAddress.Text = string.Empty;
+            tbAddress.Enabled = false;
+            tbFullName.Text = string.Empty;
+            tbFullName.Enabled = false;
+
+            if (newState == ReaderState.CardPresent)
+            {
+                toolReaderStatus.Text = "RFID kiolvasás...";
+                string rfid = await cardWriter.GetRfidAsync();
+                toolReaderStatus.Text = "Kártya beolvasás...";
+                cardData = await sm.GetCardDataAsync(user, rfid);
+                tbFullName.Text = cardData.UIData.FullName;
+                tbAddress.Text = cardData.UIData.Address;
+                tbAddress.Enabled = true;
+                tbFullName.Enabled = true;
+                toolReaderStatus.Text = "Kártya beolvasva";
+                btnWriteCard.Enabled = true;
+            }
+            else
+            {
+                toolReaderStatus.Text = "Nincs kártya";
+            }
         }
 
         private void cardWriter_ReaderStateChanged(object sender, BusinessLogic.NFC.ReaderState e)
         {
-            this.Invoke(new Action(() =>
+            this.Invoke(new Action(async () =>
                 {
-                    cardData = null;
-                    btnWriteCard.Enabled = false;
-                    tbAddress.Text = string.Empty;
-                    tbAddress.Enabled = false;
-                    tbFullName.Text = string.Empty;
-                    tbFullName.Enabled = false;
-
-                    if (e == ReaderState.CardPresent)
-                    {
-                        toolReaderStatus.Text = "RFID kiolvasás...";
-                        string rfid = cardWriter.GetRfid();
-                        toolReaderStatus.Text = "Kártya beolvasás...";
-                        cardData = sm.GetCardData(user, rfid);
-                        tbFullName.Text = cardData.UIData.FullName;
-                        tbAddress.Text = cardData.UIData.Address;
-                        tbAddress.Enabled = true;
-                        tbFullName.Enabled = true;
-                        toolReaderStatus.Text = "Kártya beolvasva";
-                        btnWriteCard.Enabled = true;
-                    }
-                    else
-                    {
-                        toolReaderStatus.Text = "Nincs kártya";
-                    }
+                    await StateChange(e);
                 }));
         }
 
@@ -91,6 +107,7 @@ namespace SapSoapCardWriter.GUI
             }
             catch(Exception ex)
             {
+                logger.Error(ex.ToString());
                 toolReaderStatus.Text = "Kártya írás sikertelen";
             }
         }

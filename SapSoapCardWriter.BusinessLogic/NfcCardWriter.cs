@@ -74,5 +74,16 @@ namespace SapSoapCardWriter.BusinessLogic
 
 
         public event EventHandler<ReaderState> ReaderStateChanged;
+
+
+        public Task<ResultCode> WriteCardAsync(string key, List<string> dataList)
+        {
+            return Task.FromResult(WriteCard(key, dataList));
+        }
+
+        public Task<string> GetRfidAsync()
+        {
+            return Task.FromResult(GetRfid());
+        }
     }
 }
