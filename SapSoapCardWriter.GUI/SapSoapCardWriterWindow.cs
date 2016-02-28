@@ -43,29 +43,36 @@ namespace SapSoapCardWriter.GUI
 
         private async Task StateChange(ReaderState newState)
         {
-            cardData = null;
-            btnWriteCard.Enabled = false;
-            tbAddress.Text = string.Empty;
-            tbAddress.Enabled = false;
-            tbFullName.Text = string.Empty;
-            tbFullName.Enabled = false;
-
-            if (newState == ReaderState.CardPresent)
+            if (user != null)
             {
-                toolReaderStatus.Text = "RFID kiolvasás...";
-                string rfid = await cardWriter.GetRfidAsync();
-                toolReaderStatus.Text = "Kártya beolvasás...";
-                cardData = await sm.GetCardDataAsync(user, rfid);
-                tbFullName.Text = cardData.UIData.FullName;
-                tbAddress.Text = cardData.UIData.Address;
-                tbAddress.Enabled = true;
-                tbFullName.Enabled = true;
-                toolReaderStatus.Text = "Kártya beolvasva";
-                btnWriteCard.Enabled = true;
+                cardData = null;
+                btnWriteCard.Enabled = false;
+                tbAddress.Text = string.Empty;
+                tbAddress.Enabled = false;
+                tbFullName.Text = string.Empty;
+                tbFullName.Enabled = false;
+
+                if (newState == ReaderState.CardPresent)
+                {
+                    toolReaderStatus.Text = "RFID kiolvasás...";
+                    string rfid = await cardWriter.GetRfidAsync();
+                    toolReaderStatus.Text = "Kártya beolvasás...";
+                    cardData = await sm.GetCardDataAsync(user, rfid);
+                    tbFullName.Text = cardData.UIData.FullName;
+                    tbAddress.Text = cardData.UIData.Address;
+                    tbAddress.Enabled = true;
+                    tbFullName.Enabled = true;
+                    toolReaderStatus.Text = "Kártya beolvasva";
+                    btnWriteCard.Enabled = true;
+                }
+                else
+                {
+                    toolReaderStatus.Text = "Nincs kártya";
+                }
             }
             else
             {
-                toolReaderStatus.Text = "Nincs kártya";
+                logger.Warning("Bejelentkezés nélkül nem kérhetőek le a kártya adatai.");
             }
         }
 
@@ -81,10 +88,12 @@ namespace SapSoapCardWriter.GUI
         {
             base.OnShown(e);
             LoginWindow lw = new LoginWindow();
+            lw.StartPosition = FormStartPosition.CenterParent;
             var result = lw.ShowDialog();
             if(result == DialogResult.OK)
             {
                 user = lw.User;
+                this.Text = string.Format("NAK kártyaíró (Felhasználó: {0})", user.LoginName);
             }
             else
             {

@@ -26,6 +26,11 @@ namespace SapSoapCardWriter.GUI
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
+            await DoLogin();
+        }
+
+        private async Task DoLogin()
+        {
             LoginData ld = await serviceManager.ValidateUserAsync(tbUserName.Text, tbPassword.Text);
             if (ld.IsSuccessful)
             {
@@ -41,6 +46,22 @@ namespace SapSoapCardWriter.GUI
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        private async void tbPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == (char)Keys.Enter)
+            {
+                await DoLogin();
+            }
+        }
+
+        private async void tbUserName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                await DoLogin();
+            }
         }
     }
 }
