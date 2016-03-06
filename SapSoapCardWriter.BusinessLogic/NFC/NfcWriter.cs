@@ -728,7 +728,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         public event EventHandler<ReaderState> ReaderStateChanged;
 
 
-        public byte[] GetCardUID()
+        public byte[] GetCardUID(String key)
         {
             List<string> readerNames = GetReaders();
             foreach (string readerName in readerNames)
@@ -736,7 +736,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 SmartCardChannel scard = null;
                 try
                 {
-                    scard = Connect(readerName);
+                    scard = Init(readerName, key);
+                    scard = Connect(readerName);                    
                     byte[] uid = new byte[7];
                     int rc = SmartCardDesfire.GetCardUID(scard.hCard, uid);
 

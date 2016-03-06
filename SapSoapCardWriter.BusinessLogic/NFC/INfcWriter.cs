@@ -20,6 +20,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         bool WriteNfcTag(List<string> dataList);
 
         event EventHandler<ReaderState> ReaderStateChanged;
-        byte[] GetCardUID();
+        byte[] GetCardUID(string key);
     }
 }
