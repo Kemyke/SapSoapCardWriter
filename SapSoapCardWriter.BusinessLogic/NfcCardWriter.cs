@@ -65,9 +65,9 @@ namespace SapSoapCardWriter.BusinessLogic
         }
 
 
-        public string GetRfid()
-        {
-            byte[] uid = writer.GetCardUID();
+        public string GetRfid(string key)
+        {            
+            byte[] uid = writer.GetCardUID(key);
             string rfid = Encoding.Default.GetString(uid);
             return rfid;
         }
@@ -81,9 +81,14 @@ namespace SapSoapCardWriter.BusinessLogic
             return Task.FromResult(WriteCard(key, dataList));
         }
 
+        public Task<string> GetRfidAsync(string key)
+        {
+            return Task.FromResult(GetRfid(key));
+        }
+
         public Task<string> GetRfidAsync()
         {
-            return Task.FromResult(GetRfid());
+            throw new NotImplementedException();
         }
     }
 }

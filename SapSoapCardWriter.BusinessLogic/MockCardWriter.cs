@@ -53,5 +53,10 @@ namespace SapSoapCardWriter.BusinessLogic
         {
             return Task.FromResult(GetRfid());
         }
+
+        public string GetRfid(string key)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
