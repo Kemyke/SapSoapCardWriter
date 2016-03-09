@@ -267,9 +267,10 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
             if (rc != SmartCard.S_SUCCESS)
             {
-                string errorMsg = SmartCardDesfire.GetErrorMessage(rc);
-                logger.Error("Authentication failed! Error messag: {0}", errorMsg);
-                throw new InvalidOperationException(string.Format("Authentication failed! Error messag: {0}", errorMsg));
+                logger.Error("Auth failed");
+                //string errorMsg = SmartCardDesfire.GetErrorMessage(rc);
+                //logger.Error("Authentication failed! Error messag: {0}", errorMsg);
+                throw new InvalidOperationException(string.Format("Authentication failed! Error messag: {0}", "Auth failed"));
             }
 
             if (set_key_length > 0)
@@ -796,7 +797,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 try
                 {
                     scard = Connect(readerName);
-
+                    
                     NfcTag tag;
                     string msg = null;
                     bool isFormattable = false;
@@ -829,7 +830,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                     if (scard != null)
                     {
                         SmartCardDesfire.DetachLibrary(scard.hCard);
-                        scard.Disconnect();
+                        scard.DisconnectUnpower();
                     }
                 }
             }

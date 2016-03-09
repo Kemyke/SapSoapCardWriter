@@ -38,9 +38,10 @@ namespace MockSapService
                     return new CardData()
                     {
                         ErrorString = null,
-                        CardKey = "cardkey",
-                        AllEncryptedData = "allencdata",
-                        PublicEncryptedData = "pubencdata",
+                        CardUid = "guid",
+                        CardKey = "FADDDEADFADDDEAD",
+                        AllEncryptedData = "alldatafromsapmock",
+                        PublicEncryptedData = "pubdatafromsapmock",
                         UIData = new CardUIData() { FullName = "Test User", Address = "1111 Test Address 60." }
                     };
                 }
@@ -49,6 +50,7 @@ namespace MockSapService
                     return new CardData()
                     {
                         ErrorString = "Rfid not found",
+                        CardUid = rfid,
                         CardKey = string.Empty,
                         AllEncryptedData = string.Empty,
                         PublicEncryptedData = string.Empty,

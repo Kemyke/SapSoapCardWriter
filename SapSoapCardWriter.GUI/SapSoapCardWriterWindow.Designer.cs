@@ -37,12 +37,12 @@
             this.toolReaderStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.tbAddress = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tbFullName = new System.Windows.Forms.TextBox();
-            this.tbAddress = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnWriteCard = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnWriteCard = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -138,6 +138,17 @@
             this.label1.Text = "Név";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // tbAddress
+            // 
+            this.tbAddress.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbAddress.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbAddress.Location = new System.Drawing.Point(421, 13);
+            this.tbAddress.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
+            this.tbAddress.Name = "tbAddress";
+            this.tbAddress.ReadOnly = true;
+            this.tbAddress.Size = new System.Drawing.Size(264, 26);
+            this.tbAddress.TabIndex = 4;
+            // 
             // label2
             // 
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -160,17 +171,6 @@
             this.tbFullName.Size = new System.Drawing.Size(264, 26);
             this.tbFullName.TabIndex = 3;
             // 
-            // tbAddress
-            // 
-            this.tbAddress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbAddress.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbAddress.Location = new System.Drawing.Point(421, 13);
-            this.tbAddress.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
-            this.tbAddress.Name = "tbAddress";
-            this.tbAddress.ReadOnly = true;
-            this.tbAddress.Size = new System.Drawing.Size(264, 26);
-            this.tbAddress.TabIndex = 4;
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
@@ -190,6 +190,17 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(894, 487);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Font = new System.Drawing.Font("Tahoma", 16F);
+            this.label3.Location = new System.Drawing.Point(103, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(688, 57);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Kártya adatok";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btnWriteCard
             // 
             this.btnWriteCard.Dock = System.Windows.Forms.DockStyle.Right;
@@ -201,17 +212,7 @@
             this.btnWriteCard.TabIndex = 3;
             this.btnWriteCard.Text = "Kártya írás";
             this.btnWriteCard.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("Tahoma", 16F);
-            this.label3.Location = new System.Drawing.Point(103, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(688, 57);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Kártya adatok";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnWriteCard.Click += new System.EventHandler(this.btnWriteCard_Click);
             // 
             // SapSoapCardWriterWindow
             // 

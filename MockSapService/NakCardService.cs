@@ -48,6 +48,13 @@ namespace MockSapService
         }
 
         [DataMember]
+        public string CardUid
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
         public string ErrorString
         {
             get;

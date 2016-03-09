@@ -107,5 +107,27 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
             List<string> ret = await writer.ReadNfcTags();
             Console.WriteLine(string.Join(",", ret));
         }
+
+        [TestMethod]
+        public async Task TestReadWrite()
+        {
+            try
+            {
+                ILogger logger = new ConsoleLogger();
+                NfcCardWriter writer = new NfcCardWriter(logger);
+                List<string> ret = await writer.ReadNfcTags();
+                Console.WriteLine(string.Join(",", ret));
+                List<string> testDataList = new List<string>();
+                testDataList.Add("guid");
+                testDataList.Add("encpublicdata");
+                testDataList.Add("encfulldata");
+                writer.WriteCard("FADDDEADFADDDEAD", testDataList);
+                Console.WriteLine("Write ok");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
     }
 }

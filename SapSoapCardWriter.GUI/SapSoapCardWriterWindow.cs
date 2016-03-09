@@ -124,7 +124,7 @@ namespace SapSoapCardWriter.GUI
             toolReaderStatus.Text = "Kártya írás folyamatban...";
             try
             {
-                cardWriter.WriteCard(cardData.CardKey, new List<string> { cardData.PublicEncryptedData, cardData.AllEncryptedData });
+                cardWriter.WriteCard(cardData.CardKey, new List<string> { cardData.CardUid, cardData.PublicEncryptedData, cardData.AllEncryptedData });
                 toolReaderStatus.Text = "Kártya kész";
             }
             catch(Exception ex)
