@@ -90,6 +90,9 @@ namespace SapSoapCardWriter.GUI.NakCardService {
         private string CardKeyField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ErrorStringField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PublicEncryptedDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -127,6 +130,19 @@ namespace SapSoapCardWriter.GUI.NakCardService {
                 if ((object.ReferenceEquals(this.CardKeyField, value) != true)) {
                     this.CardKeyField = value;
                     this.RaisePropertyChanged("CardKey");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ErrorString {
+            get {
+                return this.ErrorStringField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ErrorStringField, value) != true)) {
+                    this.ErrorStringField = value;
+                    this.RaisePropertyChanged("ErrorString");
                 }
             }
         }

@@ -58,5 +58,10 @@ namespace SapSoapCardWriter.BusinessLogic
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<string>> ReadNfcTags()
+        {
+            return Task.FromResult(new List<string>() { "guid", "encpublicdata", "encfulldata" });
+        }
     }
 }

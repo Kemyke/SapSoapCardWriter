@@ -55,15 +55,28 @@ namespace SapSoapCardWriter.GUI
                 if (newState == ReaderState.CardPresent)
                 {
                     toolReaderStatus.Text = "RFID kiolvasás...";
-                    string rfid = await cardWriter.GetRfidAsync();
+                    List<string> data = await cardWriter.ReadNfcTags();
+                    string rfid = data[0];
                     toolReaderStatus.Text = "Kártya beolvasás...";
                     cardData = await sm.GetCardDataAsync(user, rfid);
-                    tbFullName.Text = cardData.UIData.FullName;
-                    tbAddress.Text = cardData.UIData.Address;
-                    tbAddress.Enabled = true;
-                    tbFullName.Enabled = true;
-                    toolReaderStatus.Text = "Kártya beolvasva";
-                    btnWriteCard.Enabled = true;
+                    if (!string.IsNullOrEmpty(cardData.ErrorString))
+                    {
+                        btnWriteCard.Enabled = false;
+                        tbAddress.Text = string.Empty;
+                        tbAddress.Enabled = false;
+                        tbFullName.Text = string.Empty;
+                        tbFullName.Enabled = false;
+                        toolReaderStatus.Text = "Hibás kártya";
+                    }
+                    else
+                    {
+                        tbFullName.Text = cardData.UIData.FullName;
+                        tbAddress.Text = cardData.UIData.Address;
+                        tbAddress.Enabled = true;
+                        tbFullName.Enabled = true;
+                        toolReaderStatus.Text = "Kártya beolvasva";
+                        btnWriteCard.Enabled = true;
+                    }
                 }
                 else
                 {

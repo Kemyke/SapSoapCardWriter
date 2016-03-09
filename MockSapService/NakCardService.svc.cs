@@ -33,14 +33,28 @@ namespace MockSapService
             }
             else
             {
-                return new CardData()
+                if (rfid == "guid")
                 {
-                    ErrorString = null,
-                    CardKey = "cardkey",
-                    AllEncryptedData = "allencdata",
-                    PublicEncryptedData = "pubencdata",
-                    UIData = new CardUIData() { FullName = "Test User", Address = "1111 Test Address 60." }
-                };
+                    return new CardData()
+                    {
+                        ErrorString = null,
+                        CardKey = "cardkey",
+                        AllEncryptedData = "allencdata",
+                        PublicEncryptedData = "pubencdata",
+                        UIData = new CardUIData() { FullName = "Test User", Address = "1111 Test Address 60." }
+                    };
+                }
+                else
+                {
+                    return new CardData()
+                    {
+                        ErrorString = "Rfid not found",
+                        CardKey = string.Empty,
+                        AllEncryptedData = string.Empty,
+                        PublicEncryptedData = string.Empty,
+                        UIData = null
+                    };
+                }
             }
         }
     }

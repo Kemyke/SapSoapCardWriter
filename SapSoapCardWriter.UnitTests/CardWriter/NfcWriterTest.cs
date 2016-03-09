@@ -7,6 +7,7 @@ using Moq;
 using SapSoapCardWriter.Logger.Logging;
 using SapSoapCardWriter.BusinessLogic;
 using SapSoapCardWriter.UnitTests.Helper;
+using System.Threading.Tasks;
 
 namespace SapSoapCardWriter.UnitTests.CardWriter
 {
@@ -40,7 +41,8 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
 
             byte[] rfid = writer.GetCardUID("FADDDEADFADDDEAD");
            
-            Console.WriteLine(Encoding.Default.GetString(rfid));
+
+            Console.WriteLine(BitConverter.ToString(rfid));
         }
 
 
@@ -91,9 +93,19 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
             NfcCardWriter writer = new NfcCardWriter(logger);
 
             List<string> testDataList = new List<string>();            
-            testDataList.Add("testfulldata1");
-            testDataList.Add("testfulldata2");
+            testDataList.Add("guid");
+            testDataList.Add("encpublicdata");
+            testDataList.Add("encfulldata");
             writer.WriteCard("FADDDEADFADDDEAD", testDataList);
+        }
+
+        [TestMethod]
+        public async Task TestRead()
+        {
+            ILogger logger = new ConsoleLogger();
+            NfcCardWriter writer = new NfcCardWriter(logger);
+            List<string> ret = await writer.ReadNfcTags();
+            Console.WriteLine(string.Join(",", ret));
         }
     }
 }

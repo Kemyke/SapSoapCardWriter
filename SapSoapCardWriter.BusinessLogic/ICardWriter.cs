@@ -13,7 +13,7 @@ namespace SapSoapCardWriter.BusinessLogic
         ResultCode WriteCard(string key, List<string> dataList);
         Task<ResultCode> WriteCardAsync(string key, List<string> dataList);
         string GetRfid(string key);
-        Task<string> GetRfidAsync();
+        Task<List<string>> ReadNfcTags();
         event EventHandler<ReaderState> ReaderStateChanged;
     }
 }

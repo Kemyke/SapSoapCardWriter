@@ -14,10 +14,12 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
     public interface INfcWriter
     {
+        void StartMonitor();
         bool Erase(string key);
         bool Prepare(string key);
         bool Lock(string key);
         bool WriteNfcTag(List<string> dataList);
+        List<string> ReadNfcTags();
 
         event EventHandler<ReaderState> ReaderStateChanged;
         byte[] GetCardUID(string key);

@@ -11,6 +11,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="AllEncryptedData" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="CardKey" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ErrorString" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="PublicEncryptedData" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="UIData" nillable="true" type="tns:CardUIData" />
     </xs:sequence>

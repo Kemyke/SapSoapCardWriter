@@ -32,7 +32,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             this.logger = logger;
         }
 
-        private void StartMonitor()
+        public void StartMonitor()
         {
             List<string> readerNames = GetReaders();
             foreach (string readerName in readerNames)
@@ -51,7 +51,26 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         private void OnStatusChange(uint ReaderState, CardBuffer CardAtr)
         {
             SapSoapCardWriter.BusinessLogic.NFC.ReaderState rs;
-            if(ReaderState == SmartCard.STATE_PRESENT)
+
+            var readers = GetReaders();
+            bool isConnected = false;
+            foreach(var reader in readers)
+            {
+                try
+                {
+                    isConnected = new SmartCardReader(reader).CardPresent;
+                    if(isConnected)
+                    {
+                        break;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    logger.Error("Cannot connect to reader: {0}. Exception: {1}.", reader, ex);
+                }
+            }
+
+            if (isConnected)
             {
                 rs = NFC.ReaderState.CardPresent;
             }
@@ -765,6 +784,57 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             }
 
             throw new InvalidOperationException("Cannot get RFID from any reader!");
+        }
+
+        public List<string> ReadNfcTags()
+        {
+            List<string> ret = new List<string>();
+            List<string> readerNames = GetReaders();
+            foreach (string readerName in readerNames)
+            {
+                SmartCardChannel scard = null;
+                try
+                {
+                    scard = Connect(readerName);
+
+                    NfcTag tag;
+                    string msg = null;
+                    bool isFormattable = false;
+
+                    if (!NfcTag.Recognize(logger, scard, out tag, out msg, out isFormattable))
+                    {
+                        throw new InvalidOperationException("Unrecognized or unsupported tag!");
+                    }
+
+                    foreach (var data in tag.Content)
+                    {
+                        RtdText text = data as RtdText;
+                        if (text != null)
+                        {
+                            ret.Add(text.Value);
+                        }
+                        else
+                        {
+                            throw new NotSupportedException(string.Format("Invlaid NFC Tag type: {0}.", data.GetType().Name));
+                        }
+                    }
+                    return ret;
+                }
+                catch (InvalidOperationException ex)
+                {
+                    logger.Warning("Cannot prepare with reader: {0}. Exception: {1}.", readerName, ex.ToString());
+                }
+                finally
+                {
+                    if (scard != null)
+                    {
+                        SmartCardDesfire.DetachLibrary(scard.hCard);
+                        scard.Disconnect();
+                    }
+                }
+            }
+
+            throw new InvalidOperationException("Cannot get data from any reader!");
         }
     }
 }

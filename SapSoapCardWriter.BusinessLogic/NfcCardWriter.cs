@@ -18,6 +18,7 @@ namespace SapSoapCardWriter.BusinessLogic
         {
             this.logger = logger;
             writer = new NfcWriter(logger);
+            writer.StartMonitor();
             writer.ReaderStateChanged += writer_ReaderStateChanged;
         }
 
@@ -86,9 +87,10 @@ namespace SapSoapCardWriter.BusinessLogic
             return Task.FromResult(GetRfid(key));
         }
 
-        public Task<string> GetRfidAsync()
+        public Task<List<string>> ReadNfcTags()
         {
-            throw new NotImplementedException();
+            List<string> ret = writer.ReadNfcTags();
+            return Task.FromResult(ret);
         }
     }
 }
