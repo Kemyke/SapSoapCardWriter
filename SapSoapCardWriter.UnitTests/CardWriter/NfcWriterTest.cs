@@ -40,8 +40,10 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
             NfcWriter writer = new NfcWriter(logger);
 
             byte[] rfid = writer.GetCardUID("FADDDEADFADDDEAD");
-           
 
+            Console.WriteLine("RFID length:");
+            Console.WriteLine(rfid.Length);
+            Console.WriteLine("RFID:");
             Console.WriteLine(BitConverter.ToString(rfid));
         }
 
