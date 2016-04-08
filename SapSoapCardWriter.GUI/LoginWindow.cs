@@ -1,4 +1,8 @@
-﻿using SapSoapCardWriter.GUI.NakCardService;
+﻿using SapSoapCardWriter.BusinessLogic.SapService;
+using SapSoapCardWriter.Common;
+using SapSoapCardWriter.Common.Configuration;
+using SapSoapCardWriter.Common.DIContainer;
+using SapSoapCardWriter.GUI.NakCardService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,13 +18,13 @@ namespace SapSoapCardWriter.GUI
 {
     public partial class LoginWindow : Form
     {
-        private ServiceManager serviceManager;
+        private IServiceManager serviceManager;
         public UserData User { get; private set; }
 
-        public LoginWindow()
+        public LoginWindow(IServiceManager sm)
         {
             InitializeComponent();
-            serviceManager = new ServiceManager();
+            serviceManager = sm;
             User = null;
         }
 

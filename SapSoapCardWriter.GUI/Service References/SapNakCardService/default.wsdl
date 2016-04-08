@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="urn:sap-com:document:sap:rfc:functions" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:sap-com:document:sap:rfc:functions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+    <sidl:sidl xmlns:sidl="http://www.sap.com/2007/03/sidl" />
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="qualified" targetNamespace="urn:sap-com:document:sap:rfc:functions">
+      <xsd:simpleType name="char12">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="12" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char16">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="16" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char40">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="40" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char50">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="50" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="string">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:element name="Z_CRM_NEBIH_CARD_FILE_GET">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="CARD_ID" type="tns:char50" />
+            <xsd:element name="PASSWD" type="tns:char40" />
+            <xsd:element name="UNAME" type="tns:char12" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Z_CRM_NEBIH_CARD_FILE_GETResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="CARD_NAK" type="tns:string" />
+            <xsd:element name="CARD_NEBIH" type="tns:string" />
+            <xsd:element name="ERROR" type="tns:string" />
+            <xsd:element name="WRITE_KEY" type="tns:char16" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="Z_CRM_NEBIH_CARD_FILE_GET">
+    <wsdl:part name="parameters" element="tns:Z_CRM_NEBIH_CARD_FILE_GET" />
+  </wsdl:message>
+  <wsdl:message name="Z_CRM_NEBIH_CARD_FILE_GETResponse">
+    <wsdl:part name="parameter" element="tns:Z_CRM_NEBIH_CARD_FILE_GETResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Z_CRM_NEBIH_CARD_FILE_GET">
+    <wsdl:operation name="Z_CRM_NEBIH_CARD_FILE_GET">
+      <wsdl:input message="tns:Z_CRM_NEBIH_CARD_FILE_GET" />
+      <wsdl:output message="tns:Z_CRM_NEBIH_CARD_FILE_GETResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DEFAULT" type="tns:Z_CRM_NEBIH_CARD_FILE_GET">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Z_CRM_NEBIH_CARD_FILE_GET">
+      <soap:operation soapAction="urn:sap-com:document:sap:rfc:functions:Z_CRM_NEBIH_CARD_FILE_GET:Z_CRM_NEBIH_CARD_FILE_GETRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Z_CRM_NEBIH_CARD_FILE_GET">
+    <wsdl:port name="DEFAULT" binding="tns:DEFAULT">
+      <soap:address location="http://sapcrdci.local.nak.hu:8000/sap/bc/srt/rfc/sap/z_crm_nebih_card_file_get/010/z_crm_nebih_card_file_get/default" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

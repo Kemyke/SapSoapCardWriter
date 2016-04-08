@@ -1,5 +1,8 @@
 ﻿using SapSoapCardWriter.BusinessLogic;
 using SapSoapCardWriter.BusinessLogic.NFC;
+using SapSoapCardWriter.BusinessLogic.SapService;
+using SapSoapCardWriter.Common;
+using SapSoapCardWriter.Common.Configuration;
 using SapSoapCardWriter.Common.DIContainer;
 using SapSoapCardWriter.GUI.NakCardService;
 using SapSoapCardWriter.Logger.Logging;
@@ -19,17 +22,23 @@ namespace SapSoapCardWriter.GUI
     {
         private ICardWriter cardWriter = null;
         private ILogger logger = null;
+        
 
         private UserData user = null;
-        private ServiceManager sm = null;
         private CardData cardData = null;
+        private IServiceManager serviceManager = null;
 
         private void InitDIContainer()
         {
             DIContainerFactory diFactory = new DIContainerFactory();
             IDIContainer di = diFactory.CreateAndLoadDIContainer();
+
             cardWriter = di.GetInstance<ICardWriter>();
             logger = di.GetInstance<ILogger>();
+            var cm = di.GetInstance<IConfigurationManager<ISapSoapCardWriterConfig>>();
+            cm.LoadConfiguation();
+            di.RegisterInstance<ISapSoapCardWriterConfig>(cm.Config);
+            serviceManager = di.GetInstance<IServiceManager>();
         }
 
         public SapSoapCardWriterWindow()
@@ -37,7 +46,6 @@ namespace SapSoapCardWriter.GUI
             InitializeComponent();
             InitDIContainer();
 
-            sm = new ServiceManager();
             cardWriter.ReaderStateChanged += cardWriter_ReaderStateChanged;
         }
 
@@ -58,7 +66,7 @@ namespace SapSoapCardWriter.GUI
                     List<string> data = await cardWriter.ReadNfcTags();
                     string rfid = data[0];
                     toolReaderStatus.Text = "Kártya beolvasás...";
-                    cardData = await sm.GetCardDataAsync(user, rfid);
+                    cardData = await serviceManager.GetCardDataAsync(user, rfid);
                     if (!string.IsNullOrEmpty(cardData.ErrorString))
                     {
                         btnWriteCard.Enabled = false;
@@ -100,7 +108,7 @@ namespace SapSoapCardWriter.GUI
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            LoginWindow lw = new LoginWindow();
+            LoginWindow lw = new LoginWindow(serviceManager);
             lw.StartPosition = FormStartPosition.CenterParent;
             var result = lw.ShowDialog();
             if(result == DialogResult.OK)

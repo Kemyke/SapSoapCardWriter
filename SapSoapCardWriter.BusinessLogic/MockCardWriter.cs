@@ -38,7 +38,7 @@ namespace SapSoapCardWriter.BusinessLogic
 
         public string GetRfid()
         {
-            return "rfid";
+            return "1892567125";
         }
 
         public event EventHandler<NFC.ReaderState> ReaderStateChanged;
@@ -61,7 +61,7 @@ namespace SapSoapCardWriter.BusinessLogic
 
         public Task<List<string>> ReadNfcTags()
         {
-            return Task.FromResult(new List<string>() { "guid", "encpublicdata", "encfulldata" });
+            return Task.FromResult(new List<string>() { "1892567125", "encpublicdata", "encfulldata" });
         }
     }
 }

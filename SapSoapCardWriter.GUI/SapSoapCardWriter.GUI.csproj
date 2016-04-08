@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -46,6 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IServiceManager.cs" />
+    <Compile Include="MockServiceManager.cs" />
+    <Compile Include="Service References\SapNakAuthService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\SapNakCardService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="UserData.cs" />
     <Compile Include="LoginWindow.cs">
       <SubType>Form</SubType>
@@ -67,6 +80,20 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ServiceManager.cs" />
+    <None Include="Properties\DataSources\SapSoapCardWriter.BusinessLogic.SapService.CardData.datasource" />
+    <None Include="Properties\DataSources\SapSoapCardWriter.BusinessLogic.SapService.LoginData.datasource" />
+    <None Include="Service References\SapNakCardService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\SapNakCardService\configuration.svcinfo" />
+    <None Include="Service References\SapNakCardService\configuration91.svcinfo" />
+    <None Include="Service References\SapNakAuthService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\SapNakAuthService\configuration.svcinfo" />
+    <None Include="Service References\SapNakAuthService\configuration91.svcinfo" />
     <EmbeddedResource Include="LoginWindow.resx">
       <DependentUpon>LoginWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,15 +137,25 @@
     <None Include="Service References\NakCardService\NakCardService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\NakCardService\SapSoapCardWriter.GUI.NakCardService.CardData.datasource">
+    <None Include="Service References\SapNakAuthService\default.wsdl" />
+    <None Include="Service References\SapNakAuthService\SapSoapCardWriter.GUI.SapNakAuthService.Z_CRM_NEBIH_CARD_AUTHResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\NakCardService\SapSoapCardWriter.GUI.NakCardService.LoginData.datasource">
+    <None Include="Service References\SapNakAuthService\SapSoapCardWriter.GUI.SapNakAuthService.Z_CRM_NEBIH_CARD_AUTHResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SapNakCardService\default.wsdl" />
+    <None Include="Service References\SapNakCardService\SapSoapCardWriter.GUI.SapNakCardService.Z_CRM_NEBIH_CARD_FILE_GETResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SapNakCardService\SapSoapCardWriter.GUI.SapNakCardService.Z_CRM_NEBIH_CARD_FILE_GETResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SapSoapCardWriter.BusinessLogic\SapSoapCardWriter.BusinessLogic.csproj">
@@ -135,6 +172,8 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\NakCardService\" />
+    <WCFMetadataStorage Include="Service References\SapNakAuthService\" />
+    <WCFMetadataStorage Include="Service References\SapNakCardService\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\NakCardService\NakCardService.disco" />

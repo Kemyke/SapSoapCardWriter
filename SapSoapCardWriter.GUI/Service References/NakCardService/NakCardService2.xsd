@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:60108/NakCardService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MockSapService" />
+  <xs:import schemaLocation="http://localhost:60108/NakCardService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" />
   <xs:element name="ValidateUser">
     <xs:complexType>
       <xs:sequence>
@@ -12,7 +12,7 @@
   <xs:element name="ValidateUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/MockSapService" minOccurs="0" name="ValidateUserResult" nillable="true" type="q1:LoginData" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" minOccurs="0" name="ValidateUserResult" nillable="true" type="q1:LoginData" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -28,7 +28,7 @@
   <xs:element name="GetCardDataResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MockSapService" minOccurs="0" name="GetCardDataResult" nillable="true" type="q2:CardData" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" minOccurs="0" name="GetCardDataResult" nillable="true" type="q2:CardData" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

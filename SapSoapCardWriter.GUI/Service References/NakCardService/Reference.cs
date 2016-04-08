@@ -9,272 +9,23 @@
 //------------------------------------------------------------------------------
 
 namespace SapSoapCardWriter.GUI.NakCardService {
-    using System.Runtime.Serialization;
-    using System;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LoginData", Namespace="http://schemas.datacontract.org/2004/07/MockSapService")]
-    [System.SerializableAttribute()]
-    public partial class LoginData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ErrorStringField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool IsSuccessfulField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ErrorString {
-            get {
-                return this.ErrorStringField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ErrorStringField, value) != true)) {
-                    this.ErrorStringField = value;
-                    this.RaisePropertyChanged("ErrorString");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool IsSuccessful {
-            get {
-                return this.IsSuccessfulField;
-            }
-            set {
-                if ((this.IsSuccessfulField.Equals(value) != true)) {
-                    this.IsSuccessfulField = value;
-                    this.RaisePropertyChanged("IsSuccessful");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CardData", Namespace="http://schemas.datacontract.org/2004/07/MockSapService")]
-    [System.SerializableAttribute()]
-    public partial class CardData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string AllEncryptedDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string CardKeyField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string CardUidField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ErrorStringField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string PublicEncryptedDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private SapSoapCardWriter.GUI.NakCardService.CardUIData UIDataField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string AllEncryptedData {
-            get {
-                return this.AllEncryptedDataField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.AllEncryptedDataField, value) != true)) {
-                    this.AllEncryptedDataField = value;
-                    this.RaisePropertyChanged("AllEncryptedData");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string CardKey {
-            get {
-                return this.CardKeyField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.CardKeyField, value) != true)) {
-                    this.CardKeyField = value;
-                    this.RaisePropertyChanged("CardKey");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string CardUid {
-            get {
-                return this.CardUidField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.CardUidField, value) != true)) {
-                    this.CardUidField = value;
-                    this.RaisePropertyChanged("CardUid");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ErrorString {
-            get {
-                return this.ErrorStringField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ErrorStringField, value) != true)) {
-                    this.ErrorStringField = value;
-                    this.RaisePropertyChanged("ErrorString");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string PublicEncryptedData {
-            get {
-                return this.PublicEncryptedDataField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.PublicEncryptedDataField, value) != true)) {
-                    this.PublicEncryptedDataField = value;
-                    this.RaisePropertyChanged("PublicEncryptedData");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public SapSoapCardWriter.GUI.NakCardService.CardUIData UIData {
-            get {
-                return this.UIDataField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.UIDataField, value) != true)) {
-                    this.UIDataField = value;
-                    this.RaisePropertyChanged("UIData");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CardUIData", Namespace="http://schemas.datacontract.org/2004/07/MockSapService")]
-    [System.SerializableAttribute()]
-    public partial class CardUIData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string AddressField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string FullNameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Address {
-            get {
-                return this.AddressField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.AddressField, value) != true)) {
-                    this.AddressField = value;
-                    this.RaisePropertyChanged("Address");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string FullName {
-            get {
-                return this.FullNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.FullNameField, value) != true)) {
-                    this.FullNameField = value;
-                    this.RaisePropertyChanged("FullName");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="NakCardService.INakCardService")]
     public interface INakCardService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/ValidateUser", ReplyAction="http://tempuri.org/INakCardService/ValidateUserResponse")]
-        SapSoapCardWriter.GUI.NakCardService.LoginData ValidateUser(string userName, string password);
+        SapSoapCardWriter.BusinessLogic.SapService.LoginData ValidateUser(string userName, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/ValidateUser", ReplyAction="http://tempuri.org/INakCardService/ValidateUserResponse")]
-        System.Threading.Tasks.Task<SapSoapCardWriter.GUI.NakCardService.LoginData> ValidateUserAsync(string userName, string password);
+        System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.LoginData> ValidateUserAsync(string userName, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/GetCardData", ReplyAction="http://tempuri.org/INakCardService/GetCardDataResponse")]
-        SapSoapCardWriter.GUI.NakCardService.CardData GetCardData(string userName, string password, string rfid);
+        SapSoapCardWriter.BusinessLogic.SapService.CardData GetCardData(string userName, string password, string rfid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/GetCardData", ReplyAction="http://tempuri.org/INakCardService/GetCardDataResponse")]
-        System.Threading.Tasks.Task<SapSoapCardWriter.GUI.NakCardService.CardData> GetCardDataAsync(string userName, string password, string rfid);
+        System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.CardData> GetCardDataAsync(string userName, string password, string rfid);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -304,19 +55,19 @@ namespace SapSoapCardWriter.GUI.NakCardService {
                 base(binding, remoteAddress) {
         }
         
-        public SapSoapCardWriter.GUI.NakCardService.LoginData ValidateUser(string userName, string password) {
+        public SapSoapCardWriter.BusinessLogic.SapService.LoginData ValidateUser(string userName, string password) {
             return base.Channel.ValidateUser(userName, password);
         }
         
-        public System.Threading.Tasks.Task<SapSoapCardWriter.GUI.NakCardService.LoginData> ValidateUserAsync(string userName, string password) {
+        public System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.LoginData> ValidateUserAsync(string userName, string password) {
             return base.Channel.ValidateUserAsync(userName, password);
         }
         
-        public SapSoapCardWriter.GUI.NakCardService.CardData GetCardData(string userName, string password, string rfid) {
+        public SapSoapCardWriter.BusinessLogic.SapService.CardData GetCardData(string userName, string password, string rfid) {
             return base.Channel.GetCardData(userName, password, rfid);
         }
         
-        public System.Threading.Tasks.Task<SapSoapCardWriter.GUI.NakCardService.CardData> GetCardDataAsync(string userName, string password, string rfid) {
+        public System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.CardData> GetCardDataAsync(string userName, string password, string rfid) {
             return base.Channel.GetCardDataAsync(userName, password, rfid);
         }
     }

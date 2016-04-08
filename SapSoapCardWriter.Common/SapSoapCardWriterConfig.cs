@@ -9,11 +9,18 @@ namespace SapSoapCardWriter.Common
 {
     public sealed class SapSoapCardWriterConfig : ConfigurationSection, ISapSoapCardWriterConfig
     {
-        //[ConfigurationProperty("Sample", IsRequired = true)]
-        //public string Sample
-        //{
-        //    get { return (string)this["Sample"]; }
-        //    set { this["Sample"] = value; }
-        //}
+        [ConfigurationProperty("ServiceUserAcc", IsRequired = true)]
+        public string ServiceUserAcc
+        {
+            get { return (string)this["ServiceUserAcc"]; }
+            set { this["ServiceUserAcc"] = value; }
+        }
+
+        [ConfigurationProperty("ServiceUserPwd", IsRequired = true)]
+        public string ServiceUserPwd
+        {
+            get { return (string)this["ServiceUserPwd"]; }
+            set { this["ServiceUserPwd"] = value; }
+        }
     }
 }
