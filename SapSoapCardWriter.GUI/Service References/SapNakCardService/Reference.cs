@@ -27,7 +27,7 @@ namespace SapSoapCardWriter.GUI.SapNakCardService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1064.2")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1067.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -87,7 +87,123 @@ namespace SapSoapCardWriter.GUI.SapNakCardService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1064.2")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1067.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:rfc:functions")]
+    public partial class ZCRMS_NEBIH_WS_PPRODUCER_DATA : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string zZPRIDNUMField;
+        
+        private string zZPRCARDNUMField;
+        
+        private string nAMEField;
+        
+        private string bIRTHPLACEField;
+        
+        private string bIRTHDATEField;
+        
+        private string tAXNOField;
+        
+        private string kAMAZField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public string ZZPRIDNUM {
+            get {
+                return this.zZPRIDNUMField;
+            }
+            set {
+                this.zZPRIDNUMField = value;
+                this.RaisePropertyChanged("ZZPRIDNUM");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public string ZZPRCARDNUM {
+            get {
+                return this.zZPRCARDNUMField;
+            }
+            set {
+                this.zZPRCARDNUMField = value;
+                this.RaisePropertyChanged("ZZPRCARDNUM");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public string NAME {
+            get {
+                return this.nAMEField;
+            }
+            set {
+                this.nAMEField = value;
+                this.RaisePropertyChanged("NAME");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public string BIRTHPLACE {
+            get {
+                return this.bIRTHPLACEField;
+            }
+            set {
+                this.bIRTHPLACEField = value;
+                this.RaisePropertyChanged("BIRTHPLACE");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        public string BIRTHDATE {
+            get {
+                return this.bIRTHDATEField;
+            }
+            set {
+                this.bIRTHDATEField = value;
+                this.RaisePropertyChanged("BIRTHDATE");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        public string TAXNO {
+            get {
+                return this.tAXNOField;
+            }
+            set {
+                this.tAXNOField = value;
+                this.RaisePropertyChanged("TAXNO");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        public string KAMAZ {
+            get {
+                return this.kAMAZField;
+            }
+            set {
+                this.kAMAZField = value;
+                this.RaisePropertyChanged("KAMAZ");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1067.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -99,6 +215,8 @@ namespace SapSoapCardWriter.GUI.SapNakCardService {
         private string cARD_NEBIHField;
         
         private string eRRORField;
+        
+        private ZCRMS_NEBIH_WS_PPRODUCER_DATA iNFOField;
         
         private string wRITE_KEYField;
         
@@ -140,6 +258,18 @@ namespace SapSoapCardWriter.GUI.SapNakCardService {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public ZCRMS_NEBIH_WS_PPRODUCER_DATA INFO {
+            get {
+                return this.iNFOField;
+            }
+            set {
+                this.iNFOField = value;
+                this.RaisePropertyChanged("INFO");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string WRITE_KEY {
             get {
                 return this.wRITE_KEYField;

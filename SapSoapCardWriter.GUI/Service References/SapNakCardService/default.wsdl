@@ -5,6 +5,11 @@
   </wsdl:documentation>
   <wsdl:types>
     <xsd:schema attributeFormDefault="qualified" targetNamespace="urn:sap-com:document:sap:rfc:functions">
+      <xsd:simpleType name="char10">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:simpleType name="char12">
         <xsd:restriction base="xsd:string">
           <xsd:maxLength value="12" />
@@ -25,9 +30,31 @@
           <xsd:maxLength value="50" />
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:simpleType name="char60">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="60" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="date10">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+          <xsd:pattern value="\d\d\d\d-\d\d-\d\d" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:simpleType name="string">
         <xsd:restriction base="xsd:string" />
       </xsd:simpleType>
+      <xsd:complexType name="ZCRMS_NEBIH_WS_PPRODUCER_DATA">
+        <xsd:sequence>
+          <xsd:element name="ZZPRIDNUM" type="tns:char10" />
+          <xsd:element name="ZZPRCARDNUM" type="tns:char50" />
+          <xsd:element name="NAME" type="tns:string" />
+          <xsd:element name="BIRTHPLACE" type="tns:string" />
+          <xsd:element name="BIRTHDATE" type="tns:date10" />
+          <xsd:element name="TAXNO" type="tns:char60" />
+          <xsd:element name="KAMAZ" type="tns:char60" />
+        </xsd:sequence>
+      </xsd:complexType>
       <xsd:element name="Z_CRM_NEBIH_CARD_FILE_GET">
         <xsd:complexType>
           <xsd:sequence>
@@ -43,6 +70,7 @@
             <xsd:element name="CARD_NAK" type="tns:string" />
             <xsd:element name="CARD_NEBIH" type="tns:string" />
             <xsd:element name="ERROR" type="tns:string" />
+            <xsd:element name="INFO" type="tns:ZCRMS_NEBIH_WS_PPRODUCER_DATA" />
             <xsd:element name="WRITE_KEY" type="tns:char16" />
           </xsd:sequence>
         </xsd:complexType>
