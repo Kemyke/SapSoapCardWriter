@@ -10,7 +10,7 @@ namespace SapSoapCardWriter.Common.Encryption
 {
     public class AES128Encryptor : IEncryptor
     {
-        public byte[] EncryptData(byte[] bytearraytoencrypt, string key, string iv)
+        private byte[] EncryptData(byte[] bytearraytoencrypt, string key, string iv)
         {
             AesCryptoServiceProvider dataencrypt = new AesCryptoServiceProvider();
             //Block size : Gets or sets the block size, in bits, of the cryptographic operation.  
