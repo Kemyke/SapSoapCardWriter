@@ -95,7 +95,7 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
             NfcCardWriter writer = new NfcCardWriter(logger);
 
             List<string> testDataList = new List<string>();            
-            testDataList.Add("guid");
+            testDataList.Add("1892567125");
             testDataList.Add("encpublicdata");
             testDataList.Add("encfulldata");
             writer.WriteCard("FADDDEADFADDDEAD", testDataList);
