@@ -53,33 +53,19 @@ namespace SapSoapCardWriter.Common.Encryption
             return returnbytearray;
         }
 
-        private byte[] GetBytes(string str)
-        {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
-        }
-
-        private string GetString(byte[] bytes)
-        {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-            return new string(chars);
-        }
-
         public string Decrypt(string cipherText, string key)
         {
-            byte[] ba = GetBytes(cipherText);
+            byte[] ba = Convert.FromBase64String(cipherText);
             byte[] a = DecryptData(ba, key, key.Substring(0, 16));
-            string r = GetString(a);
+            string r = Encoding.UTF8.GetString(a);
             return r;
         }
 
         public string Encrypt(string clearText, string key)
         {
-            byte[] ba = GetBytes(clearText);
+            byte[] ba = Encoding.UTF8.GetBytes(clearText);
             byte[] a = EncryptData(ba, key, key.Substring(0, 16));
-            string r = GetString(a);
+            string r = Convert.ToBase64String(a);
             return r;
         }
     }
