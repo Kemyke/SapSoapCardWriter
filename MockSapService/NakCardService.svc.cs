@@ -43,7 +43,7 @@ namespace MockSapService
                         CardKey = "FADDDEADFADDDEAD",
                         AllEncryptedData = "alldatafromsapmock",
                         PublicEncryptedData = "pubdatafromsapmock",
-                        UIData = new CardUIData() { FullName = "Test User", Address = "1111 Test Address 60." }
+                        UIData = new CardUIData() { FullName = "Test User", BirthPlace = "Töttös" }
                     };
                 }
                 else

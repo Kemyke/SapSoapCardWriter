@@ -47,14 +47,14 @@ namespace SapSoapCardWriter.GUI
         public CardData GetCardData(UserData userData, string rfid)
         {
             var resp = cardClient.Z_CRM_NEBIH_CARD_FILE_GET(new Z_CRM_NEBIH_CARD_FILE_GET_DATA() { CARD_ID = rfid, UNAME = userData.LoginName, PASSWD = userData.Password });
-            CardData cd = new CardData { AllEncryptedData = resp.CARD_NEBIH, PublicEncryptedData = resp.CARD_NAK, CardKey = resp.WRITE_KEY, CardUid = rfid, ErrorString = resp.ERROR };
+            CardData cd = new CardData { AllEncryptedData = resp.CARD_NEBIH, PublicEncryptedData = resp.CARD_NAK, CardKey = resp.WRITE_KEY, CardUid = rfid, ErrorString = resp.ERROR, UIData = new CardUIData { FullName = resp.INFO.NAME, BirthDate = DateTime.Parse(resp.INFO.BIRTHDATE), BirthPlace = resp.INFO.BIRTHPLACE, TaxId = resp.INFO.TAXNO, ChamberId = resp.INFO.KAMAZ } };
             return cd;
         }
 
         public async Task<CardData> GetCardDataAsync(UserData userData, string rfid)
         {
             var resp = await cardClient.Z_CRM_NEBIH_CARD_FILE_GETAsync(new Z_CRM_NEBIH_CARD_FILE_GET_DATA() { CARD_ID = rfid, UNAME = userData.LoginName, PASSWD = userData.Password });
-            CardData cd = new CardData { AllEncryptedData = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.CARD_NEBIH, PublicEncryptedData = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.CARD_NAK, CardKey = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.WRITE_KEY, CardUid = rfid, ErrorString = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.ERROR, UIData = new CardUIData { FullName = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.NAME, Address = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.KAMAZ } };
+            CardData cd = new CardData { AllEncryptedData = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.CARD_NEBIH, PublicEncryptedData = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.CARD_NAK, CardKey = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.WRITE_KEY, CardUid = rfid, ErrorString = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.ERROR, UIData = new CardUIData { FullName = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.NAME, BirthDate = DateTime.Parse(resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.BIRTHDATE), BirthPlace = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.BIRTHPLACE, TaxId = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.TAXNO, ChamberId = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.KAMAZ } };
             return cd;
         }
     }

@@ -55,8 +55,8 @@ namespace SapSoapCardWriter.GUI
             {
                 cardData = null;
                 btnWriteCard.Enabled = false;
-                tbAddress.Text = string.Empty;
-                tbAddress.Enabled = false;
+                tbBirthPlace.Text = string.Empty;
+                tbBirthPlace.Enabled = false;
                 tbFullName.Text = string.Empty;
                 tbFullName.Enabled = false;
 
@@ -70,18 +70,31 @@ namespace SapSoapCardWriter.GUI
                     if (!string.IsNullOrEmpty(cardData.ErrorString))
                     {
                         btnWriteCard.Enabled = false;
-                        tbAddress.Text = string.Empty;
-                        tbAddress.Enabled = false;
+                        tbBirthPlace.Text = string.Empty;
+                        tbBirthPlace.Enabled = false;
                         tbFullName.Text = string.Empty;
                         tbFullName.Enabled = false;
+                        tbBirthDate.Text = string.Empty;
+                        tbBirthDate.Enabled = false;
+                        tbTaxId.Text = string.Empty;
+                        tbTaxId.Enabled = false;
+                        tbChamberId.Text = string.Empty;
+                        tbChamberId.Enabled = false;
+
                         toolReaderStatus.Text = "Hibás kártya";
                     }
                     else
                     {
                         tbFullName.Text = cardData.UIData.FullName;
-                        tbAddress.Text = cardData.UIData.Address;
-                        tbAddress.Enabled = true;
+                        tbBirthPlace.Text = cardData.UIData.BirthPlace;
+                        tbBirthDate.Text = cardData.UIData.BirthDate.ToShortDateString();
+                        tbChamberId.Text = cardData.UIData.ChamberId;
+                        tbTaxId.Text = cardData.UIData.TaxId;
+                        tbBirthPlace.Enabled = true;
                         tbFullName.Enabled = true;
+                        tbBirthDate.Enabled = true;
+                        tbChamberId.Enabled = true;
+                        tbTaxId.Enabled = true;
                         toolReaderStatus.Text = "Kártya beolvasva";
                         btnWriteCard.Enabled = true;
                     }

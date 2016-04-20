@@ -14,7 +14,25 @@ namespace SapSoapCardWriter.BusinessLogic.SapService
             set;
         }
 
-        public string Address
+        public string BirthPlace
+        {
+            get;
+            set;
+        }
+
+        public DateTime BirthDate
+        {
+            get;
+            set;
+        }
+
+        public string ChamberId
+        {
+            get;
+            set;
+        }
+
+        public string TaxId
         {
             get;
             set;
