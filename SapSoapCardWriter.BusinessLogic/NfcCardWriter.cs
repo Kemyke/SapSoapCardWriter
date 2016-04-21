@@ -92,5 +92,15 @@ namespace SapSoapCardWriter.BusinessLogic
             List<string> ret = writer.ReadNfcTags();
             return Task.FromResult(ret);
         }
+
+        public string GetSerialNumber()
+        {
+            return writer.GetSerialNumber();
+        }
+
+        public Task<string> GetSerialNumberAsync()
+        {
+            return Task.FromResult(writer.GetSerialNumber());
+        }
     }
 }

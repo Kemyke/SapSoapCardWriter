@@ -15,5 +15,7 @@ namespace SapSoapCardWriter.BusinessLogic
         string GetRfid(string key);
         Task<List<string>> ReadNfcTags();
         event EventHandler<ReaderState> ReaderStateChanged;
+        string GetSerialNumber();
+        Task<string> GetSerialNumberAsync();
     }
 }

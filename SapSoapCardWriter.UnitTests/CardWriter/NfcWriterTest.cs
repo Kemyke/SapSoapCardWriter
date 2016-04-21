@@ -145,5 +145,15 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
 
             writer.WriteCard("FADDDEADFADDDEAD", testDataList);
         }
+
+        [TestMethod]
+        public void TestGetSerialNumber()
+        {
+            ILogger logger = new ConsoleLogger();
+            NfcCardWriter writer = new NfcCardWriter(logger);
+
+            var sn = writer.GetSerialNumber();
+            Console.WriteLine(sn);
+        }
     }
 }

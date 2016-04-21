@@ -63,5 +63,15 @@ namespace SapSoapCardWriter.BusinessLogic
         {
             return Task.FromResult(new List<string>() { "1892567125", "encpublicdata", "encfulldata" });
         }
+
+        public string GetSerialNumber()
+        {
+            return "1892567125";
+        }
+
+        public Task<string> GetSerialNumberAsync()
+        {
+            return Task.FromResult("1892567125");
+        }
     }
 }
