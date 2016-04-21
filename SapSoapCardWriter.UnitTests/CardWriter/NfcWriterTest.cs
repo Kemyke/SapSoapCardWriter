@@ -93,12 +93,14 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
         {
             ILogger logger = new ConsoleLogger(); 
             NfcCardWriter writer = new NfcCardWriter(logger);
-
             List<string> testDataList = new List<string>();            
-            //testDataList.Add("1892567125");
             testDataList.Add("encpublicdata");
             testDataList.Add("encfulldata");
+
+            string sn = writer.GetSerialNumber();
             writer.WriteCard("FADDDEADFADDDEAD", testDataList);
+
+            Console.Write(sn);
         }
 
         [TestMethod]
