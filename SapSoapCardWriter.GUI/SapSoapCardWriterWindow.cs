@@ -99,7 +99,7 @@ namespace SapSoapCardWriter.GUI
                         string sn = await cardWriter.GetSerialNumberAsync();
                         toolReaderStatus.Text = "Kártya beolvasás...";
                         logger.Debug("Serial number: {0}", sn);
-                        cardData = await serviceManager.GetCardDataAsync(user, sn); //1892567125
+                        cardData = await serviceManager.GetCardDataAsync(user, sn); //"1892567125"
                         if (!string.IsNullOrEmpty(cardData.ErrorString))
                         {
                             btnWriteCard.Enabled = false;
@@ -197,8 +197,26 @@ namespace SapSoapCardWriter.GUI
                 if (IsDataSizeOk(cardData))
                 {
                     cardWriter.WriteCard(cardData.CardKey, new List<string> { cardData.PublicEncryptedData, cardData.AllEncryptedData });
-                    toolReaderStatus.Text = "Kártya kész";
-                    MessageBox.Show("Kártya írás kész!", "Írási művelet", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    List<string> data = cardWriter.ReadNfcTags().Result;
+                    if(data.Count == 2)
+                    {
+                        if(data[0] == cardData.PublicEncryptedData && data[1] == cardData.AllEncryptedData)
+                        {
+                            toolReaderStatus.Text = "Kártya kész";
+                            MessageBox.Show("Kártya írás kész!", "Írási művelet", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            toolReaderStatus.Text = "Kártya visszaolvasás sikertelen";
+                            MessageBox.Show("A kártyára írt adat nem egyezik meg a szervertől kapottal! Vegye le a kártyát és ismételje meg a műveletet!", "Ellenőrzés művelet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        toolReaderStatus.Text = "Kártya visszaolvasás sikertelen";
+                        MessageBox.Show("A kártya irás után, nem megfelelő számú adattag szerepel a kártyán! Vegye le a kártyát és ismételje meg a műveletet!", "Ellenőrzés művelet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
                 }
                 else
                 {
