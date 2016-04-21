@@ -36,6 +36,12 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolReaderStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tbTaxId = new System.Windows.Forms.TextBox();
+            this.tbChamberId = new System.Windows.Forms.TextBox();
+            this.tbBirthDate = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbBirthPlace = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -43,12 +49,6 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.btnWriteCard = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tbBirthDate = new System.Windows.Forms.TextBox();
-            this.tbChamberId = new System.Windows.Forms.TextBox();
-            this.tbTaxId = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -140,6 +140,72 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(688, 353);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
+            // tbTaxId
+            // 
+            this.tbTaxId.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbTaxId.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbTaxId.Location = new System.Drawing.Point(64, 103);
+            this.tbTaxId.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
+            this.tbTaxId.Name = "tbTaxId";
+            this.tbTaxId.ReadOnly = true;
+            this.tbTaxId.Size = new System.Drawing.Size(264, 26);
+            this.tbTaxId.TabIndex = 10;
+            // 
+            // tbChamberId
+            // 
+            this.tbChamberId.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbChamberId.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbChamberId.Location = new System.Drawing.Point(421, 58);
+            this.tbChamberId.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
+            this.tbChamberId.Name = "tbChamberId";
+            this.tbChamberId.ReadOnly = true;
+            this.tbChamberId.Size = new System.Drawing.Size(264, 26);
+            this.tbChamberId.TabIndex = 9;
+            // 
+            // tbBirthDate
+            // 
+            this.tbBirthDate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbBirthDate.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbBirthDate.Location = new System.Drawing.Point(64, 58);
+            this.tbBirthDate.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
+            this.tbBirthDate.Name = "tbBirthDate";
+            this.tbBirthDate.ReadOnly = true;
+            this.tbBirthDate.Size = new System.Drawing.Size(264, 26);
+            this.tbBirthDate.TabIndex = 8;
+            // 
+            // label6
+            // 
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label6.Location = new System.Drawing.Point(3, 90);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(55, 45);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Adóazonosító";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label5.Location = new System.Drawing.Point(334, 45);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(81, 45);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Kamarai azonosító";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label4
+            // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label4.Location = new System.Drawing.Point(3, 45);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(55, 45);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Szül.idő";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -226,72 +292,6 @@
             this.btnWriteCard.Text = "Kártya írás";
             this.btnWriteCard.UseVisualStyleBackColor = true;
             this.btnWriteCard.Click += new System.EventHandler(this.btnWriteCard_Click);
-            // 
-            // label4
-            // 
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label4.Location = new System.Drawing.Point(3, 45);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 45);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Szül.idő";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label5
-            // 
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label5.Location = new System.Drawing.Point(334, 45);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(81, 45);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Kamarai azonosító";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label6
-            // 
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(3, 90);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(55, 45);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Adóazonosító";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tbBirthDate
-            // 
-            this.tbBirthDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbBirthDate.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbBirthDate.Location = new System.Drawing.Point(64, 58);
-            this.tbBirthDate.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
-            this.tbBirthDate.Name = "tbBirthDate";
-            this.tbBirthDate.ReadOnly = true;
-            this.tbBirthDate.Size = new System.Drawing.Size(264, 26);
-            this.tbBirthDate.TabIndex = 8;
-            // 
-            // tbChamberId
-            // 
-            this.tbChamberId.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbChamberId.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbChamberId.Location = new System.Drawing.Point(421, 58);
-            this.tbChamberId.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
-            this.tbChamberId.Name = "tbChamberId";
-            this.tbChamberId.ReadOnly = true;
-            this.tbChamberId.Size = new System.Drawing.Size(264, 26);
-            this.tbChamberId.TabIndex = 9;
-            // 
-            // tbTaxId
-            // 
-            this.tbTaxId.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbTaxId.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbTaxId.Location = new System.Drawing.Point(64, 103);
-            this.tbTaxId.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
-            this.tbTaxId.Name = "tbTaxId";
-            this.tbTaxId.ReadOnly = true;
-            this.tbTaxId.Size = new System.Drawing.Size(264, 26);
-            this.tbTaxId.TabIndex = 10;
             // 
             // SapSoapCardWriterWindow
             // 

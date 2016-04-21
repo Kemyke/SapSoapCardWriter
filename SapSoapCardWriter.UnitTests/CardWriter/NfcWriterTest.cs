@@ -96,7 +96,6 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
 
             List<string> testDataList = new List<string>();            
             //testDataList.Add("1892567125");
-            testDataList.Add("1892567125");
             testDataList.Add("encpublicdata");
             testDataList.Add("encfulldata");
             writer.WriteCard("FADDDEADFADDDEAD", testDataList);
@@ -121,7 +120,6 @@ namespace SapSoapCardWriter.UnitTests.CardWriter
                 List<string> ret = await writer.ReadNfcTags();
                 Console.WriteLine(string.Join(",", ret));
                 List<string> testDataList = new List<string>();
-                testDataList.Add("guid");
                 testDataList.Add("encpublicdata");
                 testDataList.Add("encfulldata");
                 writer.WriteCard("FADDDEADFADDDEAD", testDataList);

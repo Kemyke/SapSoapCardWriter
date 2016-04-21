@@ -63,10 +63,10 @@ namespace SapSoapCardWriter.GUI
                 if (newState == ReaderState.CardPresent)
                 {
                     toolReaderStatus.Text = "RFID kiolvasás...";
-                    List<string> data = await cardWriter.ReadNfcTags();
-                    string rfid = data[0];
+                    string sn = await cardWriter.GetSerialNumberAsync();
                     toolReaderStatus.Text = "Kártya beolvasás...";
-                    cardData = await serviceManager.GetCardDataAsync(user, rfid);
+                    logger.Debug("Serial number: {0}", sn);
+                    cardData = await serviceManager.GetCardDataAsync(user, sn);
                     if (!string.IsNullOrEmpty(cardData.ErrorString))
                     {
                         btnWriteCard.Enabled = false;
@@ -145,7 +145,7 @@ namespace SapSoapCardWriter.GUI
             toolReaderStatus.Text = "Kártya írás folyamatban...";
             try
             {
-                cardWriter.WriteCard(cardData.CardKey, new List<string> { cardData.CardUid, cardData.PublicEncryptedData, cardData.AllEncryptedData });
+                cardWriter.WriteCard(cardData.CardKey, new List<string> { cardData.PublicEncryptedData, cardData.AllEncryptedData });
                 toolReaderStatus.Text = "Kártya kész";
             }
             catch(Exception ex)
