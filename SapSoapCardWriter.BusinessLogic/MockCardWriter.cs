@@ -73,5 +73,9 @@ namespace SapSoapCardWriter.BusinessLogic
         {
             return Task.FromResult("1892567125");
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

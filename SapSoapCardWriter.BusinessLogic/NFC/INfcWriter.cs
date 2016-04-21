@@ -15,6 +15,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
     public interface INfcWriter
     {
         void StartMonitor();
+        void StopMonitor();
         bool Erase(string key);
         bool Prepare(string key);
         bool Lock(string key);

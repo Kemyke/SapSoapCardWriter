@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SapSoapCardWriter.BusinessLogic
 {
-    public interface ICardWriter
+    public interface ICardWriter : IDisposable
     {
         ResultCode WriteCard(string key, List<string> dataList);
         Task<ResultCode> WriteCardAsync(string key, List<string> dataList);

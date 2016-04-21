@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,7 +36,7 @@ namespace SapSoapCardWriter.GUI
         {
             DIContainerFactory diFactory = new DIContainerFactory();
             IDIContainer di = diFactory.CreateAndLoadDIContainer();
-
+            FormClosed += SapSoapCardWriterWindow_FormClosed;
             cardWriter = di.GetInstance<ICardWriter>();
             logger = di.GetInstance<ILogger>();
             var cm = di.GetInstance<IConfigurationManager<ISapSoapCardWriterConfig>>();
@@ -43,6 +45,14 @@ namespace SapSoapCardWriter.GUI
             serviceManager = di.GetInstance<IServiceManager>();
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        private void SapSoapCardWriterWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (cardWriter != null)
+            {
+                cardWriter.Dispose();
+            }
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -104,7 +114,7 @@ namespace SapSoapCardWriter.GUI
                             tbChamberId.Text = string.Empty;
                             tbChamberId.Enabled = false;
 
-                            toolReaderStatus.Text = "Hibás kártya";
+                            toolReaderStatus.Text = "Adat lekérés közben hiba történt: " + cardData.ErrorString;
                         }
                         else
                         {

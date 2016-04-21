@@ -32,6 +32,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             this.logger = logger;
         }
 
+        private List<SmartCardReader> monitorreaders = new List<SmartCardReader>();
+
         public void StartMonitor()
         {
             List<string> readerNames = GetReaders();
@@ -41,12 +43,28 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 {
                     SmartCardReader reader = new SmartCardReader(readerName);
                     reader.StartMonitor(OnStatusChange);
+                    monitorreaders.Add(reader);
                 }
                 catch 
                 { 
                 }
             }
         }
+
+        public void StopMonitor()
+        {
+            foreach (var reader in monitorreaders)
+            {
+                try
+                {
+                    reader.StopMonitor();
+                }
+                catch
+                {
+                }
+            }
+        }
+
 
         private void OnStatusChange(uint ReaderState, CardBuffer CardAtr)
         {
@@ -875,5 +893,6 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             throw new InvalidOperationException("Cannot get serial number from any reader!");
         }
+
     }
 }

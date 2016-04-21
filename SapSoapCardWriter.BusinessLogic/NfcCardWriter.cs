@@ -102,5 +102,10 @@ namespace SapSoapCardWriter.BusinessLogic
         {
             return Task.FromResult(writer.GetSerialNumber());
         }
+
+        public void Dispose()
+        {
+            writer.StopMonitor();
+        }
     }
 }
