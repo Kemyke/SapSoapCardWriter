@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F605627C-699A-45F1-B727-5A91535E3871}"
 	ProjectSection(SolutionItems) = preProject
 		Solution Items\GlobalAssemblyInfo.cs = Solution Items\GlobalAssemblyInfo.cs
+		Solution Items\ReadMe.md = Solution Items\ReadMe.md
 	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SapSoapCardWriter.Setup", "SapSoapCardWriter.Setup\SapSoapCardWriter.Setup.vdproj", "{6CDE8AF4-7791-4A0D-9D42-C2B411D2EDB6}"
@@ -25,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockSapService", "MockSapService\MockSapService.csproj", "{2E0E4099-CC40-492B-B2C3-8BB7E94AB697}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SapSoapCardWriter.GUI.Setup", "SapSoapCardWriter.GUI.Setup\SapSoapCardWriter.GUI.Setup.vdproj", "{6B1FA76D-BA0A-4809-8BE2-86017855DE39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SapSoapCardWriter.TestConsole", "SapSoapCardWriter.TestConsole\SapSoapCardWriter.TestConsole.csproj", "{BB055213-875D-4665-8979-EEA746C0C94A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +67,10 @@ Global
 		{2E0E4099-CC40-492B-B2C3-8BB7E94AB697}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6B1FA76D-BA0A-4809-8BE2-86017855DE39}.Debug|Any CPU.ActiveCfg = Debug
 		{6B1FA76D-BA0A-4809-8BE2-86017855DE39}.Release|Any CPU.ActiveCfg = Release
+		{BB055213-875D-4665-8979-EEA746C0C94A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB055213-875D-4665-8979-EEA746C0C94A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB055213-875D-4665-8979-EEA746C0C94A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB055213-875D-4665-8979-EEA746C0C94A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

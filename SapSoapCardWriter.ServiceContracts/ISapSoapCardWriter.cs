@@ -11,9 +11,6 @@ namespace SapSoapCardWriter.ServiceContracts
     public interface ISapSoapCardWriter
     {
         [OperationContract]
-        Response WriteCard(string key, List<string> dataList);
-
-        [OperationContract]
         Response<string> Encrypt(string payload, string key);
 
         [OperationContract]
