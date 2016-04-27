@@ -32,6 +32,8 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
             this.logger = logger;
         }
 
+        private List<SmartCardReader> monitorreaders = new List<SmartCardReader>();
+
         public void StartMonitor()
         {
             List<string> readerNames = GetReaders();
@@ -41,12 +43,28 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
                 {
                     SmartCardReader reader = new SmartCardReader(readerName);
                     reader.StartMonitor(OnStatusChange);
+                    monitorreaders.Add(reader);
                 }
                 catch 
                 { 
                 }
             }
         }
+
+        public void StopMonitor()
+        {
+            foreach (var reader in monitorreaders)
+            {
+                try
+                {
+                    reader.StopMonitor();
+                }
+                catch
+                {
+                }
+            }
+        }
+
 
         private void OnStatusChange(uint ReaderState, CardBuffer CardAtr)
         {
@@ -837,5 +855,44 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             throw new InvalidOperationException("Cannot get data from any reader!");
         }
+
+        public string GetSerialNumber()
+        {
+            List<string> readerNames = GetReaders();
+            foreach (string readerName in readerNames)
+            {
+                SmartCardChannel scard = null;
+                try
+                {
+                    byte[] version_info = new byte[30];
+                    scard = Connect(readerName);
+                    var rc = SmartCardDesfire.GetVersion(scard.hCard, version_info);
+                    if (rc != SmartCard.S_SUCCESS)
+                    {
+                        logger.Error("Desfire 'get version' command failed.");
+                        throw new InvalidOperationException("Desfire 'get version' command failed.");
+                    }
+                    byte[] sn = version_info.Skip(14).Take(7).ToArray();
+                    string ret = BitConverter.ToString(sn).Replace("-", "");
+                    return ret;
+
+                }
+                catch (InvalidOperationException ex)
+                {
+                    logger.Warning("Cannot get serial number with reader: {0}. Exception: {1}.", readerName, ex.ToString());
+                }
+                finally
+                {
+                    if (scard != null)
+                    {
+                        SmartCardDesfire.DetachLibrary(scard.hCard);
+                        scard.DisconnectUnpower();
+                    }
+                }
+            }
+
+            throw new InvalidOperationException("Cannot get serial number from any reader!");
+        }
+
     }
 }
