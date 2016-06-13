@@ -31,6 +31,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -80,8 +90,28 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ServiceManager.cs" />
+    <None Include="App.Release.config">
+      <DependentUpon>
+        App.config
+      </DependentUpon>
+    </None>
+    <None Include="App.Test.config">
+      <DependentUpon>
+        App.config
+      </DependentUpon>  
+    </None>
+    <None Include="Configs\SapSoapCardWriterConfig.Test.config">
+      <DependentUpon>
+        SapSoapCardWriterConfig.config
+      </DependentUpon>
+    </None>
     <None Include="Properties\DataSources\SapSoapCardWriter.BusinessLogic.SapService.CardData.datasource" />
     <None Include="Properties\DataSources\SapSoapCardWriter.BusinessLogic.SapService.LoginData.datasource" />
+    <None Include="Configs\SapSoapCardWriterConfig.Release.config">
+      <DependentUpon>
+        SapSoapCardWriterConfig.config
+      </DependentUpon>
+    </None>
     <None Include="Service References\SapNakCardService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -198,4 +228,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="c:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0\Web\Microsoft.Web.Publishing.targets" />
+  <Target Name="TransformAppConfig" AfterTargets="AfterCompile" Condition="exists('app.$(Configuration).config')">
+    <TransformXml Source="App.config" Transform="App.$(Configuration).config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" />
+    <Copy SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFolder="$(OutDir)" OverwriteReadOnlyFiles="True" />
+  </Target>
+  <Target Name="TransforSapSoapConfig" AfterTargets="AfterCompile" Condition="exists('Configs\SapSoapCardWriterConfig.$(Configuration).config')">
+    <TransformXml Source="Configs\SapSoapCardWriterConfig.config" Transform="Configs\SapSoapCardWriterConfig.$(Configuration).config" Destination="$(IntermediateOutputPath)\SapSoapCardWriterConfig.config" />
+    <Copy SourceFiles="$(IntermediateOutputPath)\SapSoapCardWriterConfig.config" DestinationFolder="$(OutDir)\Configs" OverwriteReadOnlyFiles="True" />
+  </Target>
 </Project>
