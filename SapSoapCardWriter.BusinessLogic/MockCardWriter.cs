@@ -77,5 +77,11 @@ namespace SapSoapCardWriter.BusinessLogic
         public void Dispose()
         {
         }
+
+
+        public bool HasSmartCardReader
+        {
+            get { return true; }
+        }
     }
 }

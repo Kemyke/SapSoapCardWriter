@@ -104,39 +104,47 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
 
             while (_status_change_running)
             {
-                rc = SmartCard.GetStatusChange(hContext, 250, states, 1);
-
-                if (!_status_change_running)
-                    break;
-
-                if (rc == SmartCard.E_TIMEOUT)
-                    continue;
-
-                if (rc != SmartCard.S_SUCCESS)
+                try
                 {
-                    _last_error = rc;
 
-                    SmartCard.ReleaseContext(hContext);
-                    if (_status_change_callback != null)
-                        _status_change_callback(0, null);
-                    break;
-                }
 
-                if ((states[0].dwEventState & SmartCard.STATE_CHANGED) != 0)
-                {
-                    states[0].dwCurrentState = states[0].dwEventState;
+                    rc = SmartCard.GetStatusChange(hContext, 250, states, 1);
 
-                    if (_status_change_callback != null)
+                    if (!_status_change_running)
+                        break;
+
+                    if (rc == SmartCard.E_TIMEOUT)
+                        continue;
+
+                    if (rc != SmartCard.S_SUCCESS)
                     {
-                        CardBuffer card_atr = null;
+                        _last_error = rc;
 
-                        if ((states[0].dwEventState & SmartCard.STATE_PRESENT) != 0)
-                            card_atr =
-                                new CardBuffer(states[0].rgbAtr, (int)states[0].cbAtr);
-
-                        _status_change_callback(states[0].dwEventState & ~SmartCard.
-                                                STATE_CHANGED, card_atr);
+                        SmartCard.ReleaseContext(hContext);
+                        if (_status_change_callback != null)
+                            _status_change_callback(0, null);
+                        break;
                     }
+
+                    if ((states[0].dwEventState & SmartCard.STATE_CHANGED) != 0)
+                    {
+                        states[0].dwCurrentState = states[0].dwEventState;
+
+                        if (_status_change_callback != null)
+                        {
+                            CardBuffer card_atr = null;
+
+                            if ((states[0].dwEventState & SmartCard.STATE_PRESENT) != 0)
+                                card_atr =
+                                    new CardBuffer(states[0].rgbAtr, (int)states[0].cbAtr);
+
+                            _status_change_callback(states[0].dwEventState & ~SmartCard.
+                                                    STATE_CHANGED, card_atr);
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
                 }
             }
 

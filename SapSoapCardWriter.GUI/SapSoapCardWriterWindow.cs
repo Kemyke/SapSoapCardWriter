@@ -26,8 +26,7 @@ namespace SapSoapCardWriter.GUI
 
         private ICardWriter cardWriter = null;
         private ILogger logger = null;
-        
-
+                
         private UserData user = null;
         private CardData cardData = null;
         private IServiceManager serviceManager = null;
@@ -64,7 +63,6 @@ namespace SapSoapCardWriter.GUI
         {
             InitializeComponent();
             InitDIContainer();
-
             cardWriter.ReaderStateChanged += cardWriter_ReaderStateChanged;
         }
 
@@ -160,27 +158,35 @@ namespace SapSoapCardWriter.GUI
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            LoginWindow lw = new LoginWindow(logger, serviceManager);
-            lw.StartPosition = FormStartPosition.CenterParent;
-            var result = lw.ShowDialog();
-            if(result == DialogResult.OK)
+            if (!cardWriter.HasSmartCardReader)
             {
-                user = lw.User;
-                this.Text = string.Format("NAK kártyaíró (Felhasználó: {0})", user.LoginName);
-
-                try
-                {
-                    string sn = cardWriter.GetSerialNumber();
-                    StateChange(ReaderState.CardPresent);
-                }
-                catch(Exception ex)
-                {
-
-                }
+                MessageBox.Show("Nem található NFC olvasó! Az alkalmazás leáll!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
             }
             else
             {
-                this.Close();
+                LoginWindow lw = new LoginWindow(logger, serviceManager);
+                lw.StartPosition = FormStartPosition.CenterParent;
+                var result = lw.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    user = lw.User;
+                    this.Text = string.Format("NAK kártyaíró (Felhasználó: {0})", user.LoginName);
+
+                    try
+                    {
+                        string sn = cardWriter.GetSerialNumber();
+                        StateChange(ReaderState.CardPresent);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+                else
+                {
+                    this.Close();
+                }
             }
         }
 

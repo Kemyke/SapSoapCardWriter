@@ -17,5 +17,6 @@ namespace SapSoapCardWriter.BusinessLogic
         event EventHandler<ReaderState> ReaderStateChanged;
         string GetSerialNumber();
         Task<string> GetSerialNumberAsync();
+        bool HasSmartCardReader { get; }
     }
 }

@@ -528,7 +528,7 @@ namespace SapSoapCardWriter.BusinessLogic.NFC
         {
             if (SmartCard.Readers == null || SmartCard.Readers.Length == 0)
             {
-                throw new InvalidOperationException("WriteNfcTag! No reader found!");
+                throw new NoSmartCardReaderFoundException("No reader found!");
             }
 
             List<string> ret = new List<string>();

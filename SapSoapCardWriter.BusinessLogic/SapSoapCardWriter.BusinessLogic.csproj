@@ -69,6 +69,7 @@
     <Compile Include="NFC\NDEF\RtdVCard.cs" />
     <Compile Include="NFC\NDEF\Tlv.cs" />
     <Compile Include="NFC\NfcWriter.cs" />
+    <Compile Include="NFC\NoSmartCardReaderFoundException.cs" />
     <Compile Include="NFC\Rapdu.cs" />
     <Compile Include="NFC\SmartCardChannel.cs" />
     <Compile Include="NFC\SmartCardReader.cs" />

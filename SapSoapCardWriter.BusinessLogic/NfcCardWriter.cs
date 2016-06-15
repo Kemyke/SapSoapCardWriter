@@ -14,12 +14,23 @@ namespace SapSoapCardWriter.BusinessLogic
         private readonly ILogger logger;
         private readonly INfcWriter writer;
 
+        public bool HasSmartCardReader { get; private set; }
+
         public NfcCardWriter(ILogger logger)
         {
             this.logger = logger;
             writer = new NfcWriter(logger);
-            writer.StartMonitor();
-            writer.ReaderStateChanged += writer_ReaderStateChanged;
+            try
+            {
+                writer.StartMonitor();
+                writer.ReaderStateChanged += writer_ReaderStateChanged;
+                HasSmartCardReader = true;
+            }
+            catch (NoSmartCardReaderFoundException ex)
+            {
+                logger.Error(ex.ToString());
+                HasSmartCardReader = false;
+            }
         }
 
         private void writer_ReaderStateChanged(object sender, ReaderState e)
