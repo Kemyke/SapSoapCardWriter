@@ -909,6 +909,20 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_05980BE23ECE4142B4D5852AD93C2427"
+            {
+            "Name" = "8:Primary output from SapSoapCardWriter.GUI (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_BF6BDDE0B6B64935AE782634EAFCA765"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_0E615A13_5A78_45F6_A0B7_71D0DBE82EC2"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -2756,7 +2770,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NAKCardWriter"
         "ProductCode" = "8:{3723B6F3-F84A-4FBD-8813-F37D84D3FF57}"
-        "PackageCode" = "8:{3C33D312-2A09-4059-9433-167438BD1B09}"
+        "PackageCode" = "8:{C023A17B-9B0D-4B24-95A1-E55AD0D7EB7B}"
         "UpgradeCode" = "8:{00BC1A01-ECF1-48A0-A67E-8E1F963E833A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

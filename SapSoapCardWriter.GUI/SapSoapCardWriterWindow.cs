@@ -90,6 +90,12 @@ namespace SapSoapCardWriter.GUI
                     tbBirthPlace.Enabled = false;
                     tbFullName.Text = string.Empty;
                     tbFullName.Enabled = false;
+                    tbBirthDate.Text = string.Empty;
+                    tbBirthDate.Enabled = false;
+                    tbTaxId.Text = string.Empty;
+                    tbTaxId.Enabled = false;
+                    tbChamberId.Text = string.Empty;
+                    tbChamberId.Enabled = false;
 
                     if (newState == ReaderState.CardPresent)
                     {

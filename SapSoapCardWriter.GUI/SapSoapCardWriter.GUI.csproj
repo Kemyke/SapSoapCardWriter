@@ -44,6 +44,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -58,6 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IServiceManager.cs" />
+    <Compile Include="LogFolderSetter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LogFolderSetter.Designer.cs">
+      <DependentUpon>LogFolderSetter.cs</DependentUpon>
+    </Compile>
     <Compile Include="MockServiceManager.cs" />
     <Compile Include="Service References\SapNakAuthService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -98,7 +105,7 @@
     <None Include="App.Test.config">
       <DependentUpon>
         App.config
-      </DependentUpon>  
+      </DependentUpon>
     </None>
     <None Include="Configs\SapSoapCardWriterConfig.Test.config">
       <DependentUpon>
