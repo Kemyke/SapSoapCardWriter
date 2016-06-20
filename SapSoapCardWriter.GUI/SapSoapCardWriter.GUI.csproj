@@ -238,10 +238,10 @@
   <Import Project="c:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0\Web\Microsoft.Web.Publishing.targets" />
   <Target Name="TransformAppConfig" AfterTargets="AfterCompile" Condition="exists('app.$(Configuration).config')">
     <TransformXml Source="App.config" Transform="App.$(Configuration).config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" />
-    <Copy SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFolder="$(OutDir)" OverwriteReadOnlyFiles="True" />
+    <Copy SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFolder="" OverwriteReadOnlyFiles="True" />
   </Target>
   <Target Name="TransforSapSoapConfig" AfterTargets="AfterCompile" Condition="exists('Configs\SapSoapCardWriterConfig.$(Configuration).config')">
     <TransformXml Source="Configs\SapSoapCardWriterConfig.config" Transform="Configs\SapSoapCardWriterConfig.$(Configuration).config" Destination="$(IntermediateOutputPath)\SapSoapCardWriterConfig.config" />
-    <Copy SourceFiles="$(IntermediateOutputPath)\SapSoapCardWriterConfig.config" DestinationFolder="$(OutDir)\Configs" OverwriteReadOnlyFiles="True" />
+    <Copy SourceFiles="$(IntermediateOutputPath)\SapSoapCardWriterConfig.config" DestinationFolder="Configs" OverwriteReadOnlyFiles="True" />
   </Target>
 </Project>

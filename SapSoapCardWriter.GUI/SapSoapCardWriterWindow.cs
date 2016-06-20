@@ -29,6 +29,7 @@ namespace SapSoapCardWriter.GUI
                 
         private UserData user = null;
         private CardData cardData = null;
+        private ISapSoapCardWriterConfig config = null;
         private IServiceManager serviceManager = null;
 
         private void InitDIContainer()
@@ -42,6 +43,8 @@ namespace SapSoapCardWriter.GUI
             cm.LoadConfiguation();
             di.RegisterInstance<ISapSoapCardWriterConfig>(cm.Config);
             serviceManager = di.GetInstance<IServiceManager>();
+
+            config = cm.Config;
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
@@ -64,6 +67,9 @@ namespace SapSoapCardWriter.GUI
             InitializeComponent();
             InitDIContainer();
             cardWriter.ReaderStateChanged += cardWriter_ReaderStateChanged;
+            this.Text = string.Format("{0} ({1})", this.Text, config.EnvName);
+            ColorConverter cc = new ColorConverter();
+            this.BackColor = (Color)cc.ConvertFromString(config.BackgroundColor);
         }
 
         private bool IsDataSizeOk(CardData cd)
@@ -177,7 +183,7 @@ namespace SapSoapCardWriter.GUI
                 if (result == DialogResult.OK)
                 {
                     user = lw.User;
-                    this.Text = string.Format("NAK kártyaíró (Felhasználó: {0})", user.LoginName);
+                    this.Text = string.Format("NAK kártyaíró (Felhasználó: {0}) ({1})", user.LoginName, config.EnvName);
 
                     try
                     {

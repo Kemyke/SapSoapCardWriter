@@ -23,13 +23,7 @@ namespace SapSoapCardWriter.GUI
         {
             this.logger = logger;
             authClient = new Z_CRM_NEBIH_CARD_AUTHClient();
-            authClient.ClientCredentials.UserName.UserName = config.ServiceUserAcc;
-            authClient.ClientCredentials.UserName.Password = config.ServiceUserPwd;
-
             cardClient = new Z_CRM_NEBIH_CARD_FILE_GETClient();
-            cardClient.ClientCredentials.UserName.UserName = config.ServiceUserAcc;
-            cardClient.ClientCredentials.UserName.Password = config.ServiceUserPwd;
-
         }
 
         public LoginData ValidateUser(string userName, string password)

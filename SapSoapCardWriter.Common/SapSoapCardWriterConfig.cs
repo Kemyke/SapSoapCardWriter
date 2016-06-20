@@ -9,18 +9,18 @@ namespace SapSoapCardWriter.Common
 {
     public sealed class SapSoapCardWriterConfig : ConfigurationSection, ISapSoapCardWriterConfig
     {
-        [ConfigurationProperty("ServiceUserAcc", IsRequired = true)]
-        public string ServiceUserAcc
+        [ConfigurationProperty("EnvName", IsRequired = true)]
+        public string EnvName
         {
-            get { return (string)this["ServiceUserAcc"]; }
-            set { this["ServiceUserAcc"] = value; }
+            get { return (string)this["EnvName"]; }
+            set { this["EnvName"] = value; }
         }
 
-        [ConfigurationProperty("ServiceUserPwd", IsRequired = true)]
-        public string ServiceUserPwd
+        [ConfigurationProperty("BackgroundColor", IsRequired = true)]
+        public string BackgroundColor
         {
-            get { return (string)this["ServiceUserPwd"]; }
-            set { this["ServiceUserPwd"] = value; }
+            get { return (string)this["BackgroundColor"]; }
+            set { this["BackgroundColor"] = value; }
         }
     }
 }

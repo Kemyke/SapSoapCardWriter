@@ -8,7 +8,7 @@ namespace SapSoapCardWriter.Common
 {
     public interface ISapSoapCardWriterConfig
     {
-        string ServiceUserAcc { get; }
-        string ServiceUserPwd { get; }
+        string EnvName { get; }
+        string BackgroundColor { get; }
     }
 }
