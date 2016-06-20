@@ -67,7 +67,7 @@ namespace SapSoapCardWriter.GUI
             InitializeComponent();
             InitDIContainer();
             cardWriter.ReaderStateChanged += cardWriter_ReaderStateChanged;
-            this.Text = string.Format("{0} ({1})", this.Text, config.EnvName);
+            this.Text = string.Format("{0} {1}", this.Text, config.EnvName);
             ColorConverter cc = new ColorConverter();
             this.BackColor = (Color)cc.ConvertFromString(config.BackgroundColor);
         }
@@ -183,7 +183,7 @@ namespace SapSoapCardWriter.GUI
                 if (result == DialogResult.OK)
                 {
                     user = lw.User;
-                    this.Text = string.Format("NAK kártyaíró (Felhasználó: {0}) ({1})", user.LoginName, config.EnvName);
+                    this.Text = string.Format("NAK kártyaíró (Felhasználó: {0}) {1}", user.LoginName, config.EnvName);
 
                     try
                     {
