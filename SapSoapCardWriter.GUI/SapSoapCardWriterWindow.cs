@@ -124,7 +124,7 @@ namespace SapSoapCardWriter.GUI
                             tbChamberId.Text = string.Empty;
                             tbChamberId.Enabled = false;
 
-                            toolReaderStatus.Text = "Adat lekérés közben hiba történt: " + cardData.ErrorString;
+                            toolReaderStatus.Text = "Információ: " + cardData.ErrorString;
                         }
                         else
                         {
