@@ -97,6 +97,11 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ServiceManager.cs" />
+    <None Include="App.Debug.config">
+      <DependentUpon>
+        App.config
+      </DependentUpon>
+    </None>
     <None Include="App.Release.config">
       <DependentUpon>
         App.config
@@ -105,6 +110,11 @@
     <None Include="App.Test.config">
       <DependentUpon>
         App.config
+      </DependentUpon>
+    </None>
+    <None Include="Configs\SapSoapCardWriterConfig.Debug.config">
+      <DependentUpon>
+        SapSoapCardWriterConfig.config
       </DependentUpon>
     </None>
     <None Include="Configs\SapSoapCardWriterConfig.Test.config">
