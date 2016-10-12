@@ -44,11 +44,12 @@ namespace SapSoapCardWriter.GUI
 
         public void MarkWriteSuccessful(UserData userData, string rfid)
         {
+            client.ReportSuccess(userData.LoginName, userData.Password, rfid);
         }
 
         public Task MarkWriteSuccessfulAsync(UserData userData, string rfid)
         {
-            return Task.Run(() => { });
+            return client.ReportSuccessAsync(userData.LoginName, userData.Password, rfid);
         }
     }
 }

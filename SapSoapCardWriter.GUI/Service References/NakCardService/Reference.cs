@@ -26,6 +26,12 @@ namespace SapSoapCardWriter.GUI.NakCardService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/GetCardData", ReplyAction="http://tempuri.org/INakCardService/GetCardDataResponse")]
         System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.CardData> GetCardDataAsync(string userName, string password, string rfid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/ReportSuccess", ReplyAction="http://tempuri.org/INakCardService/ReportSuccessResponse")]
+        void ReportSuccess(string userName, string password, string rfid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/ReportSuccess", ReplyAction="http://tempuri.org/INakCardService/ReportSuccessResponse")]
+        System.Threading.Tasks.Task ReportSuccessAsync(string userName, string password, string rfid);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -69,6 +75,14 @@ namespace SapSoapCardWriter.GUI.NakCardService {
         
         public System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.CardData> GetCardDataAsync(string userName, string password, string rfid) {
             return base.Channel.GetCardDataAsync(userName, password, rfid);
+        }
+        
+        public void ReportSuccess(string userName, string password, string rfid) {
+            base.Channel.ReportSuccess(userName, password, rfid);
+        }
+        
+        public System.Threading.Tasks.Task ReportSuccessAsync(string userName, string password, string rfid) {
+            return base.Channel.ReportSuccessAsync(userName, password, rfid);
         }
     }
 }

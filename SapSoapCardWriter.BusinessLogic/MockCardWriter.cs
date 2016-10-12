@@ -61,7 +61,7 @@ namespace SapSoapCardWriter.BusinessLogic
 
         public Task<List<string>> ReadNfcTags()
         {
-            return Task.FromResult(new List<string>() { "1892567125", "encpublicdata", "encfulldata" });
+            return Task.FromResult(new List<string>() { "pubdatafromsapmock", "alldatafromsapmock" });
         }
 
         public string GetSerialNumber()

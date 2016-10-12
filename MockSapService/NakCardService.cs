@@ -17,5 +17,8 @@ namespace MockSapService
 
         [OperationContract]
         CardData GetCardData(string userName, string password, string rfid);
+
+        [OperationContract]
+        void ReportSuccess(string userName, string password, string rfid);
     }
 }

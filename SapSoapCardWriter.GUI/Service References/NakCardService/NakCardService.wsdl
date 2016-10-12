@@ -19,6 +19,12 @@
   <wsdl:message name="INakCardService_GetCardData_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetCardDataResponse" />
   </wsdl:message>
+  <wsdl:message name="INakCardService_ReportSuccess_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReportSuccess" />
+  </wsdl:message>
+  <wsdl:message name="INakCardService_ReportSuccess_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReportSuccessResponse" />
+  </wsdl:message>
   <wsdl:portType name="INakCardService">
     <wsdl:operation name="ValidateUser">
       <wsdl:input wsaw:Action="http://tempuri.org/INakCardService/ValidateUser" message="tns:INakCardService_ValidateUser_InputMessage" />
@@ -27,6 +33,10 @@
     <wsdl:operation name="GetCardData">
       <wsdl:input wsaw:Action="http://tempuri.org/INakCardService/GetCardData" message="tns:INakCardService_GetCardData_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/INakCardService/GetCardDataResponse" message="tns:INakCardService_GetCardData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportSuccess">
+      <wsdl:input wsaw:Action="http://tempuri.org/INakCardService/ReportSuccess" message="tns:INakCardService_ReportSuccess_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INakCardService/ReportSuccessResponse" message="tns:INakCardService_ReportSuccess_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_INakCardService" type="tns:INakCardService">
@@ -42,6 +52,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetCardData">
       <soap:operation soapAction="http://tempuri.org/INakCardService/GetCardData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportSuccess">
+      <soap:operation soapAction="http://tempuri.org/INakCardService/ReportSuccess" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

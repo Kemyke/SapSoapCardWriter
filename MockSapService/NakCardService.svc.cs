@@ -34,12 +34,12 @@ namespace MockSapService
             }
             else
             {
-                if (rfid == "guid")
+                if (rfid == "1892567125")
                 {
                     return new CardData()
                     {
                         ErrorString = null,
-                        CardUid = "guid",
+                        CardUid = "1892567125",
                         CardKey = "FADDDEADFADDDEAD",
                         AllEncryptedData = "alldatafromsapmock",
                         PublicEncryptedData = "pubdatafromsapmock",
@@ -59,6 +59,12 @@ namespace MockSapService
                     };
                 }
             }
+        }
+
+
+        public void ReportSuccess(string userName, string password, string rfid)
+        {
+            
         }
     }
 }
