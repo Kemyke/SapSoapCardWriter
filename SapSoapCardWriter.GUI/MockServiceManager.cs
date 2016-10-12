@@ -42,5 +42,13 @@ namespace SapSoapCardWriter.GUI
             return cd;
         }
 
+        public void MarkWriteSuccessful(UserData userData, string rfid)
+        {
+        }
+
+        public Task MarkWriteSuccessfulAsync(UserData userData, string rfid)
+        {
+            return Task.Run(() => { });
+        }
     }
 }

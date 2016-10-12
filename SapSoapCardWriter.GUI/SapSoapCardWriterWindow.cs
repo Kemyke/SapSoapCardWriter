@@ -221,6 +221,7 @@ namespace SapSoapCardWriter.GUI
                         if(data[0] == cardData.PublicEncryptedData && data[1] == cardData.AllEncryptedData)
                         {
                             toolReaderStatus.Text = "Kártya kész";
+                            serviceManager.MarkWriteSuccessful(user, cardData.CardUid);
                             MessageBox.Show("Kártya írás kész!", "Írási művelet", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else

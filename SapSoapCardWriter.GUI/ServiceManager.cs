@@ -3,6 +3,7 @@ using SapSoapCardWriter.Common;
 using SapSoapCardWriter.GUI.NakCardService;
 using SapSoapCardWriter.GUI.SapNakAuthService;
 using SapSoapCardWriter.GUI.SapNakCardService;
+using SapSoapCardWriter.GUI.SapNakResponseService;
 using SapSoapCardWriter.Logger.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,14 @@ namespace SapSoapCardWriter.GUI
         private readonly ILogger logger;
         private Z_CRM_NEBIH_CARD_AUTHClient authClient;
         private Z_CRM_NEBIH_CARD_FILE_GETClient cardClient;
+        private Z_CRM_NEBIH_CARD_WRSUCCClient respClient;
 
         public ServiceManager(ILogger logger, ISapSoapCardWriterConfig config)
         {
             this.logger = logger;
             authClient = new Z_CRM_NEBIH_CARD_AUTHClient();
             cardClient = new Z_CRM_NEBIH_CARD_FILE_GETClient();
+            respClient = new Z_CRM_NEBIH_CARD_WRSUCCClient();
         }
 
         public LoginData ValidateUser(string userName, string password)
@@ -65,6 +68,18 @@ namespace SapSoapCardWriter.GUI
             }
             CardData cd = new CardData { AllEncryptedData = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.CARD_NEBIH, PublicEncryptedData = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.CARD_NAK, CardKey = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.WRITE_KEY /*"FADDDEADFADDDEAD"*/, CardUid = rfid, ErrorString = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.ERROR, UIData = new CardUIData { FullName = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.NAME, BirthDate = bd, BirthPlace = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.BIRTHPLACE, TaxId = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.TAXNO, ChamberId = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.KAMAZ } };
             return cd;
+        }
+
+        public void MarkWriteSuccessful(UserData userData, string rfid)
+        {
+            logger.Debug("MarkWriteSuccessful {0}", rfid);
+            respClient.Z_CRM_NEBIH_CARD_WRSUCC(new Z_CRM_NEBIH_CARD_WRSUCC_DATA { CARD_ID = rfid, UNAME = userData.LoginName, PASSWD = userData.Password });
+            logger.Debug("MarkWriteSuccessful done {0}", rfid);
+        }
+
+        public async Task MarkWriteSuccessfulAsync(UserData userData, string rfid)
+        {
+            await respClient.Z_CRM_NEBIH_CARD_WRSUCCAsync(new Z_CRM_NEBIH_CARD_WRSUCC_DATA { CARD_ID = rfid, UNAME = userData.LoginName, PASSWD = userData.Password });
         }
     }
 }

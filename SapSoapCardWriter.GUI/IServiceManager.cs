@@ -10,5 +10,7 @@ namespace SapSoapCardWriter.GUI
         Task<CardData> GetCardDataAsync(UserData userData, string rfid);
         LoginData ValidateUser(string userName, string password);
         Task<LoginData> ValidateUserAsync(string userName, string password);
+        void MarkWriteSuccessful(UserData userData, string rfid);
+        Task MarkWriteSuccessfulAsync(UserData userData, string rfid);
     }
 }
