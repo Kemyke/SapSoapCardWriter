@@ -43,7 +43,7 @@ namespace MockSapService
                         CardKey = "FADDDEADFADDDEAD",
                         AllEncryptedData = "alldatafromsapmock",
                         PublicEncryptedData = "pubdatafromsapmock",
-                        UIData = new CardUIData() { FullName = "Test User", BirthPlace = "Töttös" }
+                        UIData = new CardUIData() { FullName = "Test User", BirthPlace = "Töttös", CardType = "Kamarai", BirthDate = DateTime.Now, CardStatus = "Aktív", ChamberId = "123", TaxId = "456", TaxNo = "789", LastWriteDate = DateTime.Now.ToShortDateString(), LastWriteUser = "Kaszás Erzsi"  }
                     };
                 }
                 else
