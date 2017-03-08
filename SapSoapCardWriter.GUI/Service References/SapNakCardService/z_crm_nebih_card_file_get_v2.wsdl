@@ -53,6 +53,11 @@
           <xsd:element name="BIRTHDATE" type="tns:date10" />
           <xsd:element name="TAXNO" type="tns:char60" />
           <xsd:element name="KAMAZ" type="tns:char60" />
+          <xsd:element name="CARD_TYPE" type="tns:string" />
+          <xsd:element name="TAXNO_ORG" type="tns:char60" />
+          <xsd:element name="CARD_STATUS" type="tns:string" />
+          <xsd:element name="LAST_WRITE_DATE" type="tns:string" />
+          <xsd:element name="LAST_WRITE_USER" type="tns:string" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:element name="Z_CRM_NEBIH_CARD_FILE_GET">
@@ -101,9 +106,24 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
+  <wsdl:binding name="DEFAULT_soap12" type="tns:Z_CRM_NEBIH_CARD_FILE_GET">
+    <wsoap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Z_CRM_NEBIH_CARD_FILE_GET">
+      <wsoap12:operation soapAction="urn:sap-com:document:sap:rfc:functions:Z_CRM_NEBIH_CARD_FILE_GET:Z_CRM_NEBIH_CARD_FILE_GETRequest" style="document" />
+      <wsdl:input>
+        <wsoap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsoap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
   <wsdl:service name="Z_CRM_NEBIH_CARD_FILE_GET">
     <wsdl:port name="DEFAULT" binding="tns:DEFAULT">
       <soap:address location="http://sapcrdci.local.nak.hu:8000/sap/bc/srt/rfc/sap/z_crm_nebih_card_file_get/010/z_crm_nebih_card_file_get/default" />
+    </wsdl:port>
+    <wsdl:port name="DEFAULT_soap12" binding="tns:DEFAULT_soap12">
+      <wsoap12:address location="http://sapcrdci.local.nak.hu:8000/sap/bc/srt/rfc/sap/z_crm_nebih_card_file_get/010/z_crm_nebih_card_file_get/default" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

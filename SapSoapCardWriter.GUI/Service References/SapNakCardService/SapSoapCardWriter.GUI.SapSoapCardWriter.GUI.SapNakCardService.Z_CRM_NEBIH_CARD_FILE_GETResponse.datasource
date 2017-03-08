@@ -5,6 +5,6 @@
     Renaming the file extension or editing the content of this file may   
     cause the file to be unrecognizable by the program.
 -->
-<GenericObjectDataSource DisplayName="Z_CRM_NEBIH_CARD_FILE_GETResponse1" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>SapSoapCardWriter.GUI.SapNakCardService.Z_CRM_NEBIH_CARD_FILE_GETResponse1, SapSoapCardWriter.GUI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+<GenericObjectDataSource DisplayName="Z_CRM_NEBIH_CARD_FILE_GETResponse" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+   <TypeInfo>SapSoapCardWriter.GUI.SapSoapCardWriter.GUI.SapNakCardService.Z_CRM_NEBIH_CARD_FILE_GETResponse</TypeInfo>
 </GenericObjectDataSource>

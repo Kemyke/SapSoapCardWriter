@@ -27,7 +27,7 @@ namespace SapSoapCardWriter.GUI.SapNakCardService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1067.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -87,7 +87,7 @@ namespace SapSoapCardWriter.GUI.SapNakCardService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1067.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -107,6 +107,16 @@ namespace SapSoapCardWriter.GUI.SapNakCardService {
         private string tAXNOField;
         
         private string kAMAZField;
+        
+        private string cARD_TYPEField;
+        
+        private string tAXNO_ORGField;
+        
+        private string cARD_STATUSField;
+        
+        private string lAST_WRITE_DATEField;
+        
+        private string lAST_WRITE_USERField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
@@ -192,6 +202,66 @@ namespace SapSoapCardWriter.GUI.SapNakCardService {
             }
         }
         
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
+        public string CARD_TYPE {
+            get {
+                return this.cARD_TYPEField;
+            }
+            set {
+                this.cARD_TYPEField = value;
+                this.RaisePropertyChanged("CARD_TYPE");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=8)]
+        public string TAXNO_ORG {
+            get {
+                return this.tAXNO_ORGField;
+            }
+            set {
+                this.tAXNO_ORGField = value;
+                this.RaisePropertyChanged("TAXNO_ORG");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
+        public string CARD_STATUS {
+            get {
+                return this.cARD_STATUSField;
+            }
+            set {
+                this.cARD_STATUSField = value;
+                this.RaisePropertyChanged("CARD_STATUS");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=10)]
+        public string LAST_WRITE_DATE {
+            get {
+                return this.lAST_WRITE_DATEField;
+            }
+            set {
+                this.lAST_WRITE_DATEField = value;
+                this.RaisePropertyChanged("LAST_WRITE_DATE");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=11)]
+        public string LAST_WRITE_USER {
+            get {
+                return this.lAST_WRITE_USERField;
+            }
+            set {
+                this.lAST_WRITE_USERField = value;
+                this.RaisePropertyChanged("LAST_WRITE_USER");
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -203,7 +273,7 @@ namespace SapSoapCardWriter.GUI.SapNakCardService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1067.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]

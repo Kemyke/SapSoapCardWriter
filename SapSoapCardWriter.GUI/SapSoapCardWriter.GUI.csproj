@@ -71,12 +71,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Service References\SapNakCardService\Reference.cs">
+    <Compile Include="Service References\SapNakResponseService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Service References\SapNakResponseService\Reference.cs">
+    <Compile Include="Service References\SapNakCardService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -102,6 +102,12 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ServiceManager.cs" />
+    <None Include="Service References\SapNakCardService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\SapNakCardService\configuration.svcinfo" />
+    <None Include="Service References\SapNakCardService\configuration91.svcinfo" />
     <None Include="Service References\SapNakResponseService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -140,12 +146,6 @@
         SapSoapCardWriterConfig.config
       </DependentUpon>
     </None>
-    <None Include="Service References\SapNakCardService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\SapNakCardService\configuration.svcinfo" />
-    <None Include="Service References\SapNakCardService\configuration91.svcinfo" />
     <None Include="Service References\SapNakAuthService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -172,6 +172,7 @@
     </Content>
     <Content Include="Configs\SapSoapCardWriterConfig.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Configs\Unity.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -202,13 +203,6 @@
     <None Include="Service References\SapNakAuthService\SapSoapCardWriter.GUI.SapNakAuthService.Z_CRM_NEBIH_CARD_AUTHResponse1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\SapNakCardService\default.wsdl" />
-    <None Include="Service References\SapNakCardService\SapSoapCardWriter.GUI.SapNakCardService.Z_CRM_NEBIH_CARD_FILE_GETResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SapNakCardService\SapSoapCardWriter.GUI.SapNakCardService.Z_CRM_NEBIH_CARD_FILE_GETResponse1.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\SapNakResponseService\SapSoapCardWriter.GUI.SapNakResponseService.Z_CRM_NEBIH_CARD_WRSUCCResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -216,6 +210,10 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\SapNakResponseService\WSDL_Z_CRM_NEBIH_CARD_WRSUCC.wsdl" />
+    <None Include="Service References\SapNakCardService\SapSoapCardWriter.GUI.SapSoapCardWriter.GUI.SapNakCardService.Z_CRM_NEBIH_CARD_FILE_GETResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SapNakCardService\z_crm_nebih_card_file_get_v2.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -238,8 +236,8 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\NakCardService\" />
     <WCFMetadataStorage Include="Service References\SapNakAuthService\" />
-    <WCFMetadataStorage Include="Service References\SapNakCardService\" />
     <WCFMetadataStorage Include="Service References\SapNakResponseService\" />
+    <WCFMetadataStorage Include="Service References\SapNakCardService\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\NakCardService\NakCardService.disco" />

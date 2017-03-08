@@ -32,7 +32,39 @@ namespace SapSoapCardWriter.BusinessLogic.SapService
             set;
         }
 
+        //Adóazonosító
         public string TaxId
+        {
+            get;
+            set;
+        }
+
+        //Adószám
+        public string TaxNo
+        {
+            get;
+            set;
+        }
+
+        public string CardType
+        {
+            get;
+            set;
+        }
+
+        public string CardStatus
+        {
+            get;
+            set;
+        }
+
+        public string LastWriteDate
+        {
+            get;
+            set;
+        }
+
+        public string LastWriteUser
         {
             get;
             set;

@@ -102,6 +102,16 @@ namespace SapSoapCardWriter.GUI
                     tbTaxId.Enabled = false;
                     tbChamberId.Text = string.Empty;
                     tbChamberId.Enabled = false;
+                    tbCardStatus.Text = string.Empty;
+                    tbCardStatus.Enabled = false;
+                    tbCardType.Text = string.Empty;
+                    tbCardType.Enabled = false;
+                    tbTaxNo.Text = string.Empty;
+                    tbTaxNo.Enabled = false;
+                    tbLastWriteDate.Text = string.Empty;
+                    tbLastWriteDate.Enabled = false;
+                    tbLastWriteUser.Text = string.Empty;
+                    tbLastWriteUser.Enabled = false;
 
                     if (newState == ReaderState.CardPresent)
                     {
@@ -123,6 +133,16 @@ namespace SapSoapCardWriter.GUI
                             tbTaxId.Enabled = false;
                             tbChamberId.Text = string.Empty;
                             tbChamberId.Enabled = false;
+                            tbCardStatus.Text = string.Empty;
+                            tbCardStatus.Enabled = false;
+                            tbCardType.Text = string.Empty;
+                            tbCardType.Enabled = false;
+                            tbTaxNo.Text = string.Empty;
+                            tbTaxNo.Enabled = false;
+                            tbLastWriteDate.Text = string.Empty;
+                            tbLastWriteDate.Enabled = false;
+                            tbLastWriteUser.Text = string.Empty;
+                            tbLastWriteUser.Enabled = false;
 
                             toolReaderStatus.Text = "Információ: " + cardData.ErrorString;
                         }
@@ -133,13 +153,33 @@ namespace SapSoapCardWriter.GUI
                             tbBirthDate.Text = cardData.UIData.BirthDate.ToShortDateString();
                             tbChamberId.Text = cardData.UIData.ChamberId;
                             tbTaxId.Text = cardData.UIData.TaxId;
+                            tbCardStatus.Text = cardData.UIData.CardStatus;
+                            tbCardType.Text = cardData.UIData.CardType;
+                            tbTaxNo.Text = cardData.UIData.TaxNo;
+                            tbLastWriteDate.Text = cardData.UIData.LastWriteDate;
+                            tbLastWriteUser.Text = cardData.UIData.LastWriteUser;
+
                             tbBirthPlace.Enabled = true;
                             tbFullName.Enabled = true;
                             tbBirthDate.Enabled = true;
                             tbChamberId.Enabled = true;
                             tbTaxId.Enabled = true;
+                            tbCardStatus.Enabled = true;
+                            tbCardType.Enabled = true;
+                            tbTaxNo.Enabled = true;
+                            tbLastWriteDate.Enabled = true;
+                            tbLastWriteUser.Enabled = true;
+
                             toolReaderStatus.Text = "Kártya beolvasva";
-                            btnWriteCard.Enabled = true;
+
+                            if (string.IsNullOrEmpty(cardData.CardKey))
+                            {
+                                btnWriteCard.Enabled = false;
+                            }
+                            else
+                            {
+                                btnWriteCard.Enabled = true;
+                            }
                         }
                     }
                     else

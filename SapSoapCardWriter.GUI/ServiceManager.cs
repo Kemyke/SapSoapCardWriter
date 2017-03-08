@@ -53,20 +53,52 @@ namespace SapSoapCardWriter.GUI
                 bd = DateTime.MinValue;
                 logger.Warning("Cannot parse birth date: {0}", resp.INFO.BIRTHDATE);
             }
-            CardData cd = new CardData { AllEncryptedData = resp.CARD_NEBIH, PublicEncryptedData = resp.CARD_NAK, CardKey = resp.WRITE_KEY, CardUid = rfid, ErrorString = resp.ERROR, UIData = new CardUIData { FullName = resp.INFO.NAME, BirthDate = DateTime.Parse(resp.INFO.BIRTHDATE), BirthPlace = resp.INFO.BIRTHPLACE, TaxId = resp.INFO.TAXNO, ChamberId = resp.INFO.KAMAZ } };
+
+            CardUIData uidata = new CardUIData
+                                        {
+                                            FullName = resp.INFO.NAME,
+                                            BirthDate = DateTime.Parse(resp.INFO.BIRTHDATE),
+                                            BirthPlace = resp.INFO.BIRTHPLACE,
+                                            TaxId = resp.INFO.TAXNO,
+                                            ChamberId = resp.INFO.KAMAZ,
+                                            CardType = resp.INFO.CARD_TYPE,
+                                            CardStatus = resp.INFO.CARD_STATUS,
+                                            TaxNo = resp.INFO.TAXNO_ORG,
+                                            LastWriteDate = resp.INFO.LAST_WRITE_DATE,
+                                            LastWriteUser = resp.INFO.LAST_WRITE_USER
+                                        };
+
+            CardData cd = new CardData { AllEncryptedData = resp.CARD_NEBIH, PublicEncryptedData = resp.CARD_NAK, CardKey = resp.WRITE_KEY, CardUid = rfid, ErrorString = resp.ERROR, UIData = uidata };
             return cd;
         }
 
         public async Task<CardData> GetCardDataAsync(UserData userData, string rfid)
         {
-            var resp = await cardClient.Z_CRM_NEBIH_CARD_FILE_GETAsync(new Z_CRM_NEBIH_CARD_FILE_GET_DATA() { CARD_ID = rfid, UNAME = userData.LoginName, PASSWD = userData.Password });
+            var resp1 = await cardClient.Z_CRM_NEBIH_CARD_FILE_GETAsync(new Z_CRM_NEBIH_CARD_FILE_GET_DATA() { CARD_ID = rfid, UNAME = userData.LoginName, PASSWD = userData.Password });
+            var resp = resp1.Z_CRM_NEBIH_CARD_FILE_GETResponse;
+
             DateTime bd;
-            if(!DateTime.TryParse(resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.BIRTHDATE, out bd))
+            if(!DateTime.TryParse(resp.INFO.BIRTHDATE, out bd))
             {
                 bd = DateTime.MinValue;
-                logger.Warning("Cannot parse birth date: {0}", resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.BIRTHDATE);
+                logger.Warning("Cannot parse birth date: {0}", resp.INFO.BIRTHDATE);
             }
-            CardData cd = new CardData { AllEncryptedData = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.CARD_NEBIH, PublicEncryptedData = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.CARD_NAK, CardKey = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.WRITE_KEY /*"FADDDEADFADDDEAD"*/, CardUid = rfid, ErrorString = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.ERROR, UIData = new CardUIData { FullName = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.NAME, BirthDate = bd, BirthPlace = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.BIRTHPLACE, TaxId = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.TAXNO, ChamberId = resp.Z_CRM_NEBIH_CARD_FILE_GETResponse.INFO.KAMAZ } };
+
+            CardUIData uidata = new CardUIData
+            {
+                FullName = resp.INFO.NAME,
+                BirthDate = DateTime.Parse(resp.INFO.BIRTHDATE),
+                BirthPlace = resp.INFO.BIRTHPLACE,
+                TaxId = resp.INFO.TAXNO,
+                ChamberId = resp.INFO.KAMAZ,
+                CardType = resp.INFO.CARD_TYPE,
+                CardStatus = resp.INFO.CARD_STATUS,
+                TaxNo = resp.INFO.TAXNO_ORG,
+                LastWriteDate = resp.INFO.LAST_WRITE_DATE,
+                LastWriteUser = resp.INFO.LAST_WRITE_USER
+            };
+
+            CardData cd = new CardData { AllEncryptedData = resp.CARD_NEBIH, PublicEncryptedData = resp.CARD_NAK, CardKey = resp.WRITE_KEY /*"FADDDEADFADDDEAD"*/, CardUid = rfid, ErrorString = resp.ERROR, UIData = uidata };
             return cd;
         }
 
