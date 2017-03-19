@@ -120,66 +120,45 @@ namespace SapSoapCardWriter.GUI
                         toolReaderStatus.Text = "Kártya beolvasás...";
                         logger.Debug("Serial number: {0}", sn);
                         cardData = await serviceManager.GetCardDataAsync(user, sn); //"1892567125"
+
                         if (!string.IsNullOrEmpty(cardData.ErrorString))
                         {
-                            btnWriteCard.Enabled = false;
-                            tbBirthPlace.Text = string.Empty;
-                            tbBirthPlace.Enabled = false;
-                            tbFullName.Text = string.Empty;
-                            tbFullName.Enabled = false;
-                            tbBirthDate.Text = string.Empty;
-                            tbBirthDate.Enabled = false;
-                            tbTaxId.Text = string.Empty;
-                            tbTaxId.Enabled = false;
-                            tbChamberId.Text = string.Empty;
-                            tbChamberId.Enabled = false;
-                            tbCardStatus.Text = string.Empty;
-                            tbCardStatus.Enabled = false;
-                            tbCardType.Text = string.Empty;
-                            tbCardType.Enabled = false;
-                            tbTaxNo.Text = string.Empty;
-                            tbTaxNo.Enabled = false;
-                            tbLastWriteDate.Text = string.Empty;
-                            tbLastWriteDate.Enabled = false;
-                            tbLastWriteUser.Text = string.Empty;
-                            tbLastWriteUser.Enabled = false;
-
                             toolReaderStatus.Text = "Információ: " + cardData.ErrorString;
                         }
                         else
                         {
-                            tbFullName.Text = cardData.UIData.FullName;
-                            tbBirthPlace.Text = cardData.UIData.BirthPlace;
-                            tbBirthDate.Text = cardData.UIData.BirthDate.ToShortDateString();
-                            tbChamberId.Text = cardData.UIData.ChamberId;
-                            tbTaxId.Text = cardData.UIData.TaxId;
-                            tbCardStatus.Text = cardData.UIData.CardStatus;
-                            tbCardType.Text = cardData.UIData.CardType;
-                            tbTaxNo.Text = cardData.UIData.TaxNo;
-                            tbLastWriteDate.Text = cardData.UIData.LastWriteDate;
-                            tbLastWriteUser.Text = cardData.UIData.LastWriteUser;
-
-                            tbBirthPlace.Enabled = true;
-                            tbFullName.Enabled = true;
-                            tbBirthDate.Enabled = true;
-                            tbChamberId.Enabled = true;
-                            tbTaxId.Enabled = true;
-                            tbCardStatus.Enabled = true;
-                            tbCardType.Enabled = true;
-                            tbTaxNo.Enabled = true;
-                            tbLastWriteDate.Enabled = true;
-                            tbLastWriteUser.Enabled = true;
-
                             toolReaderStatus.Text = "Kártya beolvasva";
+                        }
 
-                            if (string.IsNullOrEmpty(cardData.CardKey))
-                            {
-                                btnWriteCard.Enabled = false;
-                            }
-                            else
-                            {
-                                btnWriteCard.Enabled = true;
-                            }
+                        tbFullName.Text = cardData.UIData.FullName;
+                        tbBirthPlace.Text = cardData.UIData.BirthPlace;
+                        tbBirthDate.Text = cardData.UIData.BirthDate.ToShortDateString();
+                        tbChamberId.Text = cardData.UIData.ChamberId;
+                        tbTaxId.Text = cardData.UIData.TaxId;
+                        tbCardStatus.Text = cardData.UIData.CardStatus;
+                        tbCardType.Text = cardData.UIData.CardType;
+                        tbTaxNo.Text = cardData.UIData.TaxNo;
+                        tbLastWriteDate.Text = cardData.UIData.LastWriteDate;
+                        tbLastWriteUser.Text = cardData.UIData.LastWriteUser;
+
+                        tbBirthPlace.Enabled = true;
+                        tbFullName.Enabled = true;
+                        tbBirthDate.Enabled = true;
+                        tbChamberId.Enabled = true;
+                        tbTaxId.Enabled = true;
+                        tbCardStatus.Enabled = true;
+                        tbCardType.Enabled = true;
+                        tbTaxNo.Enabled = true;
+                        tbLastWriteDate.Enabled = true;
+                        tbLastWriteUser.Enabled = true;
+
+                        if (string.IsNullOrEmpty(cardData.CardKey))
+                        {
+                            btnWriteCard.Enabled = false;
+                        }
+                        else
+                        {
+                            btnWriteCard.Enabled = true;
                         }
                     }
                     else
