@@ -29,6 +29,7 @@ namespace SapSoapCardWriter.GUI
                 
         private UserData user = null;
         private CardData cardData = null;
+        private EventData selectedEventData = null;
         private ISapSoapCardWriterConfig config = null;
         private IServiceManager serviceManager = null;
 
@@ -279,14 +280,24 @@ namespace SapSoapCardWriter.GUI
 
         private void btnSelectEvent_Click(object sender, EventArgs e)
         {
-            tlpEventSelector.Visible = false;
-            tlpEventRegistration.Visible = true;
+            if (dataGridView1.SelectedRows.Count == 1)
+            {
+                tlpEventSelector.Visible = false;
+                tlpEventRegistration.Visible = true;
+
+                lbEventData.Focus();
+                selectedEventData = (EventData)dataGridView1.SelectedRows[0].DataBoundItem;
+                lbEventData.Text = selectedEventData.Name;
+            }
         }
 
-        private void btnEventRegistration_Click(object sender, EventArgs e)
+        private async void btnEventRegistration_Click(object sender, EventArgs e)
         {
             tlpFunctionSelector.Visible = false;
             tlpEventSelector.Visible = true;
+
+            var events = await serviceManager.GetEventsAsync(user);
+            dataGridView1.DataSource = new BindingSource(new BindingList<EventData>(events), null);
         }
     }
 }
