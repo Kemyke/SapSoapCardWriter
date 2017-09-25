@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="urn:sap-com:document:sap:rfc:functions" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:sap-com:document:sap:rfc:functions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+    <sidl:sidl xmlns:sidl="http://www.sap.com/2007/03/sidl" />
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="qualified" targetNamespace="urn:sap-com:document:sap:rfc:functions">
+      <xsd:simpleType name="byte16">
+        <xsd:restriction base="xsd:base64Binary">
+          <xsd:maxLength value="16" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char10">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char12">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="12" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char40">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="40" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="string">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:complexType name="ZCRMS_NAK_MASS_EVENT_LIST">
+        <xsd:sequence>
+          <xsd:element name="GUID" type="tns:byte16" />
+          <xsd:element name="OBJECT_ID" type="tns:char10" />
+          <xsd:element name="NAME" type="tns:string" />
+          <xsd:element name="LOCATION" type="tns:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ZCRMT_NAK_MASS_EVENT_LIST">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:ZCRMS_NAK_MASS_EVENT_LIST" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="Z_CRM_NAK_EVENTS_LIST_CARDIDEN">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="PASSWD" type="tns:char40" />
+            <xsd:element name="UNAME" type="tns:char12" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Z_CRM_NAK_EVENTS_LIST_CARDIDENResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="ERROR" type="tns:string" />
+            <xsd:element name="EVENTS_LIST" type="tns:ZCRMT_NAK_MASS_EVENT_LIST" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="Z_CRM_NAK_EVENTS_LIST_CARDIDEN">
+    <wsdl:part name="parameters" element="tns:Z_CRM_NAK_EVENTS_LIST_CARDIDEN" />
+  </wsdl:message>
+  <wsdl:message name="Z_CRM_NAK_EVENTS_LIST_CARDIDENResponse">
+    <wsdl:part name="parameter" element="tns:Z_CRM_NAK_EVENTS_LIST_CARDIDENResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Z_CRM_NAK_EVENTS_LIST_CARDIDEN">
+    <wsdl:operation name="Z_CRM_NAK_EVENTS_LIST_CARDIDEN">
+      <wsdl:input message="tns:Z_CRM_NAK_EVENTS_LIST_CARDIDEN" />
+      <wsdl:output message="tns:Z_CRM_NAK_EVENTS_LIST_CARDIDENResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DEFAULT" type="tns:Z_CRM_NAK_EVENTS_LIST_CARDIDEN">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Z_CRM_NAK_EVENTS_LIST_CARDIDEN">
+      <soap:operation soapAction="urn:sap-com:document:sap:rfc:functions:Z_CRM_NAK_EVENTS_LIST_CARDIDEN:Z_CRM_NAK_EVENTS_LIST_CARDIDENRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DEFAULT_soap12" type="tns:Z_CRM_NAK_EVENTS_LIST_CARDIDEN">
+    <wsoap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Z_CRM_NAK_EVENTS_LIST_CARDIDEN">
+      <wsoap12:operation soapAction="urn:sap-com:document:sap:rfc:functions:Z_CRM_NAK_EVENTS_LIST_CARDIDEN:Z_CRM_NAK_EVENTS_LIST_CARDIDENRequest" style="document" />
+      <wsdl:input>
+        <wsoap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsoap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Z_CRM_NAK_EVENTS_LIST_CARDIDEN">
+    <wsdl:port name="DEFAULT" binding="tns:DEFAULT">
+      <soap:address location="http://sapcrdci.local.nak.hu:8000/sap/bc/srt/rfc/sap/z_crm_nak_events_list_cardiden/010/z_crm_nak_events_list_cardiden/default" />
+    </wsdl:port>
+    <wsdl:port name="DEFAULT_soap12" binding="tns:DEFAULT_soap12">
+      <wsoap12:address location="http://sapcrdci.local.nak.hu:8000/sap/bc/srt/rfc/sap/z_crm_nak_events_list_cardiden/010/z_crm_nak_events_list_cardiden/default" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

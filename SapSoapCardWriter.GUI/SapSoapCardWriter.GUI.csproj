@@ -74,6 +74,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\SapNakEventListService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\SapNakResponseService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -105,12 +110,25 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ServiceManager.cs" />
+    <None Include="Service References\SapNakEventListService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\SapNakEventListService\configuration.svcinfo" />
+    <None Include="Service References\SapNakEventListService\configuration91.svcinfo" />
     <None Include="Service References\SapNakCardService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Service References\SapNakCardService\configuration.svcinfo" />
     <None Include="Service References\SapNakCardService\configuration91.svcinfo" />
+    <None Include="Service References\SapNakEventListService\SapSoapCardWriter.GUI.SapNakEventListService.Z_CRM_NAK_EVENTS_LIST_CARDIDENResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SapNakEventListService\SapSoapCardWriter.GUI.SapNakEventListService.Z_CRM_NAK_EVENTS_LIST_CARDIDENResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SapNakEventListService\Z_CRM_NAK_EVENTS_LIST_CARDIDEN.wsdl" />
     <None Include="Service References\SapNakResponseService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -239,6 +257,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\NakCardService\" />
     <WCFMetadataStorage Include="Service References\SapNakAuthService\" />
+    <WCFMetadataStorage Include="Service References\SapNakEventListService\" />
     <WCFMetadataStorage Include="Service References\SapNakResponseService\" />
     <WCFMetadataStorage Include="Service References\SapNakCardService\" />
   </ItemGroup>
