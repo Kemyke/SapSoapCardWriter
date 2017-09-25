@@ -61,6 +61,7 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="GuiState.cs" />
     <Compile Include="IServiceManager.cs" />
     <Compile Include="LogFolderSetter.cs">
       <SubType>Component</SubType>

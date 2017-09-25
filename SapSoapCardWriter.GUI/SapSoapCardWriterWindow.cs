@@ -22,6 +22,7 @@ namespace SapSoapCardWriter.GUI
 {
     public partial class SapSoapCardWriterWindow : Form
     {
+        private GuiState? state = null;
         private const int MAXDATASIZE = 7500;
 
         private ICardWriter cardWriter = null;
@@ -85,7 +86,7 @@ namespace SapSoapCardWriter.GUI
             }
         }
 
-        private async Task StateChange(ReaderState newState)
+        private async Task StateChangeForCardWriter(ReaderState newState)
         {
             try
             {
@@ -179,47 +180,63 @@ namespace SapSoapCardWriter.GUI
             }
         }
 
-        private void cardWriter_ReaderStateChanged(object sender, BusinessLogic.NFC.ReaderState e)
+        private async Task StateChangeForEventRegistration(ReaderState newState)
         {
-            this.Invoke(new Action(async () =>
-                {
-                    await StateChange(e);
-                }));
-        }
-
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-            if (!cardWriter.HasSmartCardReader)
+            try
             {
-                MessageBox.Show("Nem található NFC olvasó! Az alkalmazás leáll!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-            }
-            else
-            {
-                LoginWindow lw = new LoginWindow(logger, serviceManager);
-                lw.StartPosition = FormStartPosition.CenterParent;
-                var result = lw.ShowDialog();
-                if (result == DialogResult.OK)
+                if (user != null)
                 {
-                    user = lw.User;
-                    this.Text = string.Format("NAK kártyaíró (Felhasználó: {0}) {1}", user.LoginName, config.EnvName);
-
-                    try
+                    if (newState == ReaderState.CardPresent)
                     {
-                        string sn = cardWriter.GetSerialNumber();
-                        StateChange(ReaderState.CardPresent);
+                        toolReaderStatus.Text = "RFID kiolvasás...";
+                        string sn = await cardWriter.GetSerialNumberAsync();
+                        logger.Debug("Serial number: {0}", sn);
+                        var res = await serviceManager.RegisterCardToEventAsync(user, selectedEventData, sn); //"1892567125"
+                        
+                        if(!string.IsNullOrEmpty(res.ErrorMessage))
+                        {
+                            MessageBox.Show($"Művelet sikertelen, kérjük próbálja újra! Hiba: {res.ErrorMessage}", "Regisztrálás sikertelen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            toolReaderStatus.Text = "Sikeres regisztáció";
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-
+                        toolReaderStatus.Text = "Nincs kártya";
                     }
                 }
                 else
                 {
-                    this.Close();
+                    logger.Warning("Bejelentkezés nélkül nem regisztálhat eseményen embereket.");
                 }
             }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
+                MessageBox.Show("Olvasás sikertelen. Kérjük vegye le a kártyát és ismételje meg a műveletet!", "Olvasási művelet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void cardWriter_ReaderStateChanged(object sender, BusinessLogic.NFC.ReaderState e)
+        {
+            this.Invoke(new Action(async () =>
+                {
+                    if (state == GuiState.CardWriter)
+                    {
+                        await StateChangeForCardWriter(e);
+                    }
+                    else if(state == GuiState.EventRegistration)
+                    {
+                        await StateChangeForEventRegistration(e);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Kártyaolvasás előtt válassza ki a funkcionalitást!", "Válasszon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }));
         }
 
         private void closeMenuItem_Click(object sender, EventArgs e)
@@ -272,10 +289,48 @@ namespace SapSoapCardWriter.GUI
             }
         }
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            if (!cardWriter.HasSmartCardReader)
+            {
+                MessageBox.Show("Nem található NFC olvasó! Az alkalmazás leáll!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+            else
+            {
+                LoginWindow lw = new LoginWindow(logger, serviceManager);
+                lw.StartPosition = FormStartPosition.CenterParent;
+                var result = lw.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    user = lw.User;
+                    this.Text = string.Format("NAK kártyaíró (Felhasználó: {0}) {1}", user.LoginName, config.EnvName);
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+        }
+
         private void btnCardWriter_Click(object sender, EventArgs e)
         {
             tlpFunctionSelector.Visible = false;
             tableLayoutPanel2.Visible = true;
+
+            state = GuiState.CardWriter;
+
+            try
+            {
+                string sn = cardWriter.GetSerialNumber();
+                StateChangeForCardWriter(ReaderState.CardPresent);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void btnSelectEvent_Click(object sender, EventArgs e)
@@ -288,6 +343,8 @@ namespace SapSoapCardWriter.GUI
                 lbEventData.Focus();
                 selectedEventData = (EventData)dataGridView1.SelectedRows[0].DataBoundItem;
                 lbEventData.Text = selectedEventData.Name;
+
+                state = GuiState.EventRegistration;
             }
         }
 
