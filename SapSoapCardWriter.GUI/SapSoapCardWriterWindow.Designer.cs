@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fájlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,10 +60,25 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.btnWriteCard = new System.Windows.Forms.Button();
+            this.tlpFunctionSelector = new System.Windows.Forms.TableLayoutPanel();
+            this.btnCardWriter = new System.Windows.Forms.Button();
+            this.btnEventRegistration = new System.Windows.Forms.Button();
+            this.tlpEventSelector = new System.Windows.Forms.TableLayoutPanel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.cardDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnSelectEvent = new System.Windows.Forms.Button();
+            this.tlpEventRegistration = new System.Windows.Forms.TableLayoutPanel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.lbEventData = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tlpFunctionSelector.SuspendLayout();
+            this.tlpEventSelector.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cardDataBindingSource)).BeginInit();
+            this.tlpEventRegistration.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -87,7 +103,7 @@
             // closeMenuItem
             // 
             this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.closeMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeMenuItem.Text = "Kilépés";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
@@ -102,7 +118,7 @@
             // névjegyToolStripMenuItem
             // 
             this.névjegyToolStripMenuItem.Name = "névjegyToolStripMenuItem";
-            this.névjegyToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.névjegyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.névjegyToolStripMenuItem.Text = "Névjegy";
             // 
             // statusStrip1
@@ -400,6 +416,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(894, 487);
             this.tableLayoutPanel2.TabIndex = 3;
+            this.tableLayoutPanel2.Visible = false;
             // 
             // label3
             // 
@@ -425,15 +442,143 @@
             this.btnWriteCard.UseVisualStyleBackColor = true;
             this.btnWriteCard.Click += new System.EventHandler(this.btnWriteCard_Click);
             // 
+            // tlpFunctionSelector
+            // 
+            this.tlpFunctionSelector.ColumnCount = 2;
+            this.tlpFunctionSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpFunctionSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpFunctionSelector.Controls.Add(this.btnEventRegistration, 1, 0);
+            this.tlpFunctionSelector.Controls.Add(this.btnCardWriter, 0, 0);
+            this.tlpFunctionSelector.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpFunctionSelector.Location = new System.Drawing.Point(0, 24);
+            this.tlpFunctionSelector.Name = "tlpFunctionSelector";
+            this.tlpFunctionSelector.RowCount = 2;
+            this.tlpFunctionSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpFunctionSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpFunctionSelector.Size = new System.Drawing.Size(894, 487);
+            this.tlpFunctionSelector.TabIndex = 5;
+            // 
+            // btnCardWriter
+            // 
+            this.btnCardWriter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCardWriter.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnCardWriter.Location = new System.Drawing.Point(20, 20);
+            this.btnCardWriter.Margin = new System.Windows.Forms.Padding(20);
+            this.btnCardWriter.Name = "btnCardWriter";
+            this.btnCardWriter.Size = new System.Drawing.Size(407, 203);
+            this.btnCardWriter.TabIndex = 0;
+            this.btnCardWriter.Text = "NAK kártyaírás";
+            this.btnCardWriter.UseVisualStyleBackColor = true;
+            this.btnCardWriter.Click += new System.EventHandler(this.btnCardWriter_Click);
+            // 
+            // btnEventRegistration
+            // 
+            this.btnEventRegistration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnEventRegistration.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnEventRegistration.Location = new System.Drawing.Point(467, 20);
+            this.btnEventRegistration.Margin = new System.Windows.Forms.Padding(20);
+            this.btnEventRegistration.Name = "btnEventRegistration";
+            this.btnEventRegistration.Size = new System.Drawing.Size(407, 203);
+            this.btnEventRegistration.TabIndex = 1;
+            this.btnEventRegistration.Text = "Esemény regisztráció";
+            this.btnEventRegistration.UseVisualStyleBackColor = true;
+            this.btnEventRegistration.Click += new System.EventHandler(this.btnEventRegistration_Click);
+            // 
+            // tlpEventSelector
+            // 
+            this.tlpEventSelector.ColumnCount = 1;
+            this.tlpEventSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpEventSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpEventSelector.Controls.Add(this.btnSelectEvent, 0, 1);
+            this.tlpEventSelector.Controls.Add(this.dataGridView1, 0, 0);
+            this.tlpEventSelector.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpEventSelector.Location = new System.Drawing.Point(0, 24);
+            this.tlpEventSelector.Name = "tlpEventSelector";
+            this.tlpEventSelector.RowCount = 2;
+            this.tlpEventSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.73306F));
+            this.tlpEventSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.26694F));
+            this.tlpEventSelector.Size = new System.Drawing.Size(894, 487);
+            this.tlpEventSelector.TabIndex = 2;
+            this.tlpEventSelector.Visible = false;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(888, 431);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // cardDataBindingSource
+            // 
+            this.cardDataBindingSource.DataSource = typeof(SapSoapCardWriter.BusinessLogic.SapService.CardData);
+            // 
+            // btnSelectEvent
+            // 
+            this.btnSelectEvent.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnSelectEvent.Location = new System.Drawing.Point(816, 440);
+            this.btnSelectEvent.Name = "btnSelectEvent";
+            this.btnSelectEvent.Size = new System.Drawing.Size(75, 44);
+            this.btnSelectEvent.TabIndex = 1;
+            this.btnSelectEvent.Text = "Kiválaszt";
+            this.btnSelectEvent.UseVisualStyleBackColor = true;
+            this.btnSelectEvent.Click += new System.EventHandler(this.btnSelectEvent_Click);
+            // 
+            // tlpEventRegistration
+            // 
+            this.tlpEventRegistration.ColumnCount = 1;
+            this.tlpEventRegistration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpEventRegistration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpEventRegistration.Controls.Add(this.lbEventData, 0, 1);
+            this.tlpEventRegistration.Controls.Add(this.label12, 0, 0);
+            this.tlpEventRegistration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpEventRegistration.Location = new System.Drawing.Point(0, 24);
+            this.tlpEventRegistration.Name = "tlpEventRegistration";
+            this.tlpEventRegistration.RowCount = 3;
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.26694F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.73306F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpEventRegistration.Size = new System.Drawing.Size(894, 487);
+            this.tlpEventRegistration.TabIndex = 2;
+            this.tlpEventRegistration.Visible = false;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label12.Location = new System.Drawing.Point(3, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(888, 29);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Kiválasztott esemény";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lbEventData
+            // 
+            this.lbEventData.AutoSize = true;
+            this.lbEventData.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbEventData.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbEventData.Location = new System.Drawing.Point(3, 47);
+            this.lbEventData.Name = "lbEventData";
+            this.lbEventData.Size = new System.Drawing.Size(888, 29);
+            this.lbEventData.TabIndex = 1;
+            this.lbEventData.Text = "esemény adatok";
+            this.lbEventData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // SapSoapCardWriterWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(193)))), ((int)(((byte)(35)))));
             this.ClientSize = new System.Drawing.Size(894, 535);
+            this.Controls.Add(this.tlpEventRegistration);
+            this.Controls.Add(this.tlpFunctionSelector);
             this.Controls.Add(this.tableLayoutPanel2);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.tlpEventSelector);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.statusStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SapSoapCardWriterWindow";
             this.Text = "NAK kártyaíró";
@@ -444,6 +589,12 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.tlpFunctionSelector.ResumeLayout(false);
+            this.tlpEventSelector.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cardDataBindingSource)).EndInit();
+            this.tlpEventRegistration.ResumeLayout(false);
+            this.tlpEventRegistration.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -482,6 +633,16 @@
         private System.Windows.Forms.TextBox tbCardType;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbTaxNo;
+        private System.Windows.Forms.TableLayoutPanel tlpFunctionSelector;
+        private System.Windows.Forms.Button btnEventRegistration;
+        private System.Windows.Forms.Button btnCardWriter;
+        private System.Windows.Forms.TableLayoutPanel tlpEventSelector;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button btnSelectEvent;
+        private System.Windows.Forms.BindingSource cardDataBindingSource;
+        private System.Windows.Forms.TableLayoutPanel tlpEventRegistration;
+        private System.Windows.Forms.Label lbEventData;
+        private System.Windows.Forms.Label label12;
     }
 }
 

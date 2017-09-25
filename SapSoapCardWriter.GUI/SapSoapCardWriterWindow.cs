@@ -270,5 +270,23 @@ namespace SapSoapCardWriter.GUI
                 toolReaderStatus.Text = "Kártya írás sikertelen";
             }
         }
+
+        private void btnCardWriter_Click(object sender, EventArgs e)
+        {
+            tlpFunctionSelector.Visible = false;
+            tableLayoutPanel2.Visible = true;
+        }
+
+        private void btnSelectEvent_Click(object sender, EventArgs e)
+        {
+            tlpEventSelector.Visible = false;
+            tlpEventRegistration.Visible = true;
+        }
+
+        private void btnEventRegistration_Click(object sender, EventArgs e)
+        {
+            tlpFunctionSelector.Visible = false;
+            tlpEventSelector.Visible = true;
+        }
     }
 }
