@@ -3,6 +3,8 @@ using SapSoapCardWriter.Common;
 using SapSoapCardWriter.GUI.NakCardService;
 using SapSoapCardWriter.GUI.SapNakAuthService;
 using SapSoapCardWriter.GUI.SapNakCardService;
+using SapSoapCardWriter.GUI.SapNakEventListService;
+using SapSoapCardWriter.GUI.SapNakRegisterCardToEvent;
 using SapSoapCardWriter.GUI.SapNakResponseService;
 using SapSoapCardWriter.Logger.Logging;
 using System;
@@ -20,6 +22,8 @@ namespace SapSoapCardWriter.GUI
         private Z_CRM_NEBIH_CARD_AUTHClient authClient;
         private Z_CRM_NEBIH_CARD_FILE_GETClient cardClient;
         private Z_CRM_NEBIH_CARD_WRSUCCClient respClient;
+        private Z_CRM_NAK_EVENTS_LIST_CARDIDENClient eventListClient;
+        private Z_CRM_NAK_EVENT_SELECT_CARDClient registerCardToEventClient;
 
         public ServiceManager(ILogger logger, ISapSoapCardWriterConfig config)
         {
@@ -27,6 +31,8 @@ namespace SapSoapCardWriter.GUI
             authClient = new Z_CRM_NEBIH_CARD_AUTHClient();
             cardClient = new Z_CRM_NEBIH_CARD_FILE_GETClient();
             respClient = new Z_CRM_NEBIH_CARD_WRSUCCClient();
+            eventListClient = new Z_CRM_NAK_EVENTS_LIST_CARDIDENClient();
+            registerCardToEventClient = new Z_CRM_NAK_EVENT_SELECT_CARDClient(); 
         }
 
         public LoginData ValidateUser(string userName, string password)
@@ -112,6 +118,43 @@ namespace SapSoapCardWriter.GUI
         public async Task MarkWriteSuccessfulAsync(UserData userData, string rfid)
         {
             await respClient.Z_CRM_NEBIH_CARD_WRSUCCAsync(new Z_CRM_NEBIH_CARD_WRSUCC_DATA { CARD_ID = rfid, UNAME = userData.LoginName, PASSWD = userData.Password });
+        }
+
+        public IList<EventData> GetEvents(UserData userData)
+        {
+            List<EventData> ret = new List<EventData>();
+            var resp = eventListClient.Z_CRM_NAK_EVENTS_LIST_CARDIDEN(new Z_CRM_NAK_EVENTS_LIST_CARDIDEN { UNAME = userData.LoginName, PASSWD = userData.Password });
+            foreach(var e in resp.EVENTS_LIST)
+            {
+                ret.Add(new EventData { ID = new Guid(e.GUID), Name = e.NAME, Location = e.LOCATION });
+            }
+            return ret;
+        }
+
+        public async Task<IList<EventData>> GetEventsAsync(UserData userData)
+        {
+            List<EventData> ret = new List<EventData>();
+            var resp = await eventListClient.Z_CRM_NAK_EVENTS_LIST_CARDIDENAsync(new Z_CRM_NAK_EVENTS_LIST_CARDIDEN { UNAME = userData.LoginName, PASSWD = userData.Password });
+            foreach (var e in resp.Z_CRM_NAK_EVENTS_LIST_CARDIDENResponse.EVENTS_LIST)
+            {
+                ret.Add(new EventData { ID = new Guid(e.GUID), Name = e.NAME, Location = e.LOCATION });
+            }
+            return ret;
+
+        }
+
+        public CardEventRegistrationData RegisterCardToEvent(UserData userData, EventData eventData, string rfid)
+        {
+            var resp = registerCardToEventClient.Z_CRM_NAK_EVENT_SELECT_CARD(new Z_CRM_NAK_EVENT_SELECT_CARD { UNAME = userData.LoginName, PASSWD = userData.Password, EVENT_GUID = eventData.ID.ToByteArray(), CARD_ID = rfid });
+            var fullmessage = resp.MESSAGES.Select(m => $"[{m.TYPE}] {m.MESSAGE}").Aggregate((l, r) => $"{l}" + System.Environment.NewLine + $"{r}");
+            return new CardEventRegistrationData { ErrorMessage = fullmessage };
+        }
+
+        public async Task<CardEventRegistrationData> RegisterCardToEventAsync(UserData userData, EventData eventData, string rfid)
+        {
+            var resp = await registerCardToEventClient.Z_CRM_NAK_EVENT_SELECT_CARDAsync(new Z_CRM_NAK_EVENT_SELECT_CARD { UNAME = userData.LoginName, PASSWD = userData.Password, EVENT_GUID = eventData.ID.ToByteArray(), CARD_ID = rfid });
+            var fullmessage = resp.Z_CRM_NAK_EVENT_SELECT_CARDResponse.MESSAGES.Select(m => $"[{m.TYPE}] {m.MESSAGE}").Aggregate((l, r) => $"{l}" + System.Environment.NewLine + $"{r}");
+            return new CardEventRegistrationData { ErrorMessage = fullmessage };
         }
     }
 }

@@ -20,5 +20,12 @@ namespace MockSapService
 
         [OperationContract]
         void ReportSuccess(string userName, string password, string rfid);
+
+        [OperationContract]
+        IList<EventData> GetEvents(string userName, string password);
+
+        [OperationContract]
+        CardEventRegistrationData RegisterCardToEvent(string userName, string password, EventData eventData, string rfid);
+
     }
 }

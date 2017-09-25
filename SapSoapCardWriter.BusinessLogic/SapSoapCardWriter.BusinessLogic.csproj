@@ -81,7 +81,9 @@
     <Compile Include="NFC\Tags\NfcTagType4_Desfire.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SapService\CardData.cs" />
+    <Compile Include="SapService\CardEventRegistrationData.cs" />
     <Compile Include="SapService\CardUIData.cs" />
+    <Compile Include="SapService\EventData.cs" />
     <Compile Include="SapService\LoginData.cs" />
   </ItemGroup>
   <ItemGroup>

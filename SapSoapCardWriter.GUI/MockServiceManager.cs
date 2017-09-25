@@ -51,5 +51,26 @@ namespace SapSoapCardWriter.GUI
         {
             return client.ReportSuccessAsync(userData.LoginName, userData.Password, rfid);
         }
+
+        public IList<EventData> GetEvents(UserData userData)
+        {
+            return client.GetEvents(userData.LoginName, userData.Password);
+        }
+
+        public async Task<IList<EventData>> GetEventsAsync(UserData userData)
+        {
+            var ret = await client.GetEventsAsync(userData.LoginName, userData.Password);
+            return ret;
+        }
+
+        public CardEventRegistrationData RegisterCardToEvent(UserData userData, EventData eventData, string rfid)
+        {
+            return client.RegisterCardToEvent(userData.LoginName, userData.Password, eventData, rfid);
+        }
+
+        public Task<CardEventRegistrationData> RegisterCardToEventAsync(UserData userData, EventData eventData, string rfid)
+        {
+            return client.RegisterCardToEventAsync(userData.LoginName, userData.Password, eventData, rfid);
+        }
     }
 }

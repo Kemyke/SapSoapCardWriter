@@ -46,4 +46,36 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetEvents">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEventsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" minOccurs="0" name="GetEventsResult" nillable="true" type="q3:ArrayOfEventData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RegisterCardToEvent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" minOccurs="0" name="eventData" nillable="true" type="q4:EventData" />
+        <xs:element minOccurs="0" name="rfid" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RegisterCardToEventResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" minOccurs="0" name="RegisterCardToEventResult" nillable="true" type="q5:CardEventRegistrationData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

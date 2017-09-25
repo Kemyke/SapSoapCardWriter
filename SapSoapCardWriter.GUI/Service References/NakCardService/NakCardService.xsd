@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SapSoapCardWriter.BusinessLogic.SapService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:60108/NakCardService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="LoginData">
     <xs:sequence>
       <xs:element minOccurs="0" name="ErrorString" nillable="true" type="xs:string" />
@@ -22,10 +23,35 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="BirthDate" type="xs:dateTime" />
       <xs:element minOccurs="0" name="BirthPlace" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CardStatus" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CardType" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ChamberId" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="FullName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LastWriteDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LastWriteUser" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="TaxId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TaxNo" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="CardUIData" nillable="true" type="tns:CardUIData" />
+  <xs:complexType name="ArrayOfEventData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EventData" nillable="true" type="tns:EventData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfEventData" nillable="true" type="tns:ArrayOfEventData" />
+  <xs:complexType name="EventData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" type="ser:guid" />
+      <xs:element minOccurs="0" name="Location" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EventData" nillable="true" type="tns:EventData" />
+  <xs:complexType name="CardEventRegistrationData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ErrorMessage" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardEventRegistrationData" nillable="true" type="tns:CardEventRegistrationData" />
 </xs:schema>

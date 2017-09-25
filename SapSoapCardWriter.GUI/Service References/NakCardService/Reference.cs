@@ -32,6 +32,18 @@ namespace SapSoapCardWriter.GUI.NakCardService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/ReportSuccess", ReplyAction="http://tempuri.org/INakCardService/ReportSuccessResponse")]
         System.Threading.Tasks.Task ReportSuccessAsync(string userName, string password, string rfid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/GetEvents", ReplyAction="http://tempuri.org/INakCardService/GetEventsResponse")]
+        SapSoapCardWriter.BusinessLogic.SapService.EventData[] GetEvents(string userName, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/GetEvents", ReplyAction="http://tempuri.org/INakCardService/GetEventsResponse")]
+        System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.EventData[]> GetEventsAsync(string userName, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/RegisterCardToEvent", ReplyAction="http://tempuri.org/INakCardService/RegisterCardToEventResponse")]
+        SapSoapCardWriter.BusinessLogic.SapService.CardEventRegistrationData RegisterCardToEvent(string userName, string password, SapSoapCardWriter.BusinessLogic.SapService.EventData eventData, string rfid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/INakCardService/RegisterCardToEvent", ReplyAction="http://tempuri.org/INakCardService/RegisterCardToEventResponse")]
+        System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.CardEventRegistrationData> RegisterCardToEventAsync(string userName, string password, SapSoapCardWriter.BusinessLogic.SapService.EventData eventData, string rfid);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -83,6 +95,22 @@ namespace SapSoapCardWriter.GUI.NakCardService {
         
         public System.Threading.Tasks.Task ReportSuccessAsync(string userName, string password, string rfid) {
             return base.Channel.ReportSuccessAsync(userName, password, rfid);
+        }
+        
+        public SapSoapCardWriter.BusinessLogic.SapService.EventData[] GetEvents(string userName, string password) {
+            return base.Channel.GetEvents(userName, password);
+        }
+        
+        public System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.EventData[]> GetEventsAsync(string userName, string password) {
+            return base.Channel.GetEventsAsync(userName, password);
+        }
+        
+        public SapSoapCardWriter.BusinessLogic.SapService.CardEventRegistrationData RegisterCardToEvent(string userName, string password, SapSoapCardWriter.BusinessLogic.SapService.EventData eventData, string rfid) {
+            return base.Channel.RegisterCardToEvent(userName, password, eventData, rfid);
+        }
+        
+        public System.Threading.Tasks.Task<SapSoapCardWriter.BusinessLogic.SapService.CardEventRegistrationData> RegisterCardToEventAsync(string userName, string password, SapSoapCardWriter.BusinessLogic.SapService.EventData eventData, string rfid) {
+            return base.Channel.RegisterCardToEventAsync(userName, password, eventData, rfid);
         }
     }
 }

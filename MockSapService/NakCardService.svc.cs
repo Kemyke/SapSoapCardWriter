@@ -66,5 +66,18 @@ namespace MockSapService
         {
             
         }
+
+        public IList<EventData> GetEvents(string userName, string password)
+        {
+            List<EventData> ret = new List<EventData>();
+            ret.Add(new EventData { ID = Guid.NewGuid(), Name = "Event1", Location = "Budapest" });
+            ret.Add(new EventData { ID = Guid.NewGuid(), Name = "Event2", Location = "Mohács" });
+            return ret;
+        }
+
+        public CardEventRegistrationData RegisterCardToEvent(string userName, string password, EventData eventData, string rfid)
+        {
+            return new CardEventRegistrationData();
+        }
     }
 }

@@ -25,6 +25,18 @@
   <wsdl:message name="INakCardService_ReportSuccess_OutputMessage">
     <wsdl:part name="parameters" element="tns:ReportSuccessResponse" />
   </wsdl:message>
+  <wsdl:message name="INakCardService_GetEvents_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEvents" />
+  </wsdl:message>
+  <wsdl:message name="INakCardService_GetEvents_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="INakCardService_RegisterCardToEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterCardToEvent" />
+  </wsdl:message>
+  <wsdl:message name="INakCardService_RegisterCardToEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterCardToEventResponse" />
+  </wsdl:message>
   <wsdl:portType name="INakCardService">
     <wsdl:operation name="ValidateUser">
       <wsdl:input wsaw:Action="http://tempuri.org/INakCardService/ValidateUser" message="tns:INakCardService_ValidateUser_InputMessage" />
@@ -37,6 +49,14 @@
     <wsdl:operation name="ReportSuccess">
       <wsdl:input wsaw:Action="http://tempuri.org/INakCardService/ReportSuccess" message="tns:INakCardService_ReportSuccess_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/INakCardService/ReportSuccessResponse" message="tns:INakCardService_ReportSuccess_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEvents">
+      <wsdl:input wsaw:Action="http://tempuri.org/INakCardService/GetEvents" message="tns:INakCardService_GetEvents_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INakCardService/GetEventsResponse" message="tns:INakCardService_GetEvents_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterCardToEvent">
+      <wsdl:input wsaw:Action="http://tempuri.org/INakCardService/RegisterCardToEvent" message="tns:INakCardService_RegisterCardToEvent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INakCardService/RegisterCardToEventResponse" message="tns:INakCardService_RegisterCardToEvent_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_INakCardService" type="tns:INakCardService">
@@ -61,6 +81,24 @@
     </wsdl:operation>
     <wsdl:operation name="ReportSuccess">
       <soap:operation soapAction="http://tempuri.org/INakCardService/ReportSuccess" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEvents">
+      <soap:operation soapAction="http://tempuri.org/INakCardService/GetEvents" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterCardToEvent">
+      <soap:operation soapAction="http://tempuri.org/INakCardService/RegisterCardToEvent" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

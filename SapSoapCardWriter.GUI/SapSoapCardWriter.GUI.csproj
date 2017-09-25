@@ -115,6 +115,8 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ServiceManager.cs" />
+    <None Include="Properties\DataSources\SapSoapCardWriter.BusinessLogic.SapService.CardEventRegistrationData.datasource" />
+    <None Include="Properties\DataSources\SapSoapCardWriter.BusinessLogic.SapService.EventData.datasource" />
     <None Include="Service References\SapNakRegisterCardToEvent\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
