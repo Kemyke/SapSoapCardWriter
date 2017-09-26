@@ -197,7 +197,7 @@ namespace SapSoapCardWriter.GUI
                         if(!string.IsNullOrEmpty(res.ErrorMessage))
                         {
                             toolReaderStatus.Text = "Regisztráció sikertelen";
-                            MessageBox.Show($"Művelet sikertelen, kérjük próbálja újra! Hiba: {res.ErrorMessage}", "Regisztrálás sikertelen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show(string.Format("Művelet sikertelen, kérjük próbálja újra! Hiba: {0}", res.ErrorMessage), "Regisztrálás sikertelen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
                         {

@@ -146,14 +146,14 @@ namespace SapSoapCardWriter.GUI
         public CardEventRegistrationData RegisterCardToEvent(UserData userData, EventData eventData, string rfid)
         {
             var resp = registerCardToEventClient.Z_CRM_NAK_EVENT_SELECT_CARD(new Z_CRM_NAK_EVENT_SELECT_CARD { UNAME = userData.LoginName, PASSWD = userData.Password, EVENT_GUID = eventData.ID.ToByteArray(), CARD_ID = rfid });
-            var fullmessage = resp.MESSAGES.Select(m => $"[{m.TYPE}] {m.MESSAGE}").Aggregate((l, r) => $"{l}" + System.Environment.NewLine + $"{r}");
+            var fullmessage = resp.MESSAGES.Select(m => string.Format("[{0}] {1}", m.TYPE, m.MESSAGE)).Aggregate((l, r) => string.Format("{0} {1} {2}", l, Environment.NewLine, r));
             return new CardEventRegistrationData { ErrorMessage = fullmessage };
         }
 
         public async Task<CardEventRegistrationData> RegisterCardToEventAsync(UserData userData, EventData eventData, string rfid)
         {
             var resp = await registerCardToEventClient.Z_CRM_NAK_EVENT_SELECT_CARDAsync(new Z_CRM_NAK_EVENT_SELECT_CARD { UNAME = userData.LoginName, PASSWD = userData.Password, EVENT_GUID = eventData.ID.ToByteArray(), CARD_ID = rfid });
-            var fullmessage = resp.Z_CRM_NAK_EVENT_SELECT_CARDResponse.MESSAGES.Select(m => $"[{m.TYPE}] {m.MESSAGE}").Aggregate((l, r) => $"{l}" + System.Environment.NewLine + $"{r}");
+            var fullmessage = resp.Z_CRM_NAK_EVENT_SELECT_CARDResponse.MESSAGES.Select(m => string.Format("[{0}] {1}", m.TYPE, m.MESSAGE)).Aggregate((l, r) => string.Format("{0} {1} {2}", l, Environment.NewLine, r));
             return new CardEventRegistrationData { ErrorMessage = fullmessage };
         }
     }
