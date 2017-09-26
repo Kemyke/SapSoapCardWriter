@@ -66,12 +66,12 @@ namespace SapSoapCardWriter.BusinessLogic
 
         public string GetSerialNumber()
         {
-            return "1892567125";
+            return "044A128A843C80";
         }
 
         public Task<string> GetSerialNumberAsync()
         {
-            return Task.FromResult("1892567125");
+            return Task.FromResult("044A128A843C80");
         }
 
         public void Dispose()

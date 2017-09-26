@@ -121,7 +121,7 @@ namespace SapSoapCardWriter.GUI
                         string sn = await cardWriter.GetSerialNumberAsync();
                         toolReaderStatus.Text = "Kártya beolvasás...";
                         logger.Debug("Serial number: {0}", sn);
-                        cardData = await serviceManager.GetCardDataAsync(user, sn); //"1892567125"
+                        cardData = await serviceManager.GetCardDataAsync(user, sn);
 
                         if (!string.IsNullOrEmpty(cardData.ErrorString))
                         {
@@ -191,10 +191,12 @@ namespace SapSoapCardWriter.GUI
                         toolReaderStatus.Text = "RFID kiolvasás...";
                         string sn = await cardWriter.GetSerialNumberAsync();
                         logger.Debug("Serial number: {0}", sn);
-                        var res = await serviceManager.RegisterCardToEventAsync(user, selectedEventData, sn); //"1892567125"
+                        toolReaderStatus.Text = "Regisztrálás...";
+                        var res = await serviceManager.RegisterCardToEventAsync(user, selectedEventData, sn);
                         
                         if(!string.IsNullOrEmpty(res.ErrorMessage))
                         {
+                            toolReaderStatus.Text = "Regisztráció sikertelen";
                             MessageBox.Show($"Művelet sikertelen, kérjük próbálja újra! Hiba: {res.ErrorMessage}", "Regisztrálás sikertelen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
@@ -214,8 +216,9 @@ namespace SapSoapCardWriter.GUI
             }
             catch (Exception ex)
             {
+                toolReaderStatus.Text = "Regisztráció sikertelen";
                 logger.Error(ex.ToString());
-                MessageBox.Show("Olvasás sikertelen. Kérjük vegye le a kártyát és ismételje meg a műveletet!", "Olvasási művelet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Regisztráció sikertelen. Kérjük vegye le a kártyát és ismételje meg a műveletet!", "Olvasási művelet", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
