@@ -146,15 +146,39 @@ namespace SapSoapCardWriter.GUI
         public CardEventRegistrationData RegisterCardToEvent(UserData userData, EventData eventData, string rfid)
         {
             var resp = registerCardToEventClient.Z_CRM_NAK_EVENT_SELECT_CARD(new Z_CRM_NAK_EVENT_SELECT_CARD { UNAME = userData.LoginName, PASSWD = userData.Password, EVENT_GUID = eventData.ID.ToByteArray(), CARD_ID = rfid });
-            var fullmessage = resp.MESSAGES.Select(m => string.Format("[{0}] {1}", m.TYPE, m.MESSAGE)).Aggregate((l, r) => string.Format("{0} {1} {2}", l, Environment.NewLine, r));
-            return new CardEventRegistrationData { ErrorMessage = fullmessage };
+            var fullerrormessages = resp.MESSAGES.Where(m => m.TYPE == "E" || m.TYPE == "X" || m.TYPE == "A").Select(m => string.Format("[{0}] {1}", m.TYPE, m.MESSAGE));
+            string fullerrormessage = null;
+            if(fullerrormessages.Any())
+            {
+                fullerrormessage = fullerrormessages.Aggregate((l, r) => string.Format("{0} {1} {2}", l, Environment.NewLine, r));
+            }
+            var fullinfomessages = resp.MESSAGES.Where(m => m.TYPE != "E" && m.TYPE != "X" && m.TYPE != "A").Select(m => string.Format("[{0}] {1}", m.TYPE, m.MESSAGE));
+            string fullinfomessage = null;
+            if (fullinfomessages.Any())
+            {
+                fullinfomessage = fullinfomessages.Aggregate((l, r) => string.Format("{0} {1} {2}", l, Environment.NewLine, r));
+            }
+
+            return new CardEventRegistrationData { ErrorMessage = fullerrormessage, InfoMessage = fullinfomessage };
         }
 
         public async Task<CardEventRegistrationData> RegisterCardToEventAsync(UserData userData, EventData eventData, string rfid)
         {
             var resp = await registerCardToEventClient.Z_CRM_NAK_EVENT_SELECT_CARDAsync(new Z_CRM_NAK_EVENT_SELECT_CARD { UNAME = userData.LoginName, PASSWD = userData.Password, EVENT_GUID = eventData.ID.ToByteArray(), CARD_ID = rfid });
-            var fullmessage = resp.Z_CRM_NAK_EVENT_SELECT_CARDResponse.MESSAGES.Select(m => string.Format("[{0}] {1}", m.TYPE, m.MESSAGE)).Aggregate((l, r) => string.Format("{0} {1} {2}", l, Environment.NewLine, r));
-            return new CardEventRegistrationData { ErrorMessage = fullmessage };
+            var fullerrormessages = resp.Z_CRM_NAK_EVENT_SELECT_CARDResponse.MESSAGES.Where(m => m.TYPE == "E" || m.TYPE == "X" || m.TYPE == "A").Select(m => string.Format("[{0}] {1}", m.TYPE, m.MESSAGE));
+            string fullerrormessage = null;
+            if (fullerrormessages.Any())
+            {
+                fullerrormessage = fullerrormessages.Aggregate((l, r) => string.Format("{0} {1} {2}", l, Environment.NewLine, r));
+            }
+            var fullinfomessages = resp.Z_CRM_NAK_EVENT_SELECT_CARDResponse.MESSAGES.Where(m => m.TYPE != "E" && m.TYPE != "X" && m.TYPE != "A").Select(m => string.Format("[{0}] {1}", m.TYPE, m.MESSAGE));
+            string fullinfomessage = null;
+            if (fullinfomessages.Any())
+            {
+                fullinfomessage = fullinfomessages.Aggregate((l, r) => string.Format("{0} {1} {2}", l, Environment.NewLine, r));
+            }
+
+            return new CardEventRegistrationData { ErrorMessage = fullerrormessage, InfoMessage = fullinfomessage };
         }
     }
 }

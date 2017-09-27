@@ -197,11 +197,11 @@ namespace SapSoapCardWriter.GUI
                         if(!string.IsNullOrEmpty(res.ErrorMessage))
                         {
                             toolReaderStatus.Text = "Regisztráció sikertelen";
-                            MessageBox.Show(string.Format("Művelet sikertelen, kérjük próbálja újra! Hiba: {0}", res.ErrorMessage), "Regisztrálás sikertelen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show(string.Format("Művelet sikertelen! Hiba: {0}", res.ErrorMessage), "Regisztrálás sikertelen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
                         {
-                            toolReaderStatus.Text = "Sikeres regisztáció";
+                            toolReaderStatus.Text = "Sikeres regisztáció " + res.InfoMessage;
                         }
                     }
                     else
@@ -345,7 +345,8 @@ namespace SapSoapCardWriter.GUI
 
                 lbEventData.Focus();
                 selectedEventData = (EventData)dataGridView1.SelectedRows[0].DataBoundItem;
-                lbEventData.Text = selectedEventData.Name;
+                lbEventName.Text = selectedEventData.Name;
+                lbEventData.Text = selectedEventData.Location;
 
                 state = GuiState.EventRegistration;
             }
@@ -356,6 +357,12 @@ namespace SapSoapCardWriter.GUI
             tlpFunctionSelector.Visible = false;
             tlpEventSelector.Visible = true;
 
+            var events = await serviceManager.GetEventsAsync(user);
+            dataGridView1.DataSource = new BindingSource(new BindingList<EventData>(events), null);
+        }
+
+        private async void btnRefresh_Click(object sender, EventArgs e)
+        {
             var events = await serviceManager.GetEventsAsync(user);
             dataGridView1.DataSource = new BindingSource(new BindingList<EventData>(events), null);
         }

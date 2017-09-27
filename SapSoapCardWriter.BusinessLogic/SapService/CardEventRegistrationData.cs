@@ -8,6 +8,7 @@ namespace SapSoapCardWriter.BusinessLogic.SapService
 {
     public class CardEventRegistrationData
     {
+        public string InfoMessage { get; set; }
         public string ErrorMessage { get; set; }
     }
 }
