@@ -1446,7 +1446,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.BusinessLogic, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.BusinessLogic, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4AA0533C819320E2CA1E537CA29BCE9D"
@@ -2159,7 +2159,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.Common, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.Common, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_B3098D66DF93B65A96FD5E76D3238DBC"
@@ -2769,15 +2769,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NAKCardWriter"
-        "ProductCode" = "8:{F7F88BF9-9FDD-49FE-87BB-D188858AB9AA}"
-        "PackageCode" = "8:{41E95B97-6786-4DAA-BA40-90DC60285468}"
+        "ProductCode" = "8:{3659F7EC-5E75-41A0-974E-63DF597A7962}"
+        "PackageCode" = "8:{A5847C4B-E39F-4FB9-B48B-0F1DA7614579}"
         "UpgradeCode" = "8:{00BC1A01-ECF1-48A0-A67E-8E1F963E833A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.10"
+        "ProductVersion" = "8:1.0.11"
         "Manufacturer" = "8:Dvcon"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
