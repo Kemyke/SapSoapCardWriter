@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -182,19 +183,51 @@ namespace SapSoapCardWriter.GUI
 
         private async Task StateChangeForEventRegistration(ReaderState newState)
         {
-            try
+            if (user != null)
             {
-                if (user != null)
+                if (newState == ReaderState.CardPresent)
                 {
-                    if (newState == ReaderState.CardPresent)
+                    toolReaderStatus.Text = "RFID kiolvasás...";
+                    string sn = null;
+                    try
                     {
-                        toolReaderStatus.Text = "RFID kiolvasás...";
-                        string sn = await cardWriter.GetSerialNumberAsync();
-                        logger.Debug("Serial number: {0}", sn);
+                        int i = 0;
+                        while (true)
+                        {
+                            try
+                            {
+                                sn = await cardWriter.GetSerialNumberAsync();
+                                logger.Debug("Serial number: {0}. Retry count: {1}", sn, i);
+                                break;
+                            }
+                            catch
+                            {
+                                Thread.Sleep(500);
+                                if (i > 4)
+                                {
+                                    throw;
+                                }
+                            }
+                            finally
+                            {
+                                i++;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        toolReaderStatus.Text = "Kártya olvasás sikertelen";
+                        logger.Error(ex.ToString());
+                        MessageBox.Show("Kártya olvasás sikertelen. Kérjük vegye le a kártyát és ismételje meg a műveletet.!", "Olvasási művelet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    try
+                    {
                         toolReaderStatus.Text = "Regisztrálás...";
                         var res = await serviceManager.RegisterCardToEventAsync(user, selectedEventData, sn);
-                        
-                        if(!string.IsNullOrEmpty(res.ErrorMessage))
+
+                        if (!string.IsNullOrEmpty(res.ErrorMessage))
                         {
                             toolReaderStatus.Text = "Regisztráció sikertelen";
                             MessageBox.Show(string.Format("Művelet sikertelen! Hiba: {0}", res.ErrorMessage), "Regisztrálás sikertelen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -204,21 +237,22 @@ namespace SapSoapCardWriter.GUI
                             toolReaderStatus.Text = "Sikeres regisztáció " + res.InfoMessage;
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        toolReaderStatus.Text = "Nincs kártya";
+                        toolReaderStatus.Text = "Regisztráció sikertelen";
+                        logger.Error(ex.ToString());
+                        MessageBox.Show(string.Format("Művelet sikertelen! Hiba: {0}", ex.Message), "Regisztrálás sikertelen", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+
                 }
                 else
                 {
-                    logger.Warning("Bejelentkezés nélkül nem regisztálhat eseményen embereket.");
+                    toolReaderStatus.Text = "Nincs kártya";
                 }
             }
-            catch (Exception ex)
+            else
             {
-                toolReaderStatus.Text = "Regisztráció sikertelen";
-                logger.Error(ex.ToString());
-                MessageBox.Show("Regisztráció sikertelen. Kérjük vegye le a kártyát és ismételje meg a műveletet!", "Olvasási művelet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                logger.Warning("Bejelentkezés nélkül nem regisztálhat eseményen embereket.");
             }
         }
 
