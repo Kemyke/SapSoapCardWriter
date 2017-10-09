@@ -16,7 +16,7 @@
         "Entry"
         {
         "MsmKey" = "8:_004E016314085F5ADAFC58273DC45365"
-        "OwnerKey" = "8:_B3098D66DF93B65A96FD5E76D3238DBC"
+        "OwnerKey" = "8:_C4B907F6EBFBAD1162F9B7104B890227"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,13 +88,13 @@
         "Entry"
         {
         "MsmKey" = "8:_1637EAC3BAC1ABE19DF1F910320AE243"
-        "OwnerKey" = "8:_BF6BDDE0B6B64935AE782634EAFCA765"
+        "OwnerKey" = "8:_C4B907F6EBFBAD1162F9B7104B890227"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_1637EAC3BAC1ABE19DF1F910320AE243"
-        "OwnerKey" = "8:_B3098D66DF93B65A96FD5E76D3238DBC"
+        "OwnerKey" = "8:_BF6BDDE0B6B64935AE782634EAFCA765"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -155,12 +155,6 @@
         {
         "MsmKey" = "8:_3488559BECF29608DCEED70AAB734BBE"
         "OwnerKey" = "8:_1637EAC3BAC1ABE19DF1F910320AE243"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4AA0533C819320E2CA1E537CA29BCE9D"
-        "OwnerKey" = "8:_BF6BDDE0B6B64935AE782634EAFCA765"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -327,18 +321,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B3098D66DF93B65A96FD5E76D3238DBC"
-        "OwnerKey" = "8:_4AA0533C819320E2CA1E537CA29BCE9D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B3098D66DF93B65A96FD5E76D3238DBC"
-        "OwnerKey" = "8:_BF6BDDE0B6B64935AE782634EAFCA765"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_BA845CBE9737E5A3B67916767846EC6A"
         "OwnerKey" = "8:_BF6BDDE0B6B64935AE782634EAFCA765"
         "MsmSig" = "8:_UNDEFINED"
@@ -357,8 +339,26 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C4B907F6EBFBAD1162F9B7104B890227"
+        "OwnerKey" = "8:_CCEE222EA4F5B7927EB56FFCBB558039"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4B907F6EBFBAD1162F9B7104B890227"
+        "OwnerKey" = "8:_BF6BDDE0B6B64935AE782634EAFCA765"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C7D1A29140CB4F44BB575CB93B909DFC"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CCEE222EA4F5B7927EB56FFCBB558039"
+        "OwnerKey" = "8:_BF6BDDE0B6B64935AE782634EAFCA765"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -388,7 +388,7 @@
         "Entry"
         {
         "MsmKey" = "8:_D989686CF452F788D7C3ADA3F6A8D6CE"
-        "OwnerKey" = "8:_B3098D66DF93B65A96FD5E76D3238DBC"
+        "OwnerKey" = "8:_C4B907F6EBFBAD1162F9B7104B890227"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -478,13 +478,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4AA0533C819320E2CA1E537CA29BCE9D"
+        "OwnerKey" = "8:_CCEE222EA4F5B7927EB56FFCBB558039"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B3098D66DF93B65A96FD5E76D3238DBC"
+        "OwnerKey" = "8:_C4B907F6EBFBAD1162F9B7104B890227"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1442,37 +1442,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4AA0533C819320E2CA1E537CA29BCE9D"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.BusinessLogic, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_4AA0533C819320E2CA1E537CA29BCE9D"
-                    {
-                    "Name" = "8:SapSoapCardWriter.BusinessLogic.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:SapSoapCardWriter.BusinessLogic.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_7B29BEC1A31B4C3B898F03DFF6420CB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4B74C3B56F5CF24968CE2117C7EAD0E4"
             {
             "AssemblyRegister" = "3:1"
@@ -2155,37 +2124,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B3098D66DF93B65A96FD5E76D3238DBC"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.Common, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_B3098D66DF93B65A96FD5E76D3238DBC"
-                    {
-                    "Name" = "8:SapSoapCardWriter.Common.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:SapSoapCardWriter.Common.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_7B29BEC1A31B4C3B898F03DFF6420CB0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BA845CBE9737E5A3B67916767846EC6A"
             {
             "AssemblyRegister" = "3:1"
@@ -2248,6 +2186,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C4B907F6EBFBAD1162F9B7104B890227"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.Common, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C4B907F6EBFBAD1162F9B7104B890227"
+                    {
+                    "Name" = "8:SapSoapCardWriter.Common.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:SapSoapCardWriter.Common.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_7B29BEC1A31B4C3B898F03DFF6420CB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C7D1A29140CB4F44BB575CB93B909DFC"
             {
             "SourcePath" = "8:..\\SapSoapCardWriter.BusinessLogic\\pcsc_desfire.dll"
@@ -2266,6 +2235,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CCEE222EA4F5B7927EB56FFCBB558039"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SapSoapCardWriter.BusinessLogic, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_CCEE222EA4F5B7927EB56FFCBB558039"
+                    {
+                    "Name" = "8:SapSoapCardWriter.BusinessLogic.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:SapSoapCardWriter.BusinessLogic.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_7B29BEC1A31B4C3B898F03DFF6420CB0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CDD7D93B591A4805BBFC80496DF5BCF7"
@@ -2769,15 +2769,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NAKCardWriter"
-        "ProductCode" = "8:{3659F7EC-5E75-41A0-974E-63DF597A7962}"
-        "PackageCode" = "8:{A5847C4B-E39F-4FB9-B48B-0F1DA7614579}"
+        "ProductCode" = "8:{4477C75D-85FC-436B-8577-6C50E2DF93C6}"
+        "PackageCode" = "8:{B66FE6BC-AE94-4352-AB08-BC46D2D325A2}"
         "UpgradeCode" = "8:{00BC1A01-ECF1-48A0-A67E-8E1F963E833A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.11"
+        "ProductVersion" = "8:1.0.13"
         "Manufacturer" = "8:Dvcon"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

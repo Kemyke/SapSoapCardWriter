@@ -11,5 +11,6 @@ namespace SapSoapCardWriter.BusinessLogic.SapService
         public Guid ID { get; set; }
         public string Location { get; set; }
         public string Name { get; set; }
+        public string ObjectId { get; set; }
     }
 }

@@ -126,7 +126,7 @@ namespace SapSoapCardWriter.GUI
             var resp = eventListClient.Z_CRM_NAK_EVENTS_LIST_CARDIDEN(new Z_CRM_NAK_EVENTS_LIST_CARDIDEN { UNAME = userData.LoginName, PASSWD = userData.Password });
             foreach(var e in resp.EVENTS_LIST)
             {
-                ret.Add(new EventData { ID = new Guid(e.GUID), Name = e.NAME, Location = e.LOCATION });
+                ret.Add(new EventData { ID = new Guid(e.GUID), Name = e.NAME, Location = e.LOCATION, ObjectId = e.OBJECT_ID });
             }
             return ret;
         }
@@ -137,7 +137,7 @@ namespace SapSoapCardWriter.GUI
             var resp = await eventListClient.Z_CRM_NAK_EVENTS_LIST_CARDIDENAsync(new Z_CRM_NAK_EVENTS_LIST_CARDIDEN { UNAME = userData.LoginName, PASSWD = userData.Password });
             foreach (var e in resp.Z_CRM_NAK_EVENTS_LIST_CARDIDENResponse.EVENTS_LIST)
             {
-                ret.Add(new EventData { ID = new Guid(e.GUID), Name = e.NAME, Location = e.LOCATION });
+                ret.Add(new EventData { ID = new Guid(e.GUID), Name = e.NAME, Location = e.LOCATION, ObjectId = e.OBJECT_ID });
             }
             return ret;
 

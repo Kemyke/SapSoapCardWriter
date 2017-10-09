@@ -217,7 +217,7 @@ namespace SapSoapCardWriter.GUI
                     catch (Exception ex)
                     {
                         toolReaderStatus.Text = "Kártya olvasás sikertelen";
-                        logger.Error(ex.ToString());
+                        logger.Error("Cannot get serial number: {0}", ex.ToString());
                         MessageBox.Show("Kártya olvasás sikertelen. Kérjük vegye le a kártyát és ismételje meg a műveletet.!", "Olvasási művelet", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -240,7 +240,7 @@ namespace SapSoapCardWriter.GUI
                     catch (Exception ex)
                     {
                         toolReaderStatus.Text = "Regisztráció sikertelen";
-                        logger.Error(ex.ToString());
+                        logger.Error("Event registration failed: {0}", ex.ToString());
                         MessageBox.Show(string.Format("Művelet sikertelen! Hiba: {0}", ex.Message), "Regisztrálás sikertelen", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
@@ -381,6 +381,7 @@ namespace SapSoapCardWriter.GUI
                 selectedEventData = (EventData)dataGridView1.SelectedRows[0].DataBoundItem;
                 lbEventName.Text = selectedEventData.Name;
                 lbEventData.Text = selectedEventData.Location;
+                lbObjectId.Text = selectedEventData.ObjectId;
 
                 state = GuiState.EventRegistration;
             }
