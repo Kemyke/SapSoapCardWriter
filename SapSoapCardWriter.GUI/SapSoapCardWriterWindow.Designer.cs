@@ -64,26 +64,26 @@
             this.btnEventRegistration = new System.Windows.Forms.Button();
             this.btnCardWriter = new System.Windows.Forms.Button();
             this.tlpEventSelector = new System.Windows.Forms.TableLayoutPanel();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnSelectEvent = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tlpEventRegistration = new System.Windows.Forms.TableLayoutPanel();
+            this.lbObjectId = new System.Windows.Forms.Label();
             this.lbEventName = new System.Windows.Forms.Label();
             this.lbEventData = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnSelectEvent = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.eventDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lbObjectId = new System.Windows.Forms.Label();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.locationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.eventDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tlpFunctionSelector.SuspendLayout();
             this.tlpEventSelector.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tlpEventRegistration.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventDataBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -495,7 +495,6 @@
             this.tlpEventSelector.ColumnCount = 2;
             this.tlpEventSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpEventSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 432F));
-            this.tlpEventSelector.Controls.Add(this.tlpEventRegistration, 0, 2);
             this.tlpEventSelector.Controls.Add(this.btnRefresh, 0, 1);
             this.tlpEventSelector.Controls.Add(this.btnSelectEvent, 1, 1);
             this.tlpEventSelector.Controls.Add(this.dataGridView1, 0, 0);
@@ -509,6 +508,75 @@
             this.tlpEventSelector.Size = new System.Drawing.Size(894, 487);
             this.tlpEventSelector.TabIndex = 2;
             this.tlpEventSelector.Visible = false;
+            // 
+            // tlpEventRegistration
+            // 
+            this.tlpEventRegistration.ColumnCount = 1;
+            this.tlpEventRegistration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpEventRegistration.Controls.Add(this.lbObjectId, 0, 2);
+            this.tlpEventRegistration.Controls.Add(this.lbEventName, 0, 1);
+            this.tlpEventRegistration.Controls.Add(this.lbEventData, 0, 3);
+            this.tlpEventRegistration.Controls.Add(this.label12, 0, 0);
+            this.tlpEventRegistration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpEventRegistration.Location = new System.Drawing.Point(0, 24);
+            this.tlpEventRegistration.Name = "tlpEventRegistration";
+            this.tlpEventRegistration.RowCount = 5;
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.87582F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.14905F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.14905F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.15941F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpEventRegistration.Size = new System.Drawing.Size(894, 487);
+            this.tlpEventRegistration.TabIndex = 2;
+            this.tlpEventRegistration.Visible = false;
+            // 
+            // lbObjectId
+            // 
+            this.lbObjectId.AutoSize = true;
+            this.lbObjectId.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbObjectId.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbObjectId.Location = new System.Drawing.Point(3, 184);
+            this.lbObjectId.Name = "lbObjectId";
+            this.lbObjectId.Size = new System.Drawing.Size(888, 31);
+            this.lbObjectId.TabIndex = 3;
+            this.lbObjectId.Text = "tevékenység azonosító";
+            this.lbObjectId.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lbEventName
+            // 
+            this.lbEventName.AutoSize = true;
+            this.lbEventName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbEventName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbEventName.Location = new System.Drawing.Point(3, 62);
+            this.lbEventName.Name = "lbEventName";
+            this.lbEventName.Size = new System.Drawing.Size(888, 31);
+            this.lbEventName.TabIndex = 2;
+            this.lbEventName.Text = "esemény név";
+            this.lbEventName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lbEventData
+            // 
+            this.lbEventData.AutoSize = true;
+            this.lbEventData.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbEventData.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbEventData.Location = new System.Drawing.Point(3, 306);
+            this.lbEventData.Name = "lbEventData";
+            this.lbEventData.Size = new System.Drawing.Size(888, 26);
+            this.lbEventData.TabIndex = 1;
+            this.lbEventData.Text = "esemény adatok";
+            this.lbEventData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label12.Location = new System.Drawing.Point(3, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(888, 29);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Kiválasztott esemény";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnRefresh
             // 
@@ -551,82 +619,17 @@
             this.dataGridView1.Size = new System.Drawing.Size(888, 413);
             this.dataGridView1.TabIndex = 0;
             // 
-            // tlpEventRegistration
+            // eventDataBindingSource
             // 
-            this.tlpEventRegistration.ColumnCount = 1;
-            this.tlpEventRegistration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpEventRegistration.Controls.Add(this.lbObjectId, 0, 2);
-            this.tlpEventRegistration.Controls.Add(this.lbEventName, 0, 1);
-            this.tlpEventRegistration.Controls.Add(this.lbEventData, 0, 3);
-            this.tlpEventRegistration.Controls.Add(this.label12, 0, 0);
-            this.tlpEventRegistration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpEventRegistration.Location = new System.Drawing.Point(3, 469);
-            this.tlpEventRegistration.Name = "tlpEventRegistration";
-            this.tlpEventRegistration.RowCount = 5;
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.87582F));
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.14905F));
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.14905F));
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.15941F));
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpEventRegistration.Size = new System.Drawing.Size(456, 15);
-            this.tlpEventRegistration.TabIndex = 2;
-            this.tlpEventRegistration.Visible = false;
-            // 
-            // lbEventName
-            // 
-            this.lbEventName.AutoSize = true;
-            this.lbEventName.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbEventName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lbEventName.Location = new System.Drawing.Point(3, 1);
-            this.lbEventName.Name = "lbEventName";
-            this.lbEventName.Size = new System.Drawing.Size(450, 3);
-            this.lbEventName.TabIndex = 2;
-            this.lbEventName.Text = "esemény név";
-            this.lbEventName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lbEventData
-            // 
-            this.lbEventData.AutoSize = true;
-            this.lbEventData.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbEventData.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lbEventData.Location = new System.Drawing.Point(3, 7);
-            this.lbEventData.Name = "lbEventData";
-            this.lbEventData.Size = new System.Drawing.Size(450, 3);
-            this.lbEventData.TabIndex = 1;
-            this.lbEventData.Text = "esemény adatok";
-            this.lbEventData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label12.Location = new System.Drawing.Point(3, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(450, 1);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Kiválasztott esemény";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.eventDataBindingSource.DataSource = typeof(SapSoapCardWriter.BusinessLogic.SapService.EventData);
             // 
             // ID
             // 
-            this.ID.DataPropertyName = "OBJECT_ID";
+            this.ID.DataPropertyName = "ObjectId";
             this.ID.HeaderText = "Tevékenység azonosító";
             this.ID.Name = "ID";
             this.ID.ReadOnly = true;
             this.ID.Width = 250;
-            // 
-            // lbObjectId
-            // 
-            this.lbObjectId.AutoSize = true;
-            this.lbObjectId.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbObjectId.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lbObjectId.Location = new System.Drawing.Point(3, 4);
-            this.lbObjectId.Name = "lbObjectId";
-            this.lbObjectId.Size = new System.Drawing.Size(450, 3);
-            this.lbObjectId.TabIndex = 3;
-            this.lbObjectId.Text = "tevékenység azonosító";
-            this.lbObjectId.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -644,16 +647,13 @@
             this.locationDataGridViewTextBoxColumn.ReadOnly = true;
             this.locationDataGridViewTextBoxColumn.Width = 250;
             // 
-            // eventDataBindingSource
-            // 
-            this.eventDataBindingSource.DataSource = typeof(SapSoapCardWriter.BusinessLogic.SapService.EventData);
-            // 
             // SapSoapCardWriterWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(193)))), ((int)(((byte)(35)))));
             this.ClientSize = new System.Drawing.Size(894, 535);
+            this.Controls.Add(this.tlpEventRegistration);
             this.Controls.Add(this.tlpEventSelector);
             this.Controls.Add(this.tlpFunctionSelector);
             this.Controls.Add(this.tableLayoutPanel2);
@@ -671,9 +671,9 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tlpFunctionSelector.ResumeLayout(false);
             this.tlpEventSelector.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tlpEventRegistration.ResumeLayout(false);
             this.tlpEventRegistration.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventDataBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -725,10 +725,10 @@
         private System.Windows.Forms.BindingSource eventDataBindingSource;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Label lbEventName;
+        private System.Windows.Forms.Label lbObjectId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn locationDataGridViewTextBoxColumn;
-        private System.Windows.Forms.Label lbObjectId;
     }
 }
 
