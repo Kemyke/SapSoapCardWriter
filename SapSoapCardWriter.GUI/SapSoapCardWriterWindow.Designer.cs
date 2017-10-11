@@ -64,27 +64,27 @@
             this.btnEventRegistration = new System.Windows.Forms.Button();
             this.btnCardWriter = new System.Windows.Forms.Button();
             this.tlpEventSelector = new System.Windows.Forms.TableLayoutPanel();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnSelectEvent = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.locationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.eventDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tlpEventRegistration = new System.Windows.Forms.TableLayoutPanel();
             this.lbObjectId = new System.Windows.Forms.Label();
             this.lbEventName = new System.Windows.Forms.Label();
             this.lbEventData = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnSelectEvent = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.eventDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.locationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tlpFunctionSelector.SuspendLayout();
             this.tlpEventSelector.SuspendLayout();
-            this.tlpEventRegistration.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventDataBindingSource)).BeginInit();
+            this.tlpEventRegistration.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -129,20 +129,21 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.AutoSize = false;
             this.statusStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(193)))), ((int)(((byte)(35)))));
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolReaderStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 511);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 485);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(894, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(894, 50);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolReaderStatus
             // 
-            this.toolReaderStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.toolReaderStatus.Font = new System.Drawing.Font("Tahoma", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.toolReaderStatus.Name = "toolReaderStatus";
-            this.toolReaderStatus.Size = new System.Drawing.Size(95, 19);
+            this.toolReaderStatus.Size = new System.Drawing.Size(119, 45);
             this.toolReaderStatus.Text = "Nincs kártya";
             // 
             // tableLayoutPanel1
@@ -181,7 +182,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(688, 353);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(688, 327);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // label11
@@ -420,7 +421,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 57F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(894, 487);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(894, 461);
             this.tableLayoutPanel2.TabIndex = 3;
             this.tableLayoutPanel2.Visible = false;
             // 
@@ -440,7 +441,7 @@
             this.btnWriteCard.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnWriteCard.Enabled = false;
             this.btnWriteCard.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnWriteCard.Location = new System.Drawing.Point(803, 419);
+            this.btnWriteCard.Location = new System.Drawing.Point(803, 393);
             this.btnWriteCard.Name = "btnWriteCard";
             this.btnWriteCard.Size = new System.Drawing.Size(88, 65);
             this.btnWriteCard.TabIndex = 3;
@@ -461,7 +462,7 @@
             this.tlpFunctionSelector.RowCount = 2;
             this.tlpFunctionSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpFunctionSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpFunctionSelector.Size = new System.Drawing.Size(894, 487);
+            this.tlpFunctionSelector.Size = new System.Drawing.Size(894, 461);
             this.tlpFunctionSelector.TabIndex = 5;
             // 
             // btnEventRegistration
@@ -471,7 +472,7 @@
             this.btnEventRegistration.Location = new System.Drawing.Point(467, 20);
             this.btnEventRegistration.Margin = new System.Windows.Forms.Padding(20);
             this.btnEventRegistration.Name = "btnEventRegistration";
-            this.btnEventRegistration.Size = new System.Drawing.Size(407, 203);
+            this.btnEventRegistration.Size = new System.Drawing.Size(407, 190);
             this.btnEventRegistration.TabIndex = 1;
             this.btnEventRegistration.Text = "Esemény regisztráció";
             this.btnEventRegistration.UseVisualStyleBackColor = true;
@@ -484,7 +485,7 @@
             this.btnCardWriter.Location = new System.Drawing.Point(20, 20);
             this.btnCardWriter.Margin = new System.Windows.Forms.Padding(20);
             this.btnCardWriter.Name = "btnCardWriter";
-            this.btnCardWriter.Size = new System.Drawing.Size(407, 203);
+            this.btnCardWriter.Size = new System.Drawing.Size(407, 190);
             this.btnCardWriter.TabIndex = 0;
             this.btnCardWriter.Text = "NAK kártyaírás";
             this.btnCardWriter.UseVisualStyleBackColor = true;
@@ -505,85 +506,16 @@
             this.tlpEventSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.73306F));
             this.tlpEventSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.26694F));
             this.tlpEventSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpEventSelector.Size = new System.Drawing.Size(894, 487);
+            this.tlpEventSelector.Size = new System.Drawing.Size(894, 461);
             this.tlpEventSelector.TabIndex = 2;
             this.tlpEventSelector.Visible = false;
-            // 
-            // tlpEventRegistration
-            // 
-            this.tlpEventRegistration.ColumnCount = 1;
-            this.tlpEventRegistration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpEventRegistration.Controls.Add(this.lbObjectId, 0, 2);
-            this.tlpEventRegistration.Controls.Add(this.lbEventName, 0, 1);
-            this.tlpEventRegistration.Controls.Add(this.lbEventData, 0, 3);
-            this.tlpEventRegistration.Controls.Add(this.label12, 0, 0);
-            this.tlpEventRegistration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpEventRegistration.Location = new System.Drawing.Point(0, 24);
-            this.tlpEventRegistration.Name = "tlpEventRegistration";
-            this.tlpEventRegistration.RowCount = 5;
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.87582F));
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.14905F));
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.14905F));
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.15941F));
-            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpEventRegistration.Size = new System.Drawing.Size(894, 487);
-            this.tlpEventRegistration.TabIndex = 2;
-            this.tlpEventRegistration.Visible = false;
-            // 
-            // lbObjectId
-            // 
-            this.lbObjectId.AutoSize = true;
-            this.lbObjectId.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbObjectId.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lbObjectId.Location = new System.Drawing.Point(3, 184);
-            this.lbObjectId.Name = "lbObjectId";
-            this.lbObjectId.Size = new System.Drawing.Size(888, 31);
-            this.lbObjectId.TabIndex = 3;
-            this.lbObjectId.Text = "tevékenység azonosító";
-            this.lbObjectId.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lbEventName
-            // 
-            this.lbEventName.AutoSize = true;
-            this.lbEventName.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbEventName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lbEventName.Location = new System.Drawing.Point(3, 62);
-            this.lbEventName.Name = "lbEventName";
-            this.lbEventName.Size = new System.Drawing.Size(888, 31);
-            this.lbEventName.TabIndex = 2;
-            this.lbEventName.Text = "esemény név";
-            this.lbEventName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lbEventData
-            // 
-            this.lbEventData.AutoSize = true;
-            this.lbEventData.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbEventData.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lbEventData.Location = new System.Drawing.Point(3, 306);
-            this.lbEventData.Name = "lbEventData";
-            this.lbEventData.Size = new System.Drawing.Size(888, 26);
-            this.lbEventData.TabIndex = 1;
-            this.lbEventData.Text = "esemény adatok";
-            this.lbEventData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label12.Location = new System.Drawing.Point(3, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(888, 29);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Kiválasztott esemény";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnRefresh
             // 
             this.btnRefresh.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnRefresh.Location = new System.Drawing.Point(3, 422);
+            this.btnRefresh.Location = new System.Drawing.Point(3, 398);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 41);
+            this.btnRefresh.Size = new System.Drawing.Size(75, 39);
             this.btnRefresh.TabIndex = 2;
             this.btnRefresh.Text = "Frissítés";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -592,9 +524,9 @@
             // btnSelectEvent
             // 
             this.btnSelectEvent.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnSelectEvent.Location = new System.Drawing.Point(816, 422);
+            this.btnSelectEvent.Location = new System.Drawing.Point(816, 398);
             this.btnSelectEvent.Name = "btnSelectEvent";
-            this.btnSelectEvent.Size = new System.Drawing.Size(75, 41);
+            this.btnSelectEvent.Size = new System.Drawing.Size(75, 39);
             this.btnSelectEvent.TabIndex = 1;
             this.btnSelectEvent.Text = "Kiválaszt";
             this.btnSelectEvent.UseVisualStyleBackColor = true;
@@ -616,12 +548,8 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(888, 413);
+            this.dataGridView1.Size = new System.Drawing.Size(888, 389);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // eventDataBindingSource
-            // 
-            this.eventDataBindingSource.DataSource = typeof(SapSoapCardWriter.BusinessLogic.SapService.EventData);
             // 
             // ID
             // 
@@ -647,6 +575,79 @@
             this.locationDataGridViewTextBoxColumn.ReadOnly = true;
             this.locationDataGridViewTextBoxColumn.Width = 250;
             // 
+            // eventDataBindingSource
+            // 
+            this.eventDataBindingSource.DataSource = typeof(SapSoapCardWriter.BusinessLogic.SapService.EventData);
+            // 
+            // tlpEventRegistration
+            // 
+            this.tlpEventRegistration.ColumnCount = 1;
+            this.tlpEventRegistration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpEventRegistration.Controls.Add(this.lbObjectId, 0, 2);
+            this.tlpEventRegistration.Controls.Add(this.lbEventName, 0, 1);
+            this.tlpEventRegistration.Controls.Add(this.lbEventData, 0, 3);
+            this.tlpEventRegistration.Controls.Add(this.label12, 0, 0);
+            this.tlpEventRegistration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpEventRegistration.Location = new System.Drawing.Point(0, 24);
+            this.tlpEventRegistration.Name = "tlpEventRegistration";
+            this.tlpEventRegistration.RowCount = 5;
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.87582F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.14905F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.14905F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.15941F));
+            this.tlpEventRegistration.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpEventRegistration.Size = new System.Drawing.Size(894, 461);
+            this.tlpEventRegistration.TabIndex = 2;
+            this.tlpEventRegistration.Visible = false;
+            // 
+            // lbObjectId
+            // 
+            this.lbObjectId.AutoSize = true;
+            this.lbObjectId.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbObjectId.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbObjectId.Location = new System.Drawing.Point(3, 174);
+            this.lbObjectId.Name = "lbObjectId";
+            this.lbObjectId.Size = new System.Drawing.Size(888, 31);
+            this.lbObjectId.TabIndex = 3;
+            this.lbObjectId.Text = "tevékenység azonosító";
+            this.lbObjectId.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lbEventName
+            // 
+            this.lbEventName.AutoSize = true;
+            this.lbEventName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbEventName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbEventName.Location = new System.Drawing.Point(3, 59);
+            this.lbEventName.Name = "lbEventName";
+            this.lbEventName.Size = new System.Drawing.Size(888, 31);
+            this.lbEventName.TabIndex = 2;
+            this.lbEventName.Text = "esemény név";
+            this.lbEventName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lbEventData
+            // 
+            this.lbEventData.AutoSize = true;
+            this.lbEventData.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbEventData.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbEventData.Location = new System.Drawing.Point(3, 289);
+            this.lbEventData.Name = "lbEventData";
+            this.lbEventData.Size = new System.Drawing.Size(888, 26);
+            this.lbEventData.TabIndex = 1;
+            this.lbEventData.Text = "esemény adatok";
+            this.lbEventData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label12.Location = new System.Drawing.Point(3, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(888, 29);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Kiválasztott esemény";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // SapSoapCardWriterWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -671,10 +672,10 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tlpFunctionSelector.ResumeLayout(false);
             this.tlpEventSelector.ResumeLayout(false);
-            this.tlpEventRegistration.ResumeLayout(false);
-            this.tlpEventRegistration.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventDataBindingSource)).EndInit();
+            this.tlpEventRegistration.ResumeLayout(false);
+            this.tlpEventRegistration.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
